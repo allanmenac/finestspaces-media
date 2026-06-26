@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contacto · Visión ARQ</title>
+  <meta name="description" content="Cuéntanos sobre tu proyecto. Visión ARQ — arquitectura y construcción en San José, Costa Rica." />
+  <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <main>
+    <section class="page-head">
+      <p class="eyebrow reveal">Contacto</p>
+      <h1 class="display reveal">Hablemos de<br>tu proyecto.</h1>
+      <p class="lead reveal">Cuéntanos qué tienes en mente. Te respondemos en menos de 48 horas para agendar una primera conversación, sin compromiso.</p>
+    </section>
+
+    <section class="section section--tight reveal">
+      <div class="contact-grid">
+        <!-- Datos -->
+        <div>
+          <div class="contact-detail">
+            <span>Escríbenos</span>
+            <a href="mailto:hola@visionarq.cr">hola@visionarq.cr</a>
+          </div>
+          <div class="contact-detail">
+            <span>Llámanos</span>
+            <a href="tel:+50600000000">+506 0000 0000</a>
+          </div>
+          <div class="contact-detail">
+            <span>Estudio</span>
+            <p>San José, Costa Rica</p>
+          </div>
+          <div class="contact-detail">
+            <span>Síguenos</span>
+            <a href="https://instagram.com/" target="_blank" rel="noopener">Instagram</a>
+          </div>
+        </div>
+
+        <!-- Formulario (Netlify Forms) -->
+        <form name="contacto" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/gracias.html">
+          <input type="hidden" name="form-name" value="contacto" />
+          <p hidden><label>No llenar: <input name="bot-field" /></label></p>
+
+          <div class="field">
+            <label for="nombre">Nombre</label>
+            <input id="nombre" type="text" name="nombre" required />
+          </div>
+          <div class="field">
+            <label for="email">Correo electrónico</label>
+            <input id="email" type="email" name="email" required />
+          </div>
+          <div class="field">
+            <label for="telefono">Teléfono (opcional)</label>
+            <input id="telefono" type="tel" name="telefono" />
+          </div>
+          <div class="field">
+            <label for="tipo">Tipo de proyecto</label>
+            <input id="tipo" type="text" name="tipo" placeholder="Residencial, comercial, remodelación…" />
+          </div>
+          <div class="field">
+            <label for="mensaje">Cuéntanos sobre tu proyecto</label>
+            <textarea id="mensaje" name="mensaje" rows="4" required></textarea>
+          </div>
+          <button class="btn" type="submit">Enviar mensaje
+            <svg width="14" height="14" viewBox="0 0 9 9" fill="none"><path d="M7 1H1M7 1V7M7 1L1 7" stroke="currentColor" stroke-width="1"/></svg>
+          </button>
+        </form>
+      </div>
+    </section>
+  </main>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
