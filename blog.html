@@ -172,14 +172,21 @@
     setup();
 
     var raf = false;
-    window.addEventListener("scroll", function () {
+    function onScroll() {
+      if (!wrapper.isConnected) return; /* página desmontada (AJAX) */
       if (!raf) {
         raf = true;
         requestAnimationFrame(function () { update(); raf = false; });
       }
-    }, { passive: true });
+    }
+    /* evita acumular escuchas al volver al Blog por AJAX */
+    if (window.__blogOnScroll) window.removeEventListener("scroll", window.__blogOnScroll);
+    window.__blogOnScroll = onScroll;
+    window.addEventListener("scroll", onScroll, { passive: true });
 
-    window.addEventListener("resize", function () { setup(); update(); });
+    if (window.__blogOnResize) window.removeEventListener("resize", window.__blogOnResize);
+    window.__blogOnResize = function () { if (wrapper.isConnected) { setup(); update(); } };
+    window.addEventListener("resize", window.__blogOnResize);
 
   })();
   </script>

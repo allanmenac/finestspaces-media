@@ -871,7 +871,11 @@ main { min-height: 100vh; }
   from { transform: translateY(0); }
   to   { transform: translateY(-50%); }
 }
-@media (max-width: 760px) { .contact-marquee { display: none; } }
+/* En móvil se conserva la animación (más baja) */
+@media (max-width: 760px) {
+  .contact-marquee { height: 56vh; }
+  .contact-marquee__track { animation-duration: 22s; }
+}
 
 /* =========================================================
    FAQ — lista + panel lateral (columna desde la derecha, estilo Mersi parcours)
@@ -1008,6 +1012,17 @@ main { min-height: 100vh; }
 }
 .proj-filtros .filtro { border: none; }
 .proj-filtros .filtro.is-active { background: var(--off-black); color: var(--cream); }
+@media (max-width: 760px) {
+  .proj-filtros {
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 100%;
+    justify-content: center;
+    border-radius: 16px;
+    top: calc(var(--nav-h) - 0.25rem);
+  }
+  .proj-filtros .filtro { font-size: 0.72rem; padding: 0.45rem 0.85rem; }
+}
 
 /* Strip "piano": fila de imágenes niveladas; intro tipo "tecla" izq→der */
 .piano {
