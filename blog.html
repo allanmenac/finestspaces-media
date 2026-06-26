@@ -19,73 +19,82 @@
       <p class="lead reveal">Procesos, materiales, inspiración y aprendizajes. Un vistazo a cómo pensamos y hacemos arquitectura en Costa Rica.</p>
     </section>
 
-    <div class="blog-full">
+    <!--
+      blog-full-wrapper: tall container that provides scroll distance.
+      blog-full: sticky viewport — stays at top:0 while the wrapper scrolls past.
+      Left column images are in REVERSE order (05→03→01) so they scroll DOWN.
+      Right column images are in NORMAL order (02→04→06) so they scroll UP.
+      JS sets wrapper height and drives both transforms.
+    -->
+    <div class="blog-full-wrapper" id="blog-wrapper">
+      <div class="blog-full" id="blog-full">
 
-      <!-- Columna izquierda -->
-      <div class="blog-full__col">
+        <!-- Columna izquierda — orden INVERSO (scroll descendente) -->
+        <div class="blog-full__col" id="blog-left">
 
-        <a class="blog-entry" href="blog.html">
-          <img src="assets/img/photos/blog-01.jpg" alt="Luz natural en arquitectura" loading="eager" />
-          <div class="blog-entry__overlay">
-            <p class="blog-entry__meta">Arquitectura · 12 May 2026</p>
-            <h2 class="blog-entry__title">Luz natural: el primer material del proyecto</h2>
-            <p class="blog-entry__excerpt">Antes que el concreto o la madera, diseñamos con la luz. Así pensamos la orientación de cada espacio.</p>
-          </div>
-        </a>
+          <a class="blog-entry" href="blog.html">
+            <img src="assets/img/photos/blog-05.jpg" alt="Construcción sostenible en Costa Rica" loading="eager" />
+            <div class="blog-entry__overlay">
+              <p class="blog-entry__meta">Sostenibilidad · 18 Mar 2026</p>
+              <h2 class="blog-entry__title">Construir pensando en el clima de Costa Rica</h2>
+              <p class="blog-entry__excerpt">Ventilación cruzada, sombra y agua: estrategias pasivas que reducen el consumo y mejoran la calidad de vida.</p>
+            </div>
+          </a>
 
-        <a class="blog-entry" href="blog.html">
-          <img src="assets/img/photos/blog-03.jpg" alt="Proceso de diseño arquitectónico" loading="lazy" />
-          <div class="blog-entry__overlay">
-            <p class="blog-entry__meta">Proceso · 09 Abr 2026</p>
-            <h2 class="blog-entry__title">De la idea al plano: cómo arranca un proyecto</h2>
-            <p class="blog-entry__excerpt">Las primeras conversaciones definen todo. Esto es lo que preguntamos antes de dibujar una sola línea.</p>
-          </div>
-        </a>
+          <a class="blog-entry" href="blog.html">
+            <img src="assets/img/photos/blog-03.jpg" alt="Proceso de diseño arquitectónico" loading="lazy" />
+            <div class="blog-entry__overlay">
+              <p class="blog-entry__meta">Proceso · 09 Abr 2026</p>
+              <h2 class="blog-entry__title">De la idea al plano: cómo arranca un proyecto</h2>
+              <p class="blog-entry__excerpt">Las primeras conversaciones definen todo. Esto es lo que preguntamos antes de dibujar una sola línea.</p>
+            </div>
+          </a>
 
-        <a class="blog-entry" href="blog.html">
-          <img src="assets/img/photos/blog-05.jpg" alt="Construcción sostenible en Costa Rica" loading="lazy" />
-          <div class="blog-entry__overlay">
-            <p class="blog-entry__meta">Sostenibilidad · 18 Mar 2026</p>
-            <h2 class="blog-entry__title">Construir pensando en el clima de Costa Rica</h2>
-            <p class="blog-entry__excerpt">Ventilación cruzada, sombra y agua: estrategias pasivas que reducen el consumo y mejoran la calidad de vida.</p>
-          </div>
-        </a>
+          <a class="blog-entry" href="blog.html">
+            <img src="assets/img/photos/blog-01.jpg" alt="Luz natural en arquitectura" loading="lazy" />
+            <div class="blog-entry__overlay">
+              <p class="blog-entry__meta">Arquitectura · 12 May 2026</p>
+              <h2 class="blog-entry__title">Luz natural: el primer material del proyecto</h2>
+              <p class="blog-entry__excerpt">Antes que el concreto o la madera, diseñamos con la luz. Así pensamos la orientación de cada espacio.</p>
+            </div>
+          </a>
 
-      </div>
+        </div>
 
-      <!-- Columna derecha (desfasada hacia abajo) -->
-      <div class="blog-full__col blog-full__col--right">
+        <!-- Columna derecha — orden NORMAL (scroll ascendente) -->
+        <div class="blog-full__col blog-full__col--right" id="blog-right">
 
-        <a class="blog-entry" href="blog.html">
-          <img src="assets/img/photos/blog-02.jpg" alt="Paletas de color interiorismo tropical" loading="eager" />
-          <div class="blog-entry__overlay">
-            <p class="blog-entry__meta">Interiorismo · 28 Abr 2026</p>
-            <h2 class="blog-entry__title">Paletas cálidas para el clima tropical</h2>
-            <p class="blog-entry__excerpt">Materiales y tonos que envejecen bien y se sienten frescos en el trópico costarricense.</p>
-          </div>
-        </a>
+          <a class="blog-entry" href="blog.html">
+            <img src="assets/img/photos/blog-02.jpg" alt="Paletas de color interiorismo tropical" loading="eager" />
+            <div class="blog-entry__overlay">
+              <p class="blog-entry__meta">Interiorismo · 28 Abr 2026</p>
+              <h2 class="blog-entry__title">Paletas cálidas para el clima tropical</h2>
+              <p class="blog-entry__excerpt">Materiales y tonos que envejecen bien y se sienten frescos en el trópico costarricense.</p>
+            </div>
+          </a>
 
-        <a class="blog-entry" href="blog.html">
-          <img src="assets/img/photos/blog-04.jpg" alt="Remodelación de interiores" loading="lazy" />
-          <div class="blog-entry__overlay">
-            <p class="blog-entry__meta">Construcción · 02 Abr 2026</p>
-            <h2 class="blog-entry__title">Cinco preguntas antes de remodelar</h2>
-            <p class="blog-entry__excerpt">Una remodelación bien planeada empieza por las preguntas correctas. Aquí están.</p>
-          </div>
-        </a>
+          <a class="blog-entry" href="blog.html">
+            <img src="assets/img/photos/blog-04.jpg" alt="Remodelación de interiores" loading="lazy" />
+            <div class="blog-entry__overlay">
+              <p class="blog-entry__meta">Construcción · 02 Abr 2026</p>
+              <h2 class="blog-entry__title">Cinco preguntas antes de remodelar</h2>
+              <p class="blog-entry__excerpt">Una remodelación bien planeada empieza por las preguntas correctas. Aquí están.</p>
+            </div>
+          </a>
 
-        <a class="blog-entry" href="blog.html">
-          <img src="assets/img/photos/blog-06.jpg" alt="Filosofía del estudio Visión ARQ" loading="lazy" />
-          <div class="blog-entry__overlay">
-            <p class="blog-entry__meta">Estudio · 04 Mar 2026</p>
-            <h2 class="blog-entry__title">Por qué firmamos cada espacio con un nombre</h2>
-            <p class="blog-entry__excerpt">Cada proyecto lleva el nombre de quien lo habita. Una pequeña filosofía que lo cambia todo.</p>
-          </div>
-        </a>
+          <a class="blog-entry" href="blog.html">
+            <img src="assets/img/photos/blog-06.jpg" alt="Filosofía del estudio Visión ARQ" loading="lazy" />
+            <div class="blog-entry__overlay">
+              <p class="blog-entry__meta">Estudio · 04 Mar 2026</p>
+              <h2 class="blog-entry__title">Por qué firmamos cada espacio con un nombre</h2>
+              <p class="blog-entry__excerpt">Cada proyecto lleva el nombre de quien lo habita. Una pequeña filosofía que lo cambia todo.</p>
+            </div>
+          </a>
 
-      </div>
+        </div>
 
-    </div>
+      </div><!-- /blog-full -->
+    </div><!-- /blog-full-wrapper -->
 
     <section class="section reveal" style="text-align:center;">
       <p class="lead" style="max-width:32ch;margin:0 auto;color:var(--muted);">¿Quieres conversar sobre tu propio proyecto?</p>
@@ -96,6 +105,84 @@
       </div>
     </section>
   </main>
+
   <script src="assets/js/main.js"></script>
+
+  <script>
+  /* ── Blog counter-scroll ──────────────────────────────────────────────
+     Left column:  images scroll DOWN (translateY goes 0 → +shift)
+                   First image visible = bottom of left stack (blog-01)
+                   Last  image visible = top of left stack (blog-05)
+     Right column: images scroll UP   (translateY goes 0 → -shift)
+                   First image visible = top of right stack (blog-02)
+                   Last  image visible = bottom (blog-06)
+  ────────────────────────────────────────────────────────────────────── */
+  (function () {
+    var wrapper  = document.getElementById("blog-wrapper");
+    var leftCol  = document.getElementById("blog-left");
+    var rightCol = document.getElementById("blog-right");
+
+    if (!wrapper || !leftCol || !rightCol) return;
+
+    /* Mobile guard — no counter-scroll on small screens */
+    function isMobile() { return window.innerWidth <= 760; }
+
+    var N = 3; /* images per column */
+
+    function setup() {
+      if (isMobile()) {
+        wrapper.style.height = "";
+        leftCol.style.transform  = "";
+        rightCol.style.transform = "";
+        return;
+      }
+
+      var vh = window.innerHeight;
+      var shift = (N - 1) * vh; /* total distance each column travels */
+
+      /* Wrapper height = sticky element height + desired scroll distance */
+      wrapper.style.height = (N * vh) + "px";
+
+      /* Left starts showing the BOTTOM image (blog-01):
+         translateY(-shift) brings blog-01 into view at t=0 */
+      leftCol.style.transform  = "translateY(" + (-shift) + "px)";
+      rightCol.style.transform = "translateY(0px)";
+    }
+
+    function update() {
+      if (isMobile()) return;
+
+      var vh      = window.innerHeight;
+      var shift   = (N - 1) * vh;
+      var rect    = wrapper.getBoundingClientRect();
+      var scrolled = -rect.top; /* px scrolled into the wrapper */
+      var maxScroll = wrapper.offsetHeight - vh;
+
+      if (maxScroll <= 0) return;
+
+      var t = Math.max(0, Math.min(1, scrolled / maxScroll));
+
+      /* Left:  -shift → 0  (moves DOWN as t increases) */
+      leftCol.style.transform  = "translateY(" + (-shift * (1 - t)) + "px)";
+
+      /* Right: 0 → -shift  (moves UP as t increases) */
+      rightCol.style.transform = "translateY(" + (-shift * t) + "px)";
+    }
+
+    setup();
+
+    var raf = false;
+    window.addEventListener("scroll", function () {
+      if (!raf) {
+        raf = true;
+        requestAnimationFrame(function () { update(); raf = false; });
+      }
+    }, { passive: true });
+
+    window.addEventListener("resize", function () { setup(); update(); });
+
+  })();
+  </script>
+
 </body>
 </html>

@@ -155,31 +155,31 @@ function buildLoader() {
   else window.addEventListener("load", done);
 }
 
-/* ----------  Cortina de transición entre páginas (dos paneles)  ---------- */
+/* ----------  Cortina de transición (panel izq. sube · panel der. baja)  ---------- */
 function buildCurtain() {
-  const ct = document.createElement("div");
-  ct.className = "curtain-t";
-  const cb = document.createElement("div");
-  cb.className = "curtain-b";
-  document.body.appendChild(ct);
-  document.body.appendChild(cb);
+  const cl = document.createElement("div");
+  cl.className = "curtain-l";
+  const cr = document.createElement("div");
+  cr.className = "curtain-r";
+  document.body.appendChild(cl);
+  document.body.appendChild(cr);
 
-  // Al entrar: paneles cubren la pantalla sin transición, luego se abren
-  ct.style.transition = "none";
-  cb.style.transition = "none";
-  ct.classList.add("is-in");
-  cb.classList.add("is-in");
+  // Al entrar: paneles cubren sin transición, luego se abren
+  cl.style.transition = "none";
+  cr.style.transition = "none";
+  cl.classList.add("is-in");
+  cr.classList.add("is-in");
 
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
-      ct.style.transition = "";
-      cb.style.transition = "";
-      ct.classList.remove("is-in");
-      cb.classList.remove("is-in");
+      cl.style.transition = "";
+      cr.style.transition = "";
+      cl.classList.remove("is-in");
+      cr.classList.remove("is-in");
     });
   });
 
-  // Al salir: paneles se cierran desde arriba y abajo, luego navega
+  // Al salir: izquierdo sube · derecho baja · navega al terminar (680 ms = 64ms buffer)
   document.addEventListener("click", (e) => {
     const a = e.target.closest("a");
     if (!a) return;
@@ -194,9 +194,9 @@ function buildCurtain() {
     )
       return;
     e.preventDefault();
-    ct.classList.add("is-in");
-    cb.classList.add("is-in");
-    setTimeout(() => (window.location.href = href), 620);
+    cl.classList.add("is-in");
+    cr.classList.add("is-in");
+    setTimeout(() => (window.location.href = href), 680);
   });
 }
 
