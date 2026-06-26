@@ -200,9 +200,24 @@ function buildCurtain() {
   });
 }
 
-/* ----------  Reveal al hacer scroll  ---------- */
+/* ----------  Prepara texto para revelado por líneas  ---------- */
+function buildLineReveals() {
+  document.querySelectorAll(".line-reveal").forEach((el) => {
+    if (el.dataset.lineBuilt) return;
+    // Cada <br> separa una línea; envolvemos cada línea en .ln > span
+    const html = el.innerHTML;
+    const lines = html.split(/<br\s*\/?>/i);
+    el.innerHTML = lines
+      .map((l) => `<span class="ln"><span>${l.trim()}</span></span>`)
+      .join("");
+    el.dataset.lineBuilt = "1";
+  });
+}
+
+/* ----------  Reveal al hacer scroll (op / clip / line)  ---------- */
 function buildReveals() {
-  const els = document.querySelectorAll(".reveal");
+  buildLineReveals();
+  const els = document.querySelectorAll(".reveal, .reveal-clip, .line-reveal");
   if (!("IntersectionObserver" in window)) {
     els.forEach((el) => el.classList.add("is-visible"));
     return;
@@ -221,6 +236,24 @@ function buildReveals() {
   els.forEach((el) => io.observe(el));
 }
 
+/* ----------  Filtros de portafolio  ---------- */
+function buildFilters() {
+  const bar = document.querySelector(".filtros");
+  if (!bar) return;
+  const items = Array.from(document.querySelectorAll(".portfolio-item"));
+  bar.addEventListener("click", (e) => {
+    const btn = e.target.closest(".filtro");
+    if (!btn) return;
+    bar.querySelectorAll(".filtro").forEach((b) => b.classList.remove("is-active"));
+    btn.classList.add("is-active");
+    const cat = btn.dataset.cat;
+    items.forEach((it) => {
+      const show = cat === "todos" || it.dataset.cat === cat;
+      it.classList.toggle("is-hidden", !show);
+    });
+  });
+}
+
 /* ----------  Init  ---------- */
 document.addEventListener("DOMContentLoaded", () => {
   buildLoader();
@@ -229,4 +262,5 @@ document.addEventListener("DOMContentLoaded", () => {
   buildMobileMenu();
   buildFooter();
   buildReveals();
+  buildFilters();
 });

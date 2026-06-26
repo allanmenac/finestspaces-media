@@ -218,7 +218,7 @@ main { min-height: 100vh; }
 .split { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gutter); align-items: center; }
 @media (max-width: 760px) {
   .split { grid-template-columns: 1fr; }
-  .split img { order: -1 !important; }
+  .split img, .split > .reveal-clip { order: -1 !important; }
 }
 
 .reveal {
@@ -716,7 +716,158 @@ main { min-height: 100vh; }
 .page-head .display { max-width: 16ch; }
 .page-head .lead { margin-top: 1.5rem; max-width: 46ch; color: var(--muted); }
 
+/* =========================================================
+   ANIMACIONES DE REVELADO (estilo Mersi: line / clip / op)
+   ========================================================= */
+
+/* Revelado de imagen con cortina clip-path (como reveal-clip de Mersi) */
+.reveal-clip { position: relative; overflow: hidden; }
+.reveal-clip > img,
+.reveal-clip > .reveal-clip__inner {
+  clip-path: inset(0 0 100% 0);
+  transform: scale(1.08);
+  transition: clip-path 1.1s var(--ease), transform 1.4s var(--ease);
+}
+.reveal-clip.is-visible > img,
+.reveal-clip.is-visible > .reveal-clip__inner {
+  clip-path: inset(0 0 0 0);
+  transform: scale(1);
+}
+
+/* Revelado de texto línea por línea (como line de Mersi) */
+.line-reveal { display: inline-block; }
+.line-reveal .ln { display: block; overflow: hidden; }
+.line-reveal .ln > span {
+  display: block;
+  transform: translateY(110%);
+  transition: transform 0.9s var(--ease);
+}
+.line-reveal.is-visible .ln > span { transform: translateY(0); }
+.line-reveal.is-visible .ln:nth-child(2) > span { transition-delay: 0.08s; }
+.line-reveal.is-visible .ln:nth-child(3) > span { transition-delay: 0.16s; }
+.line-reveal.is-visible .ln:nth-child(4) > span { transition-delay: 0.24s; }
+
+/* =========================================================
+   PORTAFOLIO — etiqueta de proyecto al pasar el cursor (Mersi)
+   ========================================================= */
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0 var(--gutter) clamp(1.5rem, 4vw, 3rem);
+}
+.filtro {
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+  padding: 0.5rem 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  color: var(--muted);
+  transition: all 0.4s var(--ease);
+  background: transparent;
+}
+.filtro:hover { border-color: var(--off-black); color: var(--off-black); }
+.filtro.is-active { background: var(--off-black); color: var(--cream); border-color: var(--off-black); }
+
+.portfolio-item { position: relative; overflow: hidden; cursor: pointer; }
+.portfolio-item.is-hidden { display: none; }
+
+/* Etiqueta flotante coloreada (aparece al hover) */
+.portfolio-item__etiq {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%) scale(0.92);
+  z-index: 3;
+  width: min(78%, 320px);
+  padding: 1.1rem 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-radius: 2px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+  box-shadow: 0 18px 50px rgba(26,26,26,0.28);
+}
+.portfolio-item:hover .portfolio-item__etiq {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+.portfolio-item__etiq-info { display: flex; flex-direction: column; gap: 0.2rem; }
+.portfolio-item__etiq-name { font-family: var(--serif); font-size: 1.5rem; font-weight: 400; line-height: 1; }
+.portfolio-item__etiq-cat { font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.7; }
+.portfolio-item__etiq .mark { height: 2rem; width: auto; flex-shrink: 0; opacity: 0.9; }
+.portfolio-item:hover img { transform: scale(1.05); }
+.portfolio-item:hover::after { opacity: 0.35; }
+
+/* =========================================================
+   PROCESO — pasos con imagen fija (sticky, estilo Mersi process)
+   ========================================================= */
+.proceso { padding: clamp(3rem, 8vw, 7rem) 0 0; }
+.proceso__head { padding: 0 var(--gutter) clamp(2rem, 5vw, 4rem); }
+.proceso__steps { border-top: 1px solid var(--line); }
+
+.paso {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: stretch;
+  border-bottom: 1px solid var(--line);
+}
+.paso__media { position: relative; overflow: hidden; min-height: 60vh; }
+.paso__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.paso__body {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(2rem, 6vw, 6rem);
+  border-left: 1px solid var(--line);
+}
+.paso:nth-child(even) .paso__media { order: 2; }
+.paso:nth-child(even) .paso__body { order: 1; border-left: none; border-right: 1px solid var(--line); }
+.paso__num { font-family: var(--serif); font-size: 0.8rem; color: var(--muted); letter-spacing: 0.1em; }
+.paso__title { font-family: var(--serif); font-weight: 300; font-size: clamp(1.8rem, 4vw, 3.2rem); line-height: 1.02; margin: 0.8rem 0 1.2rem; }
+.paso__desc { color: var(--muted); max-width: 44ch; line-height: 1.7; }
+@media (max-width: 760px) {
+  .paso { grid-template-columns: 1fr; }
+  .paso__media { min-height: 70vw; }
+  .paso__body { position: static; height: auto; border-left: none !important; border-right: none !important; padding: 2.5rem var(--gutter) 3.5rem; }
+  .paso:nth-child(even) .paso__media { order: 0; }
+  .paso:nth-child(even) .paso__body { order: 0; }
+}
+
+/* =========================================================
+   CONTACTO — columna de imágenes en marquesina (Mersi contact)
+   ========================================================= */
+.contact-marquee {
+  position: relative;
+  height: 70vh;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+.contact-marquee__track {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  animation: marquee-up 28s linear infinite;
+}
+.contact-marquee:hover .contact-marquee__track { animation-play-state: paused; }
+.contact-marquee img { width: 100%; aspect-ratio: 4/3; object-fit: cover; }
+@keyframes marquee-up {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-50%); }
+}
+@media (max-width: 760px) { .contact-marquee { display: none; } }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
   .reveal { opacity: 1; transform: none; }
+  .reveal-clip > img { clip-path: none; transform: none; }
+  .line-reveal .ln > span { transform: none; }
+  .contact-marquee__track { animation: none; }
 }
