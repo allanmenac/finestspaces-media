@@ -1,9 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 60" fill="none">
-  <!-- Monograma V -->
-  <path d="M6 6 L24 52 L42 6" stroke="#1A1A1A" stroke-width="3" stroke-linecap="square"/>
-  <path d="M24 30 L24 52" stroke="#1A1A1A" stroke-width="1.2"/>
-  <!-- Wordmark -->
-  <text x="62" y="38" font-family="Cormorant Garamond, Georgia, serif" font-size="34" font-weight="500" letter-spacing="2" fill="#1A1A1A">VISIÓN</text>
-  <text x="62" y="38" font-family="Cormorant Garamond, Georgia, serif" font-size="34" font-weight="500" fill="#1A1A1A" opacity="0"></text>
-  <text x="206" y="38" font-family="Inter, sans-serif" font-size="15" font-weight="500" letter-spacing="6" fill="#1A1A1A">ARQ</text>
+<svg width="120" height="88" viewBox="0 0 120 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M6 84 L38 6 L70 84" stroke="#1A1A1A" stroke-width="11" stroke-linejoin="miter" stroke-linecap="square"/>
+  <path d="M50 84 L82 6 L114 84" stroke="#1A1A1A" stroke-width="11" stroke-linejoin="miter" stroke-linecap="square"/>
+  <path d="M67 54 L97 54" stroke="#1A1A1A" stroke-width="11" stroke-linecap="square"/>
 </svg>

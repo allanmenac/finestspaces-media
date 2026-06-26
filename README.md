@@ -1,7 +1,7 @@
-# Visión ARQ — Sitio web
+# VISIONARQ — Sitio web
 
-Sitio web del estudio de arquitectura y construcción **Visión ARQ** (San José, Costa Rica).
-*Donde la visión toma forma.*
+Sitio web del estudio de arquitectura y construcción **VISIONARQ** (San José, Costa Rica).
+*Constructora y Consultora.*
 
 Es un sitio **estático** (HTML, CSS y JavaScript). No necesita compilarse ni instalar nada.
 
@@ -29,7 +29,7 @@ assets/
   css/style.css   → todos los estilos y colores
   js/main.js      → menú, pie de página, animaciones y datos del estudio
   img/
-    logo.svg      → logo de Visión ARQ
+    logo.svg      → logo de VISIONARQ
     photos/       → fotos del sitio (reemplazables)
 ```
 
@@ -43,7 +43,7 @@ assets/
 - **Los proyectos del portafolio**: edita `portafolio.html` e `index.html`.
 
 > Las fotos actuales son temporales (de la biblioteca existente) para que veas el diseño.
-> Reemplázalas por las fotos reales de Visión ARQ cuando las tengas.
+> Reemplázalas por las fotos reales de VISIONARQ cuando las tengas.
 
 ---
 

@@ -7,9 +7,10 @@
 
 /* ----------  Configuración del sitio  ---------- */
 const SITE = {
-  brand: "Visión ARQ",
-  email: "hola@visionarq.cr",
-  phone: "+506 0000 0000",
+  brand: "VISIONARQ",
+  tagline: "Constructora y Consultora",
+  email: "vision.arqcr@gmail.com",
+  phone: "+506 6454 8401",
   city: "San José, Costa Rica",
   instagram: "https://instagram.com/",
   links: [
@@ -21,6 +22,14 @@ const SITE = {
   ],
 };
 
+/* ----------  Monograma VA (logo)  ---------- */
+const MARK = `
+  <svg class="mark" viewBox="0 0 120 88" fill="none" aria-hidden="true">
+    <path d="M6 84 L38 6 L70 84" stroke="currentColor" stroke-width="11" stroke-linejoin="miter" stroke-linecap="square"/>
+    <path d="M50 84 L82 6 L114 84" stroke="currentColor" stroke-width="11" stroke-linejoin="miter" stroke-linecap="square"/>
+    <path d="M67 54 L97 54" stroke="currentColor" stroke-width="11" stroke-linecap="square"/>
+  </svg>`;
+
 /* ----------  Helpers  ---------- */
 const currentPage = () => {
   const p = window.location.pathname.split("/").pop();
@@ -31,7 +40,8 @@ const currentPage = () => {
 function buildNav() {
   const navLogo = `
     <a class="nav-logo" href="index.html" aria-label="${SITE.brand} — inicio">
-      <span class="nav-logo__text">VISIÓN ARQ</span>
+      ${MARK}
+      <span class="nav-logo__text">VISIONARQ</span>
     </a>`;
   const links = SITE.links
     .map((l) => `<a class="nav-link" data-href="${l.href}" href="${l.href}">${l.label}</a>`)
@@ -48,7 +58,11 @@ function buildNav() {
   document.body.prepend(nav);
 
   const s = document.createElement("style");
-  s.textContent = `.nav-logo__text { font-family: var(--serif); font-weight:500; font-size:1.2rem; letter-spacing:.16em; }`;
+  s.textContent = `
+    .nav-logo { display:flex; align-items:center; gap:.55rem; }
+    .nav-logo .mark { height:1.45rem; width:auto; display:block; }
+    .nav-logo__text { font-family: var(--serif); font-weight:500; font-size:1.18rem; letter-spacing:.18em; }
+    @media (max-width:380px){ .nav-logo__text{ display:none; } }`;
   document.head.appendChild(s);
 }
 
@@ -86,7 +100,7 @@ function buildFooter() {
   footer.className = "footer";
   footer.innerHTML = `
     <div class="footer__top">
-      <div class="footer__brand">Visión<br>ARQ</div>
+      <div class="footer__brand">VISIONARQ<span class="footer__brand-desc">Constructora y Consultora</span></div>
       <div class="footer__cols">
         <div class="footer__col">
           <h4>Navegación</h4>
@@ -106,7 +120,7 @@ function buildFooter() {
       </div>
     </div>
     <div class="footer__bottom">
-      <span>© ${new Date().getFullYear()} Visión ARQ — Donde la visión toma forma</span>
+      <span>© ${new Date().getFullYear()} VISIONARQ — Constructora y Consultora</span>
       <span>San José · Costa Rica</span>
     </div>`;
   document.body.appendChild(footer);
@@ -117,7 +131,7 @@ function buildLoaderIfHome() {
   if (currentPage() !== "index.html") return;
   const loader = document.createElement("div");
   loader.className = "loader";
-  loader.innerHTML = `<div class="loader__brand">VISIÓN ARQ</div><div class="loader__word">Donde la visión toma forma</div>`;
+  loader.innerHTML = `<div class="loader__logo">${MARK}</div><div class="loader__brand">VISIONARQ</div><div class="loader__word">Constructora y Consultora</div>`;
   document.body.prepend(loader);
   const done = () => setTimeout(() => loader.classList.add("is-done"), 900);
   if (document.readyState === "complete") done();
