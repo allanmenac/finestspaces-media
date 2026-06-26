@@ -25,10 +25,7 @@
 
         <!-- Tarjeta central flotante (sobre la línea divisoria) -->
         <a class="slide-card" id="slide-card" href="portafolio.html" aria-label="Ver portafolio">
-          <svg class="mark" viewBox="0 0 48 56" fill="none" aria-hidden="true">
-            <path d="M4 4 L24 50 L44 4" stroke="currentColor" stroke-width="3" stroke-linecap="square"/>
-            <path d="M24 28 L24 50" stroke="currentColor" stroke-width="1.2"/>
-          </svg>
+          <span class="slide-card__brand">VISIÓN ARQ</span>
           <p class="slide-card__name" id="card-name">Casa Escalante</p>
           <p class="slide-card__meta" id="card-meta">San José · Residencial · 2025</p>
           <div class="slide-card__arrow">
@@ -103,74 +100,25 @@
     <section class="section reveal">
       <p class="eyebrow">Preguntas frecuentes</p>
       <h2 class="display" style="font-size:clamp(2rem,5vw,4rem);margin-top:1rem;">Lo que más<br>nos preguntan.</h2>
-      <div class="faq-list">
+      <div class="qa">
+        <div class="qa-list">
+          <button class="qa-q" data-q="0"><span class="qa-num">01</span><span class="qa-text">¿Cuánto cuesta construir una casa en Costa Rica?</span><span class="qa-arrow">→</span></button>
+          <button class="qa-q" data-q="1"><span class="qa-num">02</span><span class="qa-text">¿Cuánto tiempo tarda un proyecto desde el diseño hasta la entrega?</span><span class="qa-arrow">→</span></button>
+          <button class="qa-q" data-q="2"><span class="qa-num">03</span><span class="qa-text">¿Es obligatorio contratar un arquitecto para remodelar en Costa Rica?</span><span class="qa-arrow">→</span></button>
+          <button class="qa-q" data-q="3"><span class="qa-num">04</span><span class="qa-text">¿Qué incluye el servicio de diseño de interiores?</span><span class="qa-arrow">→</span></button>
+          <button class="qa-q" data-q="4"><span class="qa-num">05</span><span class="qa-text">¿Trabajan en todo el país o solo en San José?</span><span class="qa-arrow">→</span></button>
+          <button class="qa-q" data-q="5"><span class="qa-num">06</span><span class="qa-text">¿Cómo es el proceso de trabajo paso a paso?</span><span class="qa-arrow">→</span></button>
+        </div>
 
-        <details class="faq-item">
-          <summary class="faq-q">
-            <span class="faq-num">01</span>
-            <span class="faq-text">¿Cuánto cuesta construir una casa en Costa Rica?</span>
-            <span class="faq-icon">+</span>
-          </summary>
-          <div class="faq-body"><div class="faq-inner">
-            <p class="faq-a">El costo de construcción varía según acabados, ubicación y complejidad del diseño. En términos generales, una vivienda con acabados medios oscila entre $700 y $1,100 por metro cuadrado. Ofrecemos una primera consulta sin costo donde evaluamos tu proyecto y preparamos un presupuesto detallado.</p>
-          </div></div>
-        </details>
-
-        <details class="faq-item">
-          <summary class="faq-q">
-            <span class="faq-num">02</span>
-            <span class="faq-text">¿Cuánto tiempo tarda un proyecto desde el diseño hasta la entrega?</span>
-            <span class="faq-icon">+</span>
-          </summary>
-          <div class="faq-body"><div class="faq-inner">
-            <p class="faq-a">Un diseño arquitectónico residencial toma entre 6 y 10 semanas. La construcción, según escala y complejidad, puede ir de 6 meses a más de un año. Desde el primer día te entregamos un cronograma realista y lo cumplimos.</p>
-          </div></div>
-        </details>
-
-        <details class="faq-item">
-          <summary class="faq-q">
-            <span class="faq-num">03</span>
-            <span class="faq-text">¿Es obligatorio contratar un arquitecto para remodelar en Costa Rica?</span>
-            <span class="faq-icon">+</span>
-          </summary>
-          <div class="faq-body"><div class="faq-inner">
-            <p class="faq-a">Para obras que requieren permiso municipal —incluyendo la mayoría de remodelaciones estructurales— la ley costarricense exige la firma de un profesional colegiado. Además de cumplir la normativa, trabajar con un arquitecto te protege de errores costosos y garantiza que tu propiedad suba de valor.</p>
-          </div></div>
-        </details>
-
-        <details class="faq-item">
-          <summary class="faq-q">
-            <span class="faq-num">04</span>
-            <span class="faq-text">¿Qué incluye el servicio de diseño de interiores?</span>
-            <span class="faq-icon">+</span>
-          </summary>
-          <div class="faq-body"><div class="faq-inner">
-            <p class="faq-a">Nuestro servicio abarca el concepto espacial, paleta de materiales y acabados, selección de mobiliario y luminarias, diseño de cocinas y baños, y supervisión de instalación. Trabajamos con proveedores locales e internacionales para que cada ambiente sea exactamente lo que imaginaste.</p>
-          </div></div>
-        </details>
-
-        <details class="faq-item">
-          <summary class="faq-q">
-            <span class="faq-num">05</span>
-            <span class="faq-text">¿Trabajan en todo el país o solo en San José?</span>
-            <span class="faq-icon">+</span>
-          </summary>
-          <div class="faq-body"><div class="faq-inner">
-            <p class="faq-a">Nuestro estudio está en San José, pero desarrollamos proyectos en todo Costa Rica: Guanacaste, Pacífico Sur, Heredia, Alajuela y la Zona Norte. La distancia no es un obstáculo; coordinamos visitas regulares a obra y mantenemos comunicación constante en cada etapa.</p>
-          </div></div>
-        </details>
-
-        <details class="faq-item">
-          <summary class="faq-q">
-            <span class="faq-num">06</span>
-            <span class="faq-text">¿Cómo es el proceso de trabajo paso a paso?</span>
-            <span class="faq-icon">+</span>
-          </summary>
-          <div class="faq-body"><div class="faq-inner">
-            <p class="faq-a">Empezamos con una consulta inicial para entender tu visión, necesidades y presupuesto. Luego elaboramos el anteproyecto (planos conceptuales y renders 3D), ajustamos según tu retroalimentación y procedemos al diseño ejecutivo. En paralelo gestionamos permisos y, si lo deseas, coordinamos la construcción de inicio a fin.</p>
-          </div></div>
-        </details>
-
+        <!-- Respuestas (se muestran en el panel lateral) -->
+        <div class="qa-answers" hidden>
+          <div class="qa-a" data-a="0"><h3>¿Cuánto cuesta construir una casa en Costa Rica?</h3><p>El costo de construcción varía según acabados, ubicación y complejidad del diseño. En términos generales, una vivienda con acabados medios oscila entre $700 y $1,100 por metro cuadrado. Ofrecemos una primera consulta sin costo donde evaluamos tu proyecto y preparamos un presupuesto detallado.</p></div>
+          <div class="qa-a" data-a="1"><h3>¿Cuánto tiempo tarda un proyecto desde el diseño hasta la entrega?</h3><p>Un diseño arquitectónico residencial toma entre 6 y 10 semanas. La construcción, según escala y complejidad, puede ir de 6 meses a más de un año. Desde el primer día te entregamos un cronograma realista y lo cumplimos.</p></div>
+          <div class="qa-a" data-a="2"><h3>¿Es obligatorio contratar un arquitecto para remodelar en Costa Rica?</h3><p>Para obras que requieren permiso municipal —incluyendo la mayoría de remodelaciones estructurales— la ley costarricense exige la firma de un profesional colegiado. Además de cumplir la normativa, trabajar con un arquitecto te protege de errores costosos y garantiza que tu propiedad suba de valor.</p></div>
+          <div class="qa-a" data-a="3"><h3>¿Qué incluye el servicio de diseño de interiores?</h3><p>Nuestro servicio abarca el concepto espacial, paleta de materiales y acabados, selección de mobiliario y luminarias, diseño de cocinas y baños, y supervisión de instalación. Trabajamos con proveedores locales e internacionales para que cada ambiente sea exactamente lo que imaginaste.</p></div>
+          <div class="qa-a" data-a="4"><h3>¿Trabajan en todo el país o solo en San José?</h3><p>Nuestro estudio está en San José, pero desarrollamos proyectos en todo Costa Rica: Guanacaste, Pacífico Sur, Heredia, Alajuela y la Zona Norte. La distancia no es un obstáculo; coordinamos visitas regulares a obra y mantenemos comunicación constante en cada etapa.</p></div>
+          <div class="qa-a" data-a="5"><h3>¿Cómo es el proceso de trabajo paso a paso?</h3><p>Empezamos con una consulta inicial para entender tu visión, necesidades y presupuesto. Luego elaboramos el anteproyecto (planos conceptuales y renders 3D), ajustamos según tu retroalimentación y procedemos al diseño ejecutivo. En paralelo gestionamos permisos y, si lo deseas, coordinamos la construcción de inicio a fin.</p></div>
+        </div>
       </div>
     </section>
 
@@ -231,6 +179,24 @@
         color:    "#CCB598",
         l: "assets/img/photos/proyecto-07.jpg",
         r: "assets/img/photos/proyecto-08.jpg",
+      },
+      {
+        name:     "Hotel Monteverde",
+        location: "Puntarenas",
+        category: "Hospitality",
+        year:     "2023",
+        color:    "#918F7A",
+        l: "assets/img/photos/servicio-construccion.jpg",
+        r: "assets/img/photos/servicio-interiores.jpg",
+      },
+      {
+        name:     "Oficinas Escazú",
+        location: "San José",
+        category: "Comercial",
+        year:     "2023",
+        color:    "#4E6D73",
+        l: "assets/img/photos/servicio-arquitectura.jpg",
+        r: "assets/img/photos/servicio-consultoria.jpg",
       },
     ];
 

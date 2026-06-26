@@ -21,20 +21,6 @@ const SITE = {
   ],
 };
 
-/* ----------  Monograma (V)  ---------- */
-const MARK = `
-  <svg class="mark" viewBox="0 0 48 56" fill="none" aria-hidden="true">
-    <path d="M4 4 L24 50 L44 4" stroke="currentColor" stroke-width="3" stroke-linecap="square"/>
-    <path d="M24 28 L24 50" stroke="currentColor" stroke-width="1.2"/>
-  </svg>`;
-
-const LOADER_MARK = `
-  <svg class="loader__mark" viewBox="0 0 48 56" fill="none" aria-hidden="true">
-    <path d="M4 4 L24 50" stroke="#1A1A1A" stroke-width="3" stroke-linecap="square"/>
-    <path d="M44 4 L24 50" stroke="#1A1A1A" stroke-width="3" stroke-linecap="square"/>
-    <path d="M24 28 L24 50" stroke="#1A1A1A" stroke-width="1.2"/>
-  </svg>`;
-
 /* ----------  Helpers  ---------- */
 const currentPage = () => {
   const p = window.location.pathname.split("/").pop();
@@ -53,7 +39,6 @@ function buildNav() {
 
   const navLogo = `
     <a class="nav-logo" href="index.html" aria-label="${SITE.brand} — inicio">
-      ${MARK}
       <span class="nav-logo__text">VISIÓN ARQ</span>
     </a>`;
 
@@ -68,13 +53,10 @@ function buildNav() {
     <button class="nav-toggle" aria-label="Abrir menú">menú</button>`;
   document.body.prepend(nav);
 
-  // estilos del wordmark de la nav (no se repiten en el CSS principal)
+  // estilos del wordmark de la nav
   const s = document.createElement("style");
   s.textContent = `
-    .nav-logo { gap:.6rem; }
-    .nav-logo .mark { height:1.5rem; width:auto; }
-    .nav-logo__text { font-family: var(--serif); font-weight:500; font-size:1.15rem; letter-spacing:.14em; }
-    @media (max-width:420px){ .nav-logo__text{ display:none; } }`;
+    .nav-logo__text { font-family: var(--serif); font-weight:500; font-size:1.2rem; letter-spacing:.16em; }`;
   document.head.appendChild(s);
 }
 
@@ -142,7 +124,7 @@ function buildFooter() {
 function buildLoader() {
   const loader = document.createElement("div");
   loader.className = "loader";
-  loader.innerHTML = `${LOADER_MARK}<div class="loader__word">Donde la visión toma forma</div>`;
+  loader.innerHTML = `<div class="loader__brand">VISIÓN ARQ</div><div class="loader__word">Donde la visión toma forma</div>`;
   document.body.prepend(loader);
 
   const done = () => {
@@ -155,34 +137,42 @@ function buildLoader() {
   else window.addEventListener("load", done);
 }
 
-/* ----------  Cortina de transición (panel izq. sube · panel der. baja)  ---------- */
+/* ----------  Cortina de transición (panel izq. sube · panel der. baja)
+   Al entrar: los paneles ya cubren (pintados negros) y solo se abren
+   cuando la página está lista, así la nueva página YA está detrás.
+   Al salir: cubren por completo y recién entonces navegamos.            ---------- */
 function buildCurtain() {
   const cl = document.createElement("div");
-  cl.className = "curtain-l";
+  cl.className = "curtain-l is-in";
   const cr = document.createElement("div");
-  cr.className = "curtain-r";
+  cr.className = "curtain-r is-in";
+  // sin transición mientras cubren al cargar
+  cl.style.transition = "none";
+  cr.style.transition = "none";
   document.body.appendChild(cl);
   document.body.appendChild(cr);
 
-  // Al entrar: paneles cubren sin transición, luego se abren
-  cl.style.transition = "none";
-  cr.style.transition = "none";
-  cl.classList.add("is-in");
-  cr.classList.add("is-in");
-
-  requestAnimationFrame(() => {
+  // Abrir cuando la página esté lista (contenido ya pintado detrás)
+  const open = () => {
     requestAnimationFrame(() => {
       cl.style.transition = "";
       cr.style.transition = "";
       cl.classList.remove("is-in");
       cr.classList.remove("is-in");
     });
-  });
+  };
+  // Espera breve para garantizar pintado del contenido nuevo
+  if (document.readyState === "complete") setTimeout(open, 120);
+  else window.addEventListener("load", () => setTimeout(open, 80));
+  // Salvaguarda: si load tarda demasiado, abrir igual
+  setTimeout(open, 1400);
 
-  // Al salir: izquierdo sube · derecho baja · navega al terminar (680 ms = 64ms buffer)
+  // Al salir: cerrar paneles, navegar SOLO cuando ya cubren del todo (640ms)
+  const TRANSITION_MS = 640;
+  let leaving = false;
   document.addEventListener("click", (e) => {
     const a = e.target.closest("a");
-    if (!a) return;
+    if (!a || leaving) return;
     const href = a.getAttribute("href");
     if (
       !href ||
@@ -194,9 +184,11 @@ function buildCurtain() {
     )
       return;
     e.preventDefault();
+    leaving = true;
     cl.classList.add("is-in");
     cr.classList.add("is-in");
-    setTimeout(() => (window.location.href = href), 680);
+    // navegar justo cuando la cortina termina de cubrir
+    setTimeout(() => (window.location.href = href), TRANSITION_MS);
   });
 }
 
@@ -238,20 +230,90 @@ function buildReveals() {
 
 /* ----------  Filtros de portafolio  ---------- */
 function buildFilters() {
-  const bar = document.querySelector(".filtros");
-  if (!bar) return;
-  const items = Array.from(document.querySelectorAll(".portfolio-item"));
-  bar.addEventListener("click", (e) => {
-    const btn = e.target.closest(".filtro");
-    if (!btn) return;
-    bar.querySelectorAll(".filtro").forEach((b) => b.classList.remove("is-active"));
-    btn.classList.add("is-active");
-    const cat = btn.dataset.cat;
-    items.forEach((it) => {
-      const show = cat === "todos" || it.dataset.cat === cat;
-      it.classList.toggle("is-hidden", !show);
+  const bars = document.querySelectorAll(".filtros, .proj-filtros");
+  if (!bars.length) return;
+  const items = Array.from(
+    document.querySelectorAll(".portfolio-item[data-cat], .proj-card[data-cat]")
+  );
+  bars.forEach((bar) => {
+    bar.addEventListener("click", (e) => {
+      const btn = e.target.closest(".filtro");
+      if (!btn) return;
+      bar.querySelectorAll(".filtro").forEach((b) => b.classList.remove("is-active"));
+      btn.classList.add("is-active");
+      const cat = btn.dataset.cat;
+      items.forEach((it) => {
+        const show = cat === "todos" || it.dataset.cat === cat;
+        it.classList.toggle("is-hidden", !show);
+      });
     });
   });
+}
+
+/* ----------  Panel lateral de FAQ (columna desde la derecha)  ---------- */
+function buildFaqPanel() {
+  const qa = document.querySelector(".qa");
+  if (!qa) return;
+
+  const panel = document.createElement("div");
+  panel.className = "qa-panel";
+  panel.innerHTML =
+    '<button class="qa-panel__close" aria-label="Cerrar">cerrar <span>✕</span></button>' +
+    '<div class="qa-panel__body"></div>';
+  const overlay = document.createElement("div");
+  overlay.className = "qa-overlay";
+  document.body.appendChild(overlay);
+  document.body.appendChild(panel);
+  const body = panel.querySelector(".qa-panel__body");
+
+  const questions = Array.from(qa.querySelectorAll(".qa-q"));
+
+  const close = () => {
+    panel.classList.remove("is-open");
+    overlay.classList.remove("is-open");
+    questions.forEach((q) => q.classList.remove("is-active"));
+  };
+
+  questions.forEach((q) => {
+    q.addEventListener("click", () => {
+      const i = q.dataset.q;
+      const ans = qa.querySelector('.qa-a[data-a="' + i + '"]');
+      body.innerHTML = ans ? ans.innerHTML : "";
+      questions.forEach((x) => x.classList.remove("is-active"));
+      q.classList.add("is-active");
+      panel.classList.add("is-open");
+      overlay.classList.add("is-open");
+    });
+  });
+
+  panel.querySelector(".qa-panel__close").addEventListener("click", close);
+  overlay.addEventListener("click", close);
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") close();
+  });
+}
+
+/* ----------  Zoom de la cuadrícula "piano" al hacer scroll (proyectos)  ---------- */
+function buildPianoZoom() {
+  const piano = document.querySelector(".piano");
+  if (!piano) return;
+  let raf = false;
+  const update = () => {
+    raf = false;
+    const rect = piano.getBoundingClientRect();
+    const vh = window.innerHeight;
+    // progreso desde que el strip entra por abajo hasta que su top llega arriba
+    const start = vh;
+    const end = 0;
+    let t = (start - rect.top) / (start - end);
+    t = Math.max(0, Math.min(1, t));
+    const scale = 1 + t * 0.12; // zoom suave (piano "bajo")
+    piano.style.transform = "scale(" + scale.toFixed(4) + ")";
+  };
+  window.addEventListener("scroll", () => {
+    if (!raf) { raf = true; requestAnimationFrame(update); }
+  }, { passive: true });
+  update();
 }
 
 /* ----------  Init  ---------- */
@@ -263,4 +325,6 @@ document.addEventListener("DOMContentLoaded", () => {
   buildFooter();
   buildReveals();
   buildFilters();
+  buildFaqPanel();
+  buildPianoZoom();
 });
