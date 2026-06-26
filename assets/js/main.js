@@ -155,22 +155,31 @@ function buildLoader() {
   else window.addEventListener("load", done);
 }
 
-/* ----------  Cortina de transición entre páginas  ---------- */
+/* ----------  Cortina de transición entre páginas (dos paneles)  ---------- */
 function buildCurtain() {
-  const curtain = document.createElement("div");
-  curtain.className = "curtain";
-  document.body.appendChild(curtain);
+  const ct = document.createElement("div");
+  ct.className = "curtain-t";
+  const cb = document.createElement("div");
+  cb.className = "curtain-b";
+  document.body.appendChild(ct);
+  document.body.appendChild(cb);
 
-  // al entrar, retira la cortina
+  // Al entrar: paneles cubren la pantalla sin transición, luego se abren
+  ct.style.transition = "none";
+  cb.style.transition = "none";
+  ct.classList.add("is-in");
+  cb.classList.add("is-in");
+
   requestAnimationFrame(() => {
-    curtain.classList.add("is-active");
     requestAnimationFrame(() => {
-      curtain.classList.remove("is-active");
-      curtain.classList.add("is-leaving");
+      ct.style.transition = "";
+      cb.style.transition = "";
+      ct.classList.remove("is-in");
+      cb.classList.remove("is-in");
     });
   });
 
-  // intercepta enlaces internos
+  // Al salir: paneles se cierran desde arriba y abajo, luego navega
   document.addEventListener("click", (e) => {
     const a = e.target.closest("a");
     if (!a) return;
@@ -185,9 +194,9 @@ function buildCurtain() {
     )
       return;
     e.preventDefault();
-    curtain.classList.remove("is-leaving");
-    curtain.classList.add("is-active");
-    setTimeout(() => (window.location.href = href), 600);
+    ct.classList.add("is-in");
+    cb.classList.add("is-in");
+    setTimeout(() => (window.location.href = href), 620);
   });
 }
 

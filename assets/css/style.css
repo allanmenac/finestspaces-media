@@ -188,27 +188,24 @@ h1, h2, h3, h4 { font-family: var(--serif); font-weight: 500; line-height: 1.05;
 }
 
 /* =========================================================
-   TRANSICIÓN DE PÁGINA (cortina, como Mersi)
+   TRANSICIÓN DE PÁGINA — dos paneles (Annassurra style)
+   Panel superior baja desde arriba, panel inferior sube desde abajo,
+   se encuentran en el centro, luego se abren al llegar a la nueva página.
    ========================================================= */
-.curtain {
+.curtain-t,
+.curtain-b {
   position: fixed;
-  inset: 0;
+  left: 0; right: 0;
   z-index: 1500;
   background: var(--off-black);
-  transform: scaleY(0);
-  transform-origin: bottom;
   pointer-events: none;
+  height: 51vh; /* 51 to avoid 1px gap at center */
+  transition: transform 0.58s var(--ease);
 }
-.curtain.is-active {
-  transform: scaleY(1);
-  transform-origin: bottom;
-  transition: transform 0.6s var(--ease);
-}
-.curtain.is-leaving {
-  transform: scaleY(0);
-  transform-origin: top;
-  transition: transform 0.6s var(--ease);
-}
+.curtain-t { top: 0;    transform: translateY(-100%); }
+.curtain-b { bottom: 0; transform: translateY(100%);  }
+.curtain-t.is-in { transform: translateY(0); }
+.curtain-b.is-in { transform: translateY(0); }
 
 /* =========================================================
    LAYOUT HELPERS
@@ -474,42 +471,117 @@ main { min-height: 100vh; }
 }
 
 /* =========================================================
-   BLOG — grilla editorial a dos columnas (estilo Annassurra)
+   BLOG — bloques a pantalla completa, dos columnas (Annassurra)
+   Cada entrada es 100vh, imagen de fondo con texto superpuesto.
    ========================================================= */
-.blog-grid {
+.blog-full {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: clamp(2rem, 6vw, 6rem);
-  align-items: start;
+  border-top: 1px solid var(--line);
 }
-.blog-col { display: flex; flex-direction: column; gap: clamp(3rem, 8vw, 7rem); }
-.blog-col--right { margin-top: clamp(4rem, 12vw, 11rem); }   /* desfase editorial */
-.blog-post { display: block; }
-.blog-post img {
-  width: 100%;
-  aspect-ratio: 3/4;
+.blog-full__col { display: flex; flex-direction: column; }
+.blog-full__col--right {
+  border-left: 1px solid var(--line);
+  padding-top: 30vh; /* desfase editorial entre columnas */
+}
+
+.blog-entry {
+  position: relative;
+  height: 100vh;
+  display: block;
+  overflow: hidden;
+  border-bottom: 1px solid var(--line);
+}
+.blog-entry img {
+  width: 100%; height: 100%;
   object-fit: cover;
-  margin-bottom: 1.25rem;
-  transition: opacity 0.6s var(--ease);
+  transition: transform 1.4s var(--ease);
 }
-.blog-post:hover img { opacity: 0.88; }
-.blog-post__meta {
-  font-size: 0.72rem;
-  letter-spacing: 0.12em;
+.blog-entry:hover img { transform: scale(1.04); }
+
+.blog-entry__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top,
+    rgba(26,26,26,0.72) 0%,
+    rgba(26,26,26,0.18) 45%,
+    rgba(26,26,26,0) 70%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  color: var(--cream);
+}
+.blog-entry__meta {
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 0.5rem;
+  opacity: 0.75;
+  margin-bottom: 0.6rem;
 }
-.blog-post__title {
+.blog-entry__title {
   font-family: var(--serif);
-  font-size: clamp(1.4rem, 2.6vw, 2rem);
+  font-size: clamp(1.5rem, 2.8vw, 2.4rem);
   font-weight: 400;
-  line-height: 1.1;
+  line-height: 1.05;
 }
-.blog-post__excerpt { color: var(--muted); margin-top: 0.6rem; font-size: 0.95rem; max-width: 40ch; }
-@media (max-width: 700px) {
-  .blog-grid { grid-template-columns: 1fr; gap: 3rem; }
-  .blog-col--right { margin-top: 0; }
+.blog-entry__excerpt {
+  font-size: 0.9rem;
+  line-height: 1.55;
+  opacity: 0.78;
+  margin-top: 0.5rem;
+  max-width: 40ch;
+}
+
+@media (max-width: 760px) {
+  .blog-full { grid-template-columns: 1fr; }
+  .blog-full__col--right { border-left: none; padding-top: 0; }
+  .blog-entry { height: 85vw; min-height: 420px; }
+}
+
+/* =========================================================
+   FAQ — acordeón (SEO)
+   ========================================================= */
+.faq-list { border-top: 1px solid var(--line); margin-top: 3rem; }
+.faq-item { border-bottom: 1px solid var(--line); }
+.faq-q {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.6rem 0;
+  font-family: var(--serif);
+  font-size: clamp(1.05rem, 1.8vw, 1.4rem);
+  font-weight: 400;
+  cursor: pointer;
+  list-style: none;
+  gap: 2rem;
+  transition: color 0.3s var(--ease);
+}
+.faq-q::-webkit-details-marker { display: none; }
+.faq-q::after {
+  content: '+';
+  font-family: var(--sans);
+  font-size: 1.4rem;
+  font-weight: 300;
+  flex-shrink: 0;
+  transition: transform 0.4s var(--ease);
+}
+.faq-item[open] .faq-q { color: var(--muted); }
+.faq-item[open] .faq-q::after { transform: rotate(45deg); }
+
+.faq-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.45s var(--ease);
+}
+.faq-item[open] .faq-body { grid-template-rows: 1fr; }
+.faq-inner { overflow: hidden; }
+.faq-a {
+  padding-bottom: 2rem;
+  color: var(--muted);
+  max-width: 72ch;
+  font-size: 1rem;
+  line-height: 1.75;
 }
 
 /* =========================================================
