@@ -232,68 +232,146 @@ main { min-height: 100vh; }
 .reveal.is-visible { opacity: 1; transform: none; }
 
 /* =========================================================
-   HOME — Hero dividido
+   HOME — Mersi-style scroll-driven curtain slider
    ========================================================= */
-.hero {
-  min-height: 100vh;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  position: relative;
-}
-.hero__img { position: relative; overflow: hidden; }
-.hero__img img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  transform: scale(1.04);
-  transition: transform 8s var(--ease);
-}
-.hero.is-ready .hero__img img { transform: scale(1); }
-.hero__img--right { display: block; }
+.home-slider { position: relative; }
 
-.hero__overlay {
+.home-slider__track {
+  /* height set by JS: numSlides × 100vh */
+}
+
+.home-slider__stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Dark gradient at top — keeps cream nav text legible over any image */
+.home-slider__stage::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 14rem;
+  background: linear-gradient(to bottom, rgba(26,26,26,0.45) 0%, transparent 100%);
+  z-index: 15;
+  pointer-events: none;
+}
+
+/* Dark gradient at bottom — frames counter */
+.home-slider__stage::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 9rem;
+  background: linear-gradient(to top, rgba(26,26,26,0.35) 0%, transparent 100%);
+  z-index: 15;
+  pointer-events: none;
+}
+
+/* --- Individual slide --- */
+.slide {
   position: absolute;
   inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: calc(var(--nav-h) + 2rem) var(--gutter) 2.5rem;
-  pointer-events: none;
-  /* scrims claros arriba (para la nav) y abajo (para el título) */
-  background: linear-gradient(
-    to bottom,
-    rgba(237, 231, 222, 0.62) 0%,
-    rgba(237, 231, 222, 0) 20%,
-    rgba(237, 231, 222, 0) 52%,
-    rgba(237, 231, 222, 0.78) 100%
-  );
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
-.hero__title {
-  color: var(--off-black);
-  align-self: flex-start;
-  margin-top: auto;
+.slide__panel {
+  position: relative;
+  overflow: hidden;
+  will-change: clip-path;
 }
-.hero__tagline {
-  color: var(--off-black);
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: clamp(1.1rem, 2vw, 1.6rem);
-  font-weight: 300;
-  max-width: 22ch;
-  margin-top: 0.75rem;
-}
-.hero__meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  color: var(--off-black);
-  font-size: 0.78rem;
-  letter-spacing: 0.05em;
-  margin-top: 1.5rem;
+.slide__panel img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
+/* --- Floating project card (centred on the dividing line) --- */
+.slide-card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+  width: clamp(190px, 19vw, 290px);
+  padding: clamp(1.25rem, 2.5vw, 2rem);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  transition: background-color 0.5s var(--ease);
+  cursor: pointer;
+}
+.slide-card .mark {
+  width: clamp(22px, 3vw, 34px);
+  height: auto;
+  display: block;
+  color: var(--off-black);
+}
+.slide-card__name {
+  font-family: var(--serif);
+  font-size: clamp(1.1rem, 1.7vw, 1.55rem);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--off-black);
+  margin-top: 1.25rem;
+  transition: opacity 0.22s var(--ease);
+}
+.slide-card__meta {
+  font-size: 0.64rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--off-black);
+  opacity: 0.65;
+  margin-top: 0.4rem;
+  line-height: 1.6;
+  transition: opacity 0.22s var(--ease);
+}
+.slide-card__arrow {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: 1.5rem;
+  color: var(--off-black);
+}
+.slide-card__arrow svg { width: 16px; height: 16px; }
+
+/* Text fade when project changes */
+.slide-card.is-changing .slide-card__name,
+.slide-card.is-changing .slide-card__meta { opacity: 0; }
+
+/* --- Slide counter (bottom-right) --- */
+.slide-counter {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 20;
+  font-family: var(--serif);
+  font-size: 0.82rem;
+  letter-spacing: 0.05em;
+  color: rgba(237,231,222,0.85);
+  pointer-events: none;
+}
+
+/* Nav uses cream text on the slider page */
+.home-page .navbar { color: var(--cream); }
+
+/* Mobile: single panel */
 @media (max-width: 760px) {
-  .hero { grid-template-columns: 1fr; }
-  .hero__img--right { display: none; }
+  .slide { grid-template-columns: 1fr; }
+  .slide__panel--right { display: none; }
+  .slide-card {
+    width: calc(100vw - 4rem);
+    left: 2rem;
+    top: auto;
+    bottom: 5rem;
+    transform: none;
+  }
+  .slide-counter { bottom: 2.5rem; right: 1.5rem; }
 }
 
 /* =========================================================

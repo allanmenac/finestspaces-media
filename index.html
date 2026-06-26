@@ -14,139 +14,295 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/style.css" />
 </head>
-<body>
+<body class="home-page">
 
-  <!-- HERO -->
-  <header class="hero">
-    <div class="hero__img hero__img--left">
-      <img src="assets/img/photos/hero-left.jpg" alt="Interior de un proyecto de Visión ARQ" />
-    </div>
-    <div class="hero__img hero__img--right">
-      <img src="assets/img/photos/hero-right.jpg" alt="Espacio diseñado por Visión ARQ" />
-    </div>
+  <!-- =====================================================
+       SLIDER DE PROYECTOS — cortina scroll (estilo Mersi)
+       ===================================================== -->
+  <div class="home-slider">
+    <div class="home-slider__track" id="slider-track">
+      <div class="home-slider__stage" id="slider-stage">
 
-    <div class="hero__overlay">
-      <h1 class="display hero__title">Visión<br>ARQ</h1>
-      <p class="hero__tagline">Donde la visión toma forma.</p>
-      <div class="hero__meta">
-        <span>San José · Costa Rica</span>
-        <span>Arquitectura — Construcción — Interiores</span>
-      </div>
-    </div>
-  </header>
+        <!-- Tarjeta central flotante (sobre la línea divisoria) -->
+        <a class="slide-card" id="slide-card" href="portafolio.html" aria-label="Ver portafolio">
+          <svg class="mark" viewBox="0 0 48 56" fill="none" aria-hidden="true">
+            <path d="M4 4 L24 50 L44 4" stroke="currentColor" stroke-width="3" stroke-linecap="square"/>
+            <path d="M24 28 L24 50" stroke="currentColor" stroke-width="1.2"/>
+          </svg>
+          <p class="slide-card__name" id="card-name">Casa Escalante</p>
+          <p class="slide-card__meta" id="card-meta">San José · Residencial · 2025</p>
+          <div class="slide-card__arrow">
+            <svg viewBox="0 0 9 9" fill="none" aria-hidden="true">
+              <path d="M7 1H1M7 1V7M7 1L1 7" stroke="currentColor" stroke-width="1"/>
+            </svg>
+          </div>
+        </a>
 
-  <!-- MANIFIESTO -->
-  <section class="section reveal">
-    <p class="eyebrow">El estudio</p>
-    <p class="lead" style="max-width: 24ch; margin-top: 1.5rem;">
-      Diseñamos y construimos espacios honestos, atemporales y profundamente
-      conectados con su entorno.
-    </p>
-    <p style="max-width: 52ch; margin-top: 2rem; color: var(--muted); font-size: 1.05rem;">
-      Visión ARQ es un estudio pluridisciplinario que reúne arquitectura,
-      construcción, diseño de interiores y consultoría bajo un mismo techo. Desde
-      San José, acompañamos cada proyecto desde la primera idea hasta la última
-      junta de obra.
-    </p>
-  </section>
+        <!-- Contador de diapositivas -->
+        <div class="slide-counter">
+          <span id="slide-num">01</span>&thinsp;/&thinsp;<span id="slide-total">04</span>
+        </div>
 
-  <!-- PROYECTOS -->
-  <section class="projects reveal">
-    <p class="eyebrow" style="padding: 0 clamp(1.5rem,4vw,3rem) 1.5rem;">Proyectos seleccionados</p>
+      </div><!-- /slider-stage -->
+    </div><!-- /slider-track -->
+  </div><!-- /home-slider -->
 
-    <a class="project-card" href="portafolio.html" style="background: var(--terracotta);">
-      <div class="project-card__left">
-        <span class="project-card__title">Casa Escalante</span>
-        <span class="project-card__place">San José</span>
-      </div>
-      <div class="project-card__tags">
-        <span>Residencial</span><span class="project-card__year">2025</span>
-        <svg class="project-card__arrow" viewBox="0 0 9 9" fill="none"><path d="M7 1H1M7 1V7M7 1L1 7" stroke="currentColor" stroke-width="1"/></svg>
-      </div>
-    </a>
+  <!-- =====================================================
+       CONTENIDO PRINCIPAL (debajo del slider)
+       ===================================================== -->
+  <main>
 
-    <a class="project-card" href="portafolio.html" style="background: var(--sage);">
-      <div class="project-card__left">
-        <span class="project-card__title">Café Barva</span>
-        <span class="project-card__place">Heredia</span>
-      </div>
-      <div class="project-card__tags">
-        <span>Hospitality</span><span class="project-card__year">2025</span>
-        <svg class="project-card__arrow" viewBox="0 0 9 9" fill="none"><path d="M7 1H1M7 1V7M7 1L1 7" stroke="currentColor" stroke-width="1"/></svg>
-      </div>
-    </a>
+    <!-- MANIFIESTO -->
+    <section class="section reveal">
+      <p class="eyebrow">El estudio</p>
+      <p class="lead" style="max-width: 24ch; margin-top: 1.5rem;">
+        Diseñamos y construimos espacios honestos, atemporales y profundamente
+        conectados con su entorno.
+      </p>
+      <p style="max-width: 52ch; margin-top: 2rem; color: var(--muted); font-size: 1.05rem;">
+        Visión ARQ es un estudio pluridisciplinario que reúne arquitectura,
+        construcción, diseño de interiores y consultoría bajo un mismo techo. Desde
+        San José, acompañamos cada proyecto desde la primera idea hasta la última
+        junta de obra.
+      </p>
+    </section>
 
-    <a class="project-card" href="portafolio.html" style="background: var(--slate); color: var(--cream);">
-      <div class="project-card__left">
-        <span class="project-card__title">Torre Sabana</span>
-        <span class="project-card__place">San José</span>
+    <!-- SERVICIOS (resumen) -->
+    <section class="section section--tight reveal">
+      <p class="eyebrow">Qué hacemos</p>
+      <div class="services-grid" style="margin-top: 2rem;">
+        <div class="service">
+          <span class="service__num">01</span>
+          <h3 class="service__title">Arquitectura</h3>
+          <p class="service__desc">Diseño arquitectónico a la medida, desde el concepto hasta los planos constructivos.</p>
+        </div>
+        <div class="service">
+          <span class="service__num">02</span>
+          <h3 class="service__title">Construcción</h3>
+          <p class="service__desc">Ejecución y gestión de obra con control de calidad, tiempos y presupuesto.</p>
+        </div>
+        <div class="service">
+          <span class="service__num">03</span>
+          <h3 class="service__title">Diseño de interiores</h3>
+          <p class="service__desc">Ambientes cálidos y funcionales, cuidados hasta el último detalle.</p>
+        </div>
+        <div class="service">
+          <span class="service__num">04</span>
+          <h3 class="service__title">Consultoría</h3>
+          <p class="service__desc">Asesoría técnica, permisos y acompañamiento profesional en cada etapa.</p>
+        </div>
       </div>
-      <div class="project-card__tags">
-        <span>Comercial</span><span class="project-card__year">2024</span>
-        <svg class="project-card__arrow" viewBox="0 0 9 9" fill="none"><path d="M7 1H1M7 1V7M7 1L1 7" stroke="currentColor" stroke-width="1"/></svg>
+      <div style="margin-top: 2.5rem;">
+        <a class="btn" href="servicios.html">Conocer los servicios
+          <svg width="14" height="14" viewBox="0 0 9 9" fill="none"><path d="M7 1H1M7 1V7M7 1L1 7" stroke="currentColor" stroke-width="1"/></svg>
+        </a>
       </div>
-    </a>
+    </section>
 
-    <a class="project-card" href="portafolio.html" style="background: var(--tan);">
-      <div class="project-card__left">
-        <span class="project-card__title">Villa Pacífico</span>
-        <span class="project-card__place">Guanacaste</span>
+    <!-- CTA -->
+    <section class="section reveal" style="text-align:center;">
+      <p class="display" style="font-size: clamp(2rem,6vw,5rem);">¿Tienes un proyecto<br>en mente?</p>
+      <div style="margin-top: 2.5rem;">
+        <a class="btn" href="contacto.html">Hablemos
+          <svg width="14" height="14" viewBox="0 0 9 9" fill="none"><path d="M7 1H1M7 1V7M7 1L1 7" stroke="currentColor" stroke-width="1"/></svg>
+        </a>
       </div>
-      <div class="project-card__tags">
-        <span>Residencial</span><span class="project-card__year">2024</span>
-        <svg class="project-card__arrow" viewBox="0 0 9 9" fill="none"><path d="M7 1H1M7 1V7M7 1L1 7" stroke="currentColor" stroke-width="1"/></svg>
-      </div>
-    </a>
+    </section>
 
-    <div style="padding: 2rem clamp(1.5rem,4vw,3rem);">
-      <a class="btn" href="portafolio.html">Ver todo el portafolio
-        <svg width="14" height="14" viewBox="0 0 9 9" fill="none"><path d="M7 1H1M7 1V7M7 1L1 7" stroke="currentColor" stroke-width="1"/></svg>
-      </a>
-    </div>
-  </section>
-
-  <!-- SERVICIOS (resumen) -->
-  <section class="section section--tight reveal">
-    <p class="eyebrow">Qué hacemos</p>
-    <div class="services-grid" style="margin-top: 2rem;">
-      <div class="service">
-        <span class="service__num">01</span>
-        <h3 class="service__title">Arquitectura</h3>
-        <p class="service__desc">Diseño arquitectónico a la medida, desde el concepto hasta los planos constructivos.</p>
-      </div>
-      <div class="service">
-        <span class="service__num">02</span>
-        <h3 class="service__title">Construcción</h3>
-        <p class="service__desc">Ejecución y gestión de obra con control de calidad, tiempos y presupuesto.</p>
-      </div>
-      <div class="service">
-        <span class="service__num">03</span>
-        <h3 class="service__title">Diseño de interiores</h3>
-        <p class="service__desc">Ambientes cálidos y funcionales, cuidados hasta el último detalle.</p>
-      </div>
-      <div class="service">
-        <span class="service__num">04</span>
-        <h3 class="service__title">Consultoría</h3>
-        <p class="service__desc">Asesoría técnica, permisos y acompañamiento profesional en cada etapa.</p>
-      </div>
-    </div>
-    <div style="margin-top: 2.5rem;">
-      <a class="btn" href="servicios.html">Conocer los servicios
-        <svg width="14" height="14" viewBox="0 0 9 9" fill="none"><path d="M7 1H1M7 1V7M7 1L1 7" stroke="currentColor" stroke-width="1"/></svg>
-      </a>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="section reveal" style="text-align:center;">
-    <p class="display" style="font-size: clamp(2rem,6vw,5rem);">¿Tienes un proyecto<br>en mente?</p>
-    <div style="margin-top: 2.5rem;">
-      <a class="btn" href="contacto.html">Hablemos
-        <svg width="14" height="14" viewBox="0 0 9 9" fill="none"><path d="M7 1H1M7 1V7M7 1L1 7" stroke="currentColor" stroke-width="1"/></svg>
-      </a>
-    </div>
-  </section>
+  </main>
 
   <script src="assets/js/main.js"></script>
+
+  <!-- =====================================================
+       SLIDER — lógica de scroll y cortina
+       ===================================================== -->
+  <script>
+  (function () {
+
+    /* ── Proyectos ── */
+    var PROJECTS = [
+      {
+        name:     "Casa Escalante",
+        location: "San José",
+        category: "Residencial",
+        year:     "2025",
+        color:    "#DC633F",
+        l: "assets/img/photos/proyecto-01.jpg",
+        r: "assets/img/photos/proyecto-02.jpg",
+      },
+      {
+        name:     "Café Barva",
+        location: "Heredia",
+        category: "Hospitality",
+        year:     "2025",
+        color:    "#7A9B7A",
+        l: "assets/img/photos/proyecto-03.jpg",
+        r: "assets/img/photos/proyecto-04.jpg",
+      },
+      {
+        name:     "Torre Sabana",
+        location: "San José",
+        category: "Comercial",
+        year:     "2024",
+        color:    "#8B9EC1",
+        l: "assets/img/photos/proyecto-05.jpg",
+        r: "assets/img/photos/proyecto-06.jpg",
+      },
+      {
+        name:     "Villa Pacífico",
+        location: "Guanacaste",
+        category: "Residencial",
+        year:     "2024",
+        color:    "#CCB598",
+        l: "assets/img/photos/proyecto-07.jpg",
+        r: "assets/img/photos/proyecto-08.jpg",
+      },
+    ];
+
+    var N           = PROJECTS.length;
+    var track       = document.getElementById("slider-track");
+    var stage       = document.getElementById("slider-stage");
+    var card        = document.getElementById("slide-card");
+    var cardName    = document.getElementById("card-name");
+    var cardMeta    = document.getElementById("card-meta");
+    var slideNumEl  = document.getElementById("slide-num");
+    var slideTotEl  = document.getElementById("slide-total");
+
+    /* ── Track height: N × 100vh ── */
+    track.style.height = (N * 100) + "vh";
+    slideTotEl.textContent = String(N).padStart(2, "0");
+
+    /* ── Build slides (insert before the card) ── */
+    var slides = PROJECTS.map(function (p, i) {
+      var slide = document.createElement("div");
+      slide.className = "slide";
+      slide.style.zIndex = i + 1;
+      slide.innerHTML =
+        '<div class="slide__panel slide__panel--left">' +
+          '<img src="' + p.l + '" alt="' + p.name + '" loading="' + (i === 0 ? "eager" : "lazy") + '" />' +
+        '</div>' +
+        '<div class="slide__panel slide__panel--right">' +
+          '<img src="' + p.r + '" alt="' + p.name + ' — detalle" loading="' + (i === 0 ? "eager" : "lazy") + '" />' +
+        '</div>';
+      stage.insertBefore(slide, card);
+      return slide;
+    });
+
+    /* Card and counter sit above all slides */
+    card.style.zIndex          = N + 5;
+    document.querySelector(".slide-counter").style.zIndex = N + 5;
+
+    /* ── Initial state: slides > 0 hidden with curtain ── */
+    slides.forEach(function (slide, i) {
+      if (i === 0) return;
+      slide.querySelector(".slide__panel--left").style.clipPath  = "inset(100% 0 0 0)";
+      slide.querySelector(".slide__panel--right").style.clipPath = "inset(0 0 100% 0)";
+    });
+
+    /* Initial card */
+    applyCard(PROJECTS[0]);
+    var activeCardIndex = 0;
+
+    function applyCard(p) {
+      card.style.backgroundColor = p.color;
+      cardName.textContent = p.name;
+      cardMeta.textContent = p.location + " · " + p.category + " · " + p.year;
+    }
+
+    /* ── Ease in-out cubic ── */
+    function ease(t) {
+      return t < 0.5
+        ? 4 * t * t * t
+        : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    }
+
+    /* ── Animation update ── */
+    function updateAnimation() {
+      var rect     = track.getBoundingClientRect();
+      var scrolled = -rect.top;
+
+      if (scrolled <= 0) {
+        /* Haven't reached the slider yet — reset */
+        slides.forEach(function (slide, i) {
+          var lp = slide.querySelector(".slide__panel--left");
+          var rp = slide.querySelector(".slide__panel--right");
+          lp.style.clipPath = i === 0 ? "" : "inset(100% 0 0 0)";
+          rp.style.clipPath = i === 0 ? "" : "inset(0 0 100% 0)";
+        });
+        return;
+      }
+
+      var maxScroll = (N - 1) * window.innerHeight;
+      var clamped   = Math.min(scrolled, maxScroll);
+      var raw       = clamped / window.innerHeight;
+      var floorRaw  = Math.floor(raw);
+
+      /* fromIdx: the slide currently "on screen" (fully visible) */
+      /* progress: 0→1 how far we are into the next transition     */
+      var fromIdx, progress;
+      if (floorRaw >= N - 1) {
+        fromIdx  = N - 2;
+        progress = 1;
+      } else {
+        fromIdx  = floorRaw;
+        progress = ease(raw - floorRaw);
+      }
+
+      /* ── Update clip-paths ── */
+      slides.forEach(function (slide, i) {
+        var lp = slide.querySelector(".slide__panel--left");
+        var rp = slide.querySelector(".slide__panel--right");
+
+        if (i <= fromIdx) {
+          /* Past slide: fully revealed */
+          lp.style.clipPath = "";
+          rp.style.clipPath = "";
+        } else if (i === fromIdx + 1) {
+          /* Incoming slide:
+             Left  → curtain lifts from BOTTOM TO TOP: top-inset decreases 100→0
+             Right → curtain falls from TOP TO BOTTOM: bottom-inset decreases 100→0 */
+          var pct = ((1 - progress) * 100).toFixed(2);
+          lp.style.clipPath = "inset(" + pct + "% 0 0 0)";
+          rp.style.clipPath = "inset(0 0 " + pct + "% 0)";
+        } else {
+          /* Future slide: still hidden */
+          lp.style.clipPath = "inset(100% 0 0 0)";
+          rp.style.clipPath = "inset(0 0 100% 0)";
+        }
+      });
+
+      /* ── Update card: swap at 50% of each transition ── */
+      var targetCardIdx = (progress > 0.5 ? fromIdx + 1 : fromIdx);
+      targetCardIdx = Math.min(targetCardIdx, N - 1);
+
+      if (targetCardIdx !== activeCardIndex) {
+        activeCardIndex = targetCardIdx;
+        card.classList.add("is-changing");
+        var idx = activeCardIndex;
+        setTimeout(function () {
+          applyCard(PROJECTS[idx]);
+          slideNumEl.textContent = String(idx + 1).padStart(2, "0");
+          card.classList.remove("is-changing");
+        }, 220);
+      }
+    }
+
+    /* ── rAF-throttled scroll handler ── */
+    var rafPending = false;
+    function onScroll() {
+      if (rafPending) return;
+      rafPending = true;
+      requestAnimationFrame(function () {
+        rafPending = false;
+        updateAnimation();
+      });
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    updateAnimation(); /* run once on init */
+
+  })();
+  </script>
+
 </body>
 </html>
