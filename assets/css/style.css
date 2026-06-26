@@ -929,7 +929,7 @@ main { min-height: 100vh; }
   position: fixed;
   top: 0; right: 0;
   height: 100%;
-  width: min(50vw, 620px);
+  width: 50vw;
   background: var(--cream-soft);
   border-left: 1px solid var(--line);
   z-index: 1201;
@@ -975,7 +975,7 @@ main { min-height: 100vh; }
    PROYECTOS — cuadrícula "piano" + filtro fijo + filas alternas (Mersi projets)
    ========================================================= */
 .proj-hero {
-  min-height: 92vh;
+  min-height: 78vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1009,22 +1009,30 @@ main { min-height: 100vh; }
 .proj-filtros .filtro { border: none; }
 .proj-filtros .filtro.is-active { background: var(--off-black); color: var(--cream); }
 
-/* Strip "piano": fila de imágenes con desfase vertical (escalonado bajo) */
+/* Strip "piano": fila de imágenes niveladas; intro tipo "tecla" izq→der */
 .piano {
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: minmax(0, 1fr);
   gap: clamp(0.5rem, 1.2vw, 1rem);
-  align-items: start;
+  align-items: end;             /* niveladas por la base */
   padding: clamp(2rem, 5vw, 4rem) var(--gutter) 0;
   transform-origin: center top;
   will-change: transform;
 }
-.piano__img { overflow: hidden; }
-.piano__img img { width: 100%; aspect-ratio: 3/4; object-fit: cover; }
-.piano__img:nth-child(odd)  { margin-top: clamp(1rem, 3vw, 2.6rem); }
-.piano__img:nth-child(3n)   { margin-top: clamp(0.4rem, 1.5vw, 1.2rem); }
-.piano__img:nth-child(4n)   { margin-top: clamp(1.6rem, 4vw, 3.4rem); }
+.piano__img { overflow: hidden; will-change: transform; }
+.piano__img img { width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block; }
+
+/* Onda "pianista desliza un dedo": cada imagen sube unos px, una tras otra */
+.piano.is-playing .piano__img {
+  animation: keySlide 0.55s var(--ease) both;
+  animation-delay: calc(var(--i, 0) * 70ms);
+}
+@keyframes keySlide {
+  0%   { transform: translateY(0); }
+  38%  { transform: translateY(-16px); }
+  100% { transform: translateY(0); }
+}
 @media (max-width: 760px) { .piano { grid-auto-columns: 42vw; overflow-x: auto; } }
 
 /* Cuadrícula etiquetada — filas alternas de 3 y 4 columnas */

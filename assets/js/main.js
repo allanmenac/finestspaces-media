@@ -1,8 +1,8 @@
 /* =========================================================
    VISIÓN ARQ — main.js
-   Inyecta los elementos comunes (nav, menú, pie, loader,
-   cortina de transición) y maneja las animaciones.
-   Editar una sola vez aquí actualiza TODAS las páginas.
+   UI común (nav, menú, pie, cortina) + transición AJAX entre
+   páginas (sin recarga, sin destello, sin loader en páginas
+   internas) + animaciones.
    ========================================================= */
 
 /* ----------  Configuración del sitio  ---------- */
@@ -27,21 +27,15 @@ const currentPage = () => {
   return p === "" ? "index.html" : p;
 };
 
-/* ----------  Render NAV  ---------- */
+/* ----------  NAV (persistente)  ---------- */
 function buildNav() {
-  const here = currentPage();
-  const links = SITE.links
-    .map((l) => {
-      const active = l.href === here ? " is-active" : "";
-      return `<a class="nav-link${active}" href="${l.href}">${l.label}</a>`;
-    })
-    .join("");
-
   const navLogo = `
     <a class="nav-logo" href="index.html" aria-label="${SITE.brand} — inicio">
       <span class="nav-logo__text">VISIÓN ARQ</span>
     </a>`;
-
+  const links = SITE.links
+    .map((l) => `<a class="nav-link" data-href="${l.href}" href="${l.href}">${l.label}</a>`)
+    .join("");
   const nav = document.createElement("nav");
   nav.className = "navbar";
   nav.innerHTML = `
@@ -53,18 +47,22 @@ function buildNav() {
     <button class="nav-toggle" aria-label="Abrir menú">menú</button>`;
   document.body.prepend(nav);
 
-  // estilos del wordmark de la nav
   const s = document.createElement("style");
-  s.textContent = `
-    .nav-logo__text { font-family: var(--serif); font-weight:500; font-size:1.2rem; letter-spacing:.16em; }`;
+  s.textContent = `.nav-logo__text { font-family: var(--serif); font-weight:500; font-size:1.2rem; letter-spacing:.16em; }`;
   document.head.appendChild(s);
 }
 
-/* ----------  Menú móvil  ---------- */
-function buildMobileMenu() {
+function updateNavActive() {
   const here = currentPage();
+  document.querySelectorAll(".navbar .nav-link[data-href]").forEach((a) => {
+    a.classList.toggle("is-active", a.getAttribute("data-href") === here);
+  });
+}
+
+/* ----------  Menú móvil (persistente)  ---------- */
+function buildMobileMenu() {
   const links = SITE.links
-    .map((l) => `<a href="${l.href}"${l.href === here ? ' style="opacity:.5"' : ""}>${l.label}</a>`)
+    .map((l) => `<a href="${l.href}">${l.label}</a>`)
     .join("");
   const menu = document.createElement("div");
   menu.className = "mobile-menu";
@@ -79,15 +77,9 @@ function buildMobileMenu() {
     const open = menu.classList.toggle("is-open");
     toggle.textContent = open ? "cerrar" : "menú";
   });
-  menu.querySelectorAll("a").forEach((a) =>
-    a.addEventListener("click", () => {
-      menu.classList.remove("is-open");
-      toggle.textContent = "menú";
-    })
-  );
 }
 
-/* ----------  Footer  ---------- */
+/* ----------  Footer (persistente)  ---------- */
 function buildFooter() {
   const links = SITE.links.map((l) => `<a href="${l.href}">${l.label}</a>`).join("");
   const footer = document.createElement("footer");
@@ -120,93 +112,129 @@ function buildFooter() {
   document.body.appendChild(footer);
 }
 
-/* ----------  Loader  ---------- */
-function buildLoader() {
+/* ----------  Loader (SOLO en la primera carga del Inicio)  ---------- */
+function buildLoaderIfHome() {
+  if (currentPage() !== "index.html") return;
   const loader = document.createElement("div");
   loader.className = "loader";
   loader.innerHTML = `<div class="loader__brand">VISIÓN ARQ</div><div class="loader__word">Donde la visión toma forma</div>`;
   document.body.prepend(loader);
-
-  const done = () => {
-    setTimeout(() => {
-      loader.classList.add("is-done");
-      document.querySelector(".hero")?.classList.add("is-ready");
-    }, 900);
-  };
+  const done = () => setTimeout(() => loader.classList.add("is-done"), 900);
   if (document.readyState === "complete") done();
   else window.addEventListener("load", done);
 }
 
-/* ----------  Cortina de transición (panel izq. sube · panel der. baja)
-   Al entrar: los paneles ya cubren (pintados negros) y solo se abren
-   cuando la página está lista, así la nueva página YA está detrás.
-   Al salir: cubren por completo y recién entonces navegamos.            ---------- */
+/* =========================================================
+   TRANSICIÓN AJAX (cortina + intercambio de contenido)
+   ========================================================= */
+let CL, CR;                 // paneles de cortina
+const TRANSITION_MS = 640;  // debe coincidir con el CSS
+let navigating = false;
+
 function buildCurtain() {
-  const cl = document.createElement("div");
-  cl.className = "curtain-l is-in";
-  const cr = document.createElement("div");
-  cr.className = "curtain-r is-in";
-  // sin transición mientras cubren al cargar
-  cl.style.transition = "none";
-  cr.style.transition = "none";
-  document.body.appendChild(cl);
-  document.body.appendChild(cr);
+  CL = document.createElement("div");
+  CL.className = "curtain-l";
+  CR = document.createElement("div");
+  CR.className = "curtain-r";
+  document.body.appendChild(CL);
+  document.body.appendChild(CR);
+}
 
-  // Abrir cuando la página esté lista (contenido ya pintado detrás)
-  const open = () => {
-    requestAnimationFrame(() => {
-      cl.style.transition = "";
-      cr.style.transition = "";
-      cl.classList.remove("is-in");
-      cr.classList.remove("is-in");
-    });
-  };
-  // Espera breve para garantizar pintado del contenido nuevo
-  if (document.readyState === "complete") setTimeout(open, 120);
-  else window.addEventListener("load", () => setTimeout(open, 80));
-  // Salvaguarda: si load tarda demasiado, abrir igual
-  setTimeout(open, 1400);
+function coverCurtain()  { CL.classList.add("is-in");    CR.classList.add("is-in"); }
+function openCurtain()   {
+  requestAnimationFrame(() =>
+    requestAnimationFrame(() => { CL.classList.remove("is-in"); CR.classList.remove("is-in"); })
+  );
+}
 
-  // Al salir: cerrar paneles, navegar SOLO cuando ya cubren del todo (640ms)
-  const TRANSITION_MS = 640;
-  let leaving = false;
-  document.addEventListener("click", (e) => {
-    const a = e.target.closest("a");
-    if (!a || leaving) return;
-    const href = a.getAttribute("href");
-    if (
-      !href ||
-      a.target === "_blank" ||
-      href.startsWith("#") ||
-      href.startsWith("mailto:") ||
-      href.startsWith("tel:") ||
-      href.startsWith("http")
-    )
+/* Reemplaza el contenido de la página (todo menos la UI persistente) */
+function swapContent(html) {
+  const doc = new DOMParser().parseFromString(html, "text/html");
+
+  // 1) quitar contenido actual (conservar UI inyectada por JS y main.js)
+  const keep = (n) =>
+    (n.matches &&
+      n.matches(
+        ".navbar,.mobile-menu,.footer,.curtain-l,.curtain-r,.loader,.qa-panel,.qa-overlay"
+      )) ||
+    (n.tagName === "SCRIPT" && n.src);
+  Array.from(document.body.children).forEach((n) => { if (!keep(n)) n.remove(); });
+
+  // 2) insertar contenido nuevo antes del footer; recolectar scripts inline
+  const footer = document.querySelector(".footer");
+  const frag = document.createDocumentFragment();
+  const inlineScripts = [];
+  Array.from(doc.body.children).forEach((node) => {
+    if (node.tagName === "SCRIPT") {
+      if (node.src) return;            // no recargar main.js
+      inlineScripts.push(node.textContent);
       return;
-    e.preventDefault();
-    leaving = true;
-    cl.classList.add("is-in");
-    cr.classList.add("is-in");
-    // navegar justo cuando la cortina termina de cubrir
-    setTimeout(() => (window.location.href = href), TRANSITION_MS);
+    }
+    frag.appendChild(document.importNode(node, true));
+  });
+  document.body.insertBefore(frag, footer);
+
+  // 3) actualizar título y clase del body
+  document.title = doc.title;
+  document.body.className = doc.body.className;
+
+  // 4) ejecutar scripts inline (ya con el contenido en el DOM)
+  inlineScripts.forEach((code) => {
+    const s = document.createElement("script");
+    s.textContent = code;
+    document.body.insertBefore(s, footer);
   });
 }
 
-/* ----------  Prepara texto para revelado por líneas  ---------- */
+async function navigate(href, push = true) {
+  if (navigating) return;
+  navigating = true;
+
+  coverCurtain();
+  const closed = new Promise((r) => setTimeout(r, TRANSITION_MS));
+
+  let html;
+  try {
+    const res = await fetch(href, { headers: { "X-Requested-With": "fetch" } });
+    html = await res.text();
+  } catch (e) {
+    window.location.href = href; // respaldo: navegación normal
+    return;
+  }
+
+  await closed;          // esperar a que la cortina cubra del todo
+  swapContent(html);     // la nueva página YA está lista detrás
+  if (push) history.pushState({ href }, "", href);
+  window.scrollTo(0, 0);
+  initPage();            // reactivar animaciones de la nueva página
+  openCurtain();         // descubrir → la página nueva ya está ahí
+
+  setTimeout(() => { navigating = false; }, TRANSITION_MS);
+}
+
+function isInternalLink(a) {
+  const href = a.getAttribute("href");
+  if (!href) return false;
+  if (a.target === "_blank") return false;
+  if (href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:") || href.startsWith("http"))
+    return false;
+  return true;
+}
+
+/* =========================================================
+   ANIMACIONES POR PÁGINA
+   ========================================================= */
+let revealObserver = null;
+
 function buildLineReveals() {
   document.querySelectorAll(".line-reveal").forEach((el) => {
     if (el.dataset.lineBuilt) return;
-    // Cada <br> separa una línea; envolvemos cada línea en .ln > span
-    const html = el.innerHTML;
-    const lines = html.split(/<br\s*\/?>/i);
-    el.innerHTML = lines
-      .map((l) => `<span class="ln"><span>${l.trim()}</span></span>`)
-      .join("");
+    const lines = el.innerHTML.split(/<br\s*\/?>/i);
+    el.innerHTML = lines.map((l) => `<span class="ln"><span>${l.trim()}</span></span>`).join("");
     el.dataset.lineBuilt = "1";
   });
 }
 
-/* ----------  Reveal al hacer scroll (op / clip / line)  ---------- */
 function buildReveals() {
   buildLineReveals();
   const els = document.querySelectorAll(".reveal, .reveal-clip, .line-reveal");
@@ -214,117 +242,149 @@ function buildReveals() {
     els.forEach((el) => el.classList.add("is-visible"));
     return;
   }
-  const io = new IntersectionObserver(
+  if (revealObserver) revealObserver.disconnect();
+  revealObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((en) => {
         if (en.isIntersecting) {
           en.target.classList.add("is-visible");
-          io.unobserve(en.target);
+          revealObserver.unobserve(en.target);
         }
       });
     },
     { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
   );
-  els.forEach((el) => io.observe(el));
+  els.forEach((el) => revealObserver.observe(el));
 }
 
-/* ----------  Filtros de portafolio  ---------- */
-function buildFilters() {
-  const bars = document.querySelectorAll(".filtros, .proj-filtros");
-  if (!bars.length) return;
-  const items = Array.from(
-    document.querySelectorAll(".portfolio-item[data-cat], .proj-card[data-cat]")
+/* Intro "pianista" — la onda izq→der al entrar el strip en pantalla */
+let pianoObserver = null;
+function buildPianoIntro() {
+  const piano = document.querySelector(".piano");
+  if (!piano) return;
+  // numerar las teclas para el retardo escalonado
+  piano.querySelectorAll(".piano__img").forEach((img, i) => img.style.setProperty("--i", i));
+  if (pianoObserver) pianoObserver.disconnect();
+  pianoObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((en) => {
+        if (en.isIntersecting) {
+          en.target.classList.add("is-playing");
+          pianoObserver.unobserve(en.target);
+        }
+      });
+    },
+    { threshold: 0.25 }
   );
-  bars.forEach((bar) => {
-    bar.addEventListener("click", (e) => {
-      const btn = e.target.closest(".filtro");
-      if (!btn) return;
-      bar.querySelectorAll(".filtro").forEach((b) => b.classList.remove("is-active"));
-      btn.classList.add("is-active");
-      const cat = btn.dataset.cat;
-      items.forEach((it) => {
+  pianoObserver.observe(piano);
+}
+
+/* Zoom suave del strip al hacer scroll (escucha global, una sola vez) */
+function initPianoZoomGlobal() {
+  let raf = false;
+  const update = () => {
+    raf = false;
+    const piano = document.querySelector(".piano");
+    if (!piano) return;
+    const rect = piano.getBoundingClientRect();
+    const vh = window.innerHeight;
+    let t = (vh - rect.top) / vh;
+    t = Math.max(0, Math.min(1, t));
+    piano.style.transform = "scale(" + (1 + t * 0.1).toFixed(4) + ")";
+  };
+  window.addEventListener("scroll", () => {
+    if (!raf) { raf = true; requestAnimationFrame(update); }
+  }, { passive: true });
+}
+
+/* Filtros — delegación global (una sola vez) */
+function initFiltersGlobal() {
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest(".filtro");
+    if (!btn) return;
+    const bar = btn.closest(".filtros, .proj-filtros");
+    if (!bar) return;
+    bar.querySelectorAll(".filtro").forEach((b) => b.classList.remove("is-active"));
+    btn.classList.add("is-active");
+    const cat = btn.dataset.cat;
+    document
+      .querySelectorAll(".portfolio-item[data-cat], .proj-card[data-cat]")
+      .forEach((it) => {
         const show = cat === "todos" || it.dataset.cat === cat;
         it.classList.toggle("is-hidden", !show);
       });
-    });
   });
 }
 
-/* ----------  Panel lateral de FAQ (columna desde la derecha)  ---------- */
-function buildFaqPanel() {
-  const qa = document.querySelector(".qa");
-  if (!qa) return;
-
+/* Panel lateral de FAQ — panel persistente + delegación global */
+function initFaqGlobal() {
   const panel = document.createElement("div");
   panel.className = "qa-panel";
   panel.innerHTML =
-    '<button class="qa-panel__close" aria-label="Cerrar">cerrar <span>✕</span></button>' +
-    '<div class="qa-panel__body"></div>';
+    '<button class="qa-panel__close" aria-label="Cerrar">cerrar <span>✕</span></button><div class="qa-panel__body"></div>';
   const overlay = document.createElement("div");
   overlay.className = "qa-overlay";
   document.body.appendChild(overlay);
   document.body.appendChild(panel);
   const body = panel.querySelector(".qa-panel__body");
 
-  const questions = Array.from(qa.querySelectorAll(".qa-q"));
-
   const close = () => {
     panel.classList.remove("is-open");
     overlay.classList.remove("is-open");
-    questions.forEach((q) => q.classList.remove("is-active"));
+    document.querySelectorAll(".qa-q").forEach((q) => q.classList.remove("is-active"));
   };
 
-  questions.forEach((q) => {
-    q.addEventListener("click", () => {
+  document.addEventListener("click", (e) => {
+    const q = e.target.closest(".qa-q");
+    if (q) {
       const i = q.dataset.q;
-      const ans = qa.querySelector('.qa-a[data-a="' + i + '"]');
+      const ans = document.querySelector('.qa-a[data-a="' + i + '"]');
       body.innerHTML = ans ? ans.innerHTML : "";
-      questions.forEach((x) => x.classList.remove("is-active"));
+      document.querySelectorAll(".qa-q").forEach((x) => x.classList.remove("is-active"));
       q.classList.add("is-active");
       panel.classList.add("is-open");
       overlay.classList.add("is-open");
-    });
+      return;
+    }
+    if (e.target.closest(".qa-panel__close") || e.target.classList.contains("qa-overlay")) close();
   });
-
-  panel.querySelector(".qa-panel__close").addEventListener("click", close);
-  overlay.addEventListener("click", close);
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") close();
-  });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
 }
 
-/* ----------  Zoom de la cuadrícula "piano" al hacer scroll (proyectos)  ---------- */
-function buildPianoZoom() {
-  const piano = document.querySelector(".piano");
-  if (!piano) return;
-  let raf = false;
-  const update = () => {
-    raf = false;
-    const rect = piano.getBoundingClientRect();
-    const vh = window.innerHeight;
-    // progreso desde que el strip entra por abajo hasta que su top llega arriba
-    const start = vh;
-    const end = 0;
-    let t = (start - rect.top) / (start - end);
-    t = Math.max(0, Math.min(1, t));
-    const scale = 1 + t * 0.12; // zoom suave (piano "bajo")
-    piano.style.transform = "scale(" + scale.toFixed(4) + ")";
-  };
-  window.addEventListener("scroll", () => {
-    if (!raf) { raf = true; requestAnimationFrame(update); }
-  }, { passive: true });
-  update();
+/* Se ejecuta en cada página (carga inicial y tras cada swap AJAX) */
+function initPage() {
+  updateNavActive();
+  buildReveals();
+  buildPianoIntro();
 }
 
-/* ----------  Init  ---------- */
+/* =========================================================
+   INIT (una sola vez)
+   ========================================================= */
 document.addEventListener("DOMContentLoaded", () => {
-  buildLoader();
-  buildCurtain();
+  buildLoaderIfHome();
   buildNav();
   buildMobileMenu();
   buildFooter();
-  buildReveals();
-  buildFilters();
-  buildFaqPanel();
-  buildPianoZoom();
+  buildCurtain();
+  initFaqGlobal();
+  initFiltersGlobal();
+  initPianoZoomGlobal();
+
+  // Interceptar enlaces internos → transición AJAX
+  document.addEventListener("click", (e) => {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey) return;
+    const a = e.target.closest("a");
+    if (!a || !isInternalLink(a)) return;
+    e.preventDefault();
+    // cerrar menú móvil si está abierto
+    const mm = document.querySelector(".mobile-menu.is-open");
+    if (mm) { mm.classList.remove("is-open"); document.querySelector(".nav-toggle").textContent = "menú"; }
+    navigate(a.getAttribute("href"));
+  });
+
+  // Atrás/adelante del navegador
+  window.addEventListener("popstate", () => navigate(location.pathname.split("/").pop() || "index.html", false));
+
+  initPage();
 });
