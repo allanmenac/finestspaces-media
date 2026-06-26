@@ -13,9 +13,13 @@
 </head>
 <body>
   <main>
-    <!-- HERO con título + filtro fijo -->
+    <!-- HERO — solo el título -->
     <section class="proj-hero">
       <h1 class="proj-hero__title line-reveal">Espacios honestos,<br>moldeados por<br>historias reales.</h1>
+    </section>
+
+    <!-- GALERÍA — filtro anclado + morph piano→cuadrícula al hacer scroll -->
+    <div class="proj-gallery">
       <div class="proj-filtros reveal">
         <button class="filtro is-active" data-cat="todos">todos</button>
         <button class="filtro" data-cat="Residencial">residencial</button>
@@ -23,21 +27,24 @@
         <button class="filtro" data-cat="Hospitality">hospitality</button>
         <button class="filtro" data-cat="Interiores">interiores</button>
       </div>
-    </section>
 
-    <!-- STRIP "PIANO" — fila nivelada; al entrar hace la onda izq→der -->
-    <div class="piano">
-      <div class="piano__img"><img src="assets/img/photos/proyecto-01.jpg" alt="" /></div>
-      <div class="piano__img"><img src="assets/img/photos/proyecto-02.jpg" alt="" /></div>
-      <div class="piano__img"><img src="assets/img/photos/proyecto-03.jpg" alt="" /></div>
-      <div class="piano__img"><img src="assets/img/photos/proyecto-04.jpg" alt="" /></div>
-      <div class="piano__img"><img src="assets/img/photos/proyecto-05.jpg" alt="" /></div>
-      <div class="piano__img"><img src="assets/img/photos/proyecto-06.jpg" alt="" /></div>
-      <div class="piano__img"><img src="assets/img/photos/proyecto-07.jpg" alt="" /></div>
-      <div class="piano__img"><img src="assets/img/photos/proyecto-08.jpg" alt="" /></div>
-    </div>
+      <!-- STRIP "PIANO" — fijo mientras hace zoom y se desvanece (state 1) -->
+      <div class="piano-pin">
+        <div class="piano">
+          <div class="piano__track">
+            <div class="piano__img"><img src="assets/img/photos/proyecto-01.jpg" alt="" /></div>
+            <div class="piano__img"><img src="assets/img/photos/proyecto-02.jpg" alt="" /></div>
+            <div class="piano__img"><img src="assets/img/photos/proyecto-03.jpg" alt="" /></div>
+            <div class="piano__img"><img src="assets/img/photos/proyecto-04.jpg" alt="" /></div>
+            <div class="piano__img"><img src="assets/img/photos/proyecto-05.jpg" alt="" /></div>
+            <div class="piano__img"><img src="assets/img/photos/proyecto-06.jpg" alt="" /></div>
+            <div class="piano__img"><img src="assets/img/photos/proyecto-07.jpg" alt="" /></div>
+            <div class="piano__img"><img src="assets/img/photos/proyecto-08.jpg" alt="" /></div>
+          </div>
+        </div>
+      </div>
 
-    <!-- CUADRÍCULA ETIQUETADA — filas alternas 3 y 4 -->
+    <!-- CUADRÍCULA ETIQUETADA — filas alternas 3 y 4 (state 2) -->
     <div class="proj-rows">
 
       <div class="proj-row proj-row--3">
@@ -127,6 +134,7 @@
       </div>
 
     </div>
+    </div><!-- /proj-gallery -->
 
     <section class="section reveal" style="text-align:center;">
       <p class="lead" style="max-width:30ch;margin:0 auto;">¿Te gustaría que tu proyecto sea el próximo?</p>

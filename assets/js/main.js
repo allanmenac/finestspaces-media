@@ -293,22 +293,30 @@ function buildPianoIntro() {
   pianoObserver.observe(piano);
 }
 
-/* Zoom suave del strip al hacer scroll (escucha global, una sola vez) */
-function initPianoZoomGlobal() {
+/* Morph piano→cuadrícula: el strip fijo hace zoom y se desvanece mientras
+   el pin se desplaza (state 1 → state 2). Escucha global, una sola vez. */
+function initPianoMorphGlobal() {
   let raf = false;
+  const clamp = (v) => Math.max(0, Math.min(1, v));
   const update = () => {
     raf = false;
-    const piano = document.querySelector(".piano");
-    if (!piano) return;
-    const rect = piano.getBoundingClientRect();
-    const vh = window.innerHeight;
-    let t = (vh - rect.top) / vh;
-    t = Math.max(0, Math.min(1, t));
-    piano.style.transform = "scale(" + (1 + t * 0.1).toFixed(4) + ")";
+    const pin = document.querySelector(".piano-pin");
+    const track = document.querySelector(".piano__track");
+    if (!pin || !track) return;
+    if (window.innerWidth <= 760) { track.style.transform = ""; track.style.opacity = ""; return; }
+    const rect = pin.getBoundingClientRect();
+    const total = pin.offsetHeight - window.innerHeight;
+    const t = total > 0 ? clamp(-rect.top / total) : 0;
+    const scale = 1 + 0.2 * t;                 // zoom progresivo
+    const fade = clamp((t - 0.4) / 0.45);       // se desvanece en el tramo final
+    track.style.transform = "scale(" + scale.toFixed(4) + ")";
+    track.style.opacity = (1 - fade).toFixed(3);
   };
   window.addEventListener("scroll", () => {
     if (!raf) { raf = true; requestAnimationFrame(update); }
   }, { passive: true });
+  window.addEventListener("resize", update);
+  update();
 }
 
 /* Filtros — delegación global (una sola vez) */
@@ -376,6 +384,11 @@ function initPage() {
    INIT (una sola vez)
    ========================================================= */
 document.addEventListener("DOMContentLoaded", () => {
+  // Capa global: oscurece ~5% con un leve viñeteado (no bloquea clics)
+  const tint = document.createElement("div");
+  tint.className = "site-tint";
+  document.body.appendChild(tint);
+
   buildLoaderIfHome();
   buildNav();
   buildMobileMenu();
@@ -383,7 +396,7 @@ document.addEventListener("DOMContentLoaded", () => {
   buildCurtain();
   initFaqGlobal();
   initFiltersGlobal();
-  initPianoZoomGlobal();
+  initPianoMorphGlobal();
 
   // Interceptar enlaces internos → transición AJAX
   document.addEventListener("click", (e) => {

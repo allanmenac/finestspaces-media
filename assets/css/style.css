@@ -307,62 +307,82 @@ main { min-height: 100vh; }
   object-fit: cover;
 }
 
-/* --- Floating project card (centred on the dividing line) --- */
+/* --- Floating project card: barra horizontal central (estilo Mersi) --- */
 .slide-card {
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
   z-index: 20;
-  width: clamp(190px, 19vw, 290px);
-  padding: clamp(1.25rem, 2.5vw, 2rem);
+  width: min(760px, 58vw);
+  height: clamp(118px, 14vw, 168px);
+  padding: clamp(1.1rem, 2vw, 1.7rem) clamp(1.5rem, 2.6vw, 2.4rem);
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0;
+  align-items: stretch;
+  justify-content: space-between;
   transition: background-color 0.5s var(--ease);
   cursor: pointer;
-}
-.slide-card__brand {
-  font-family: var(--serif);
-  font-weight: 500;
-  font-size: clamp(0.78rem, 1.1vw, 0.95rem);
-  letter-spacing: 0.18em;
+  overflow: hidden;
   color: var(--off-black);
-  display: block;
 }
-.slide-card__name {
-  font-family: var(--serif);
-  font-size: clamp(1.1rem, 1.7vw, 1.55rem);
-  font-weight: 400;
-  line-height: 1.1;
-  color: var(--off-black);
-  margin-top: 1.25rem;
-  transition: opacity 0.22s var(--ease);
-}
-.slide-card__meta {
-  font-size: 0.64rem;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
-  color: var(--off-black);
-  opacity: 0.65;
-  margin-top: 0.4rem;
-  line-height: 1.6;
-  transition: opacity 0.22s var(--ease);
-}
-.slide-card__arrow {
+/* Logo VA grabado al centro (tono sobre tono) */
+.slide-card__logo {
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  width: 100%;
-  margin-top: 1.5rem;
-  color: var(--off-black);
+  justify-content: center;
+  pointer-events: none;
 }
-.slide-card__arrow svg { width: 16px; height: 16px; }
+.slide-card__logo .mark {
+  height: 64%;
+  width: auto;
+  color: var(--off-black);
+  opacity: 0.14;
+}
+/* Flecha esquina superior derecha */
+.slide-card__corner {
+  position: absolute;
+  top: clamp(1rem, 1.9vw, 1.6rem);
+  right: clamp(1.5rem, 2.6vw, 2.4rem);
+  color: var(--off-black);
+  line-height: 0;
+}
+.slide-card__corner svg { width: 15px; height: 15px; }
+/* Columnas izquierda / derecha */
+.slide-card__col {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.slide-card__col--r { align-items: flex-end; text-align: right; }
+.slide-card__name {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: clamp(1.25rem, 2.3vw, 2rem);
+  line-height: 1;
+  transition: opacity 0.22s var(--ease);
+}
+.slide-card__place,
+.slide-card__cat,
+.slide-card__year {
+  font-family: var(--sans);
+  font-size: clamp(0.78rem, 1.05vw, 0.95rem);
+  line-height: 1;
+  transition: opacity 0.22s var(--ease);
+}
+.slide-card__place { opacity: 0.85; }
+.slide-card__cat { font-weight: 500; margin-bottom: 0.45rem; }
+.slide-card__year { opacity: 0.85; }
+.slide-card__col--r { justify-content: flex-end; }
 
 /* Text fade when project changes */
 .slide-card.is-changing .slide-card__name,
-.slide-card.is-changing .slide-card__meta { opacity: 0; }
+.slide-card.is-changing .slide-card__place,
+.slide-card.is-changing .slide-card__cat,
+.slide-card.is-changing .slide-card__year { opacity: 0; }
 
 /* --- Slide counter (bottom-right) --- */
 .slide-counter {
@@ -385,12 +405,14 @@ main { min-height: 100vh; }
   .slide { grid-template-columns: 1fr; }
   .slide__panel--right { display: none; }
   .slide-card {
-    width: calc(100vw - 4rem);
-    left: 2rem;
+    width: calc(100vw - 2.5rem);
+    height: clamp(96px, 26vw, 130px);
+    left: 1.25rem;
     top: auto;
-    bottom: 5rem;
+    bottom: 4.5rem;
     transform: none;
   }
+  .slide-card__name { font-size: clamp(1.1rem, 6vw, 1.6rem); }
   .slide-counter { bottom: 2.5rem; right: 1.5rem; }
 }
 
@@ -1039,16 +1061,26 @@ main { min-height: 100vh; }
   .proj-filtros .filtro { font-size: 0.72rem; padding: 0.45rem 0.85rem; }
 }
 
-/* Strip "piano": fila de imágenes niveladas; intro tipo "tecla" izq→der */
+/* Galería: contenedor que mantiene el filtro anclado en todo su recorrido */
+.proj-gallery { position: relative; }
+
+/* Pin: da distancia de scroll para el "morph" del strip a la cuadrícula */
+.piano-pin { height: 165vh; }
+
+/* Strip "piano": fijo (sticky) mientras el track interior hace zoom y se desvanece */
 .piano {
+  position: sticky;
+  top: calc(var(--nav-h) + 3.2rem);
+  padding: clamp(1rem, 3vw, 2.4rem) var(--gutter) 0;
+}
+.piano__track {
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: minmax(0, 1fr);
   gap: clamp(0.5rem, 1.2vw, 1rem);
   align-items: end;             /* niveladas por la base */
-  padding: clamp(2rem, 5vw, 4rem) var(--gutter) 0;
   transform-origin: center top;
-  will-change: transform;
+  will-change: transform, opacity;
 }
 .piano__img { overflow: hidden; will-change: transform; }
 .piano__img img { width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block; }
@@ -1063,7 +1095,11 @@ main { min-height: 100vh; }
   38%  { transform: translateY(-16px); }
   100% { transform: translateY(0); }
 }
-@media (max-width: 760px) { .piano { grid-auto-columns: 42vw; overflow-x: auto; } }
+@media (max-width: 760px) {
+  .piano-pin { height: auto; }
+  .piano { position: static; top: auto; }
+  .piano__track { grid-auto-columns: 42vw; overflow-x: auto; transform: none !important; opacity: 1 !important; }
+}
 
 /* Cuadrícula etiquetada — filas alternas de 3 y 4 columnas */
 .proj-rows { padding: clamp(3rem, 8vw, 7rem) var(--gutter); display: flex; flex-direction: column; gap: clamp(2rem, 5vw, 4rem); }
@@ -1099,11 +1135,24 @@ main { min-height: 100vh; }
 .proj-card__cap span { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
 .proj-card.is-hidden { display: none; }
 
+/* =========================================================
+   CAPA GLOBAL — oscurecido ~5% + viñeteado suave (sobre todo el sitio)
+   ========================================================= */
+.site-tint {
+  position: fixed;
+  inset: 0;
+  z-index: 1400;            /* sobre el contenido; bajo cortinas (1500) y loader (2000) */
+  pointer-events: none;     /* nunca bloquea la interacción */
+  background:
+    radial-gradient(125% 125% at 50% 48%, rgba(20,20,20,0) 52%, rgba(20,20,20,0.10) 100%),
+    rgba(20,20,20,0.05);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
   .reveal { opacity: 1; transform: none; }
   .reveal-clip > img { clip-path: none; transform: none; }
   .line-reveal .ln > span { transform: none; }
   .contact-marquee__track { animation: none; }
-  .piano { transform: none !important; }
+  .piano__track { transform: none !important; }
 }

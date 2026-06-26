@@ -23,15 +23,25 @@
     <div class="home-slider__track" id="slider-track">
       <div class="home-slider__stage" id="slider-stage">
 
-        <!-- Tarjeta central flotante (sobre la línea divisoria) -->
+        <!-- Tarjeta central (barra horizontal, estilo Mersi) -->
         <a class="slide-card" id="slide-card" href="portafolio.html" aria-label="Ver portafolio">
-          <span class="slide-card__brand">VISIONARQ</span>
-          <p class="slide-card__name" id="card-name">Casa Escalante</p>
-          <p class="slide-card__meta" id="card-meta">San José · Residencial · 2025</p>
-          <div class="slide-card__arrow">
-            <svg viewBox="0 0 9 9" fill="none" aria-hidden="true">
-              <path d="M7 1H1M7 1V7M7 1L1 7" stroke="currentColor" stroke-width="1"/>
+          <span class="slide-card__corner" aria-hidden="true">
+            <svg viewBox="0 0 9 9" fill="none"><path d="M7 1H1M7 1V7M7 1L1 7" stroke="currentColor" stroke-width="1.1"/></svg>
+          </span>
+          <span class="slide-card__logo" aria-hidden="true">
+            <svg class="mark" viewBox="0 0 120 88" fill="none">
+              <path d="M6 84 L38 6 L70 84" stroke="currentColor" stroke-width="11" stroke-linejoin="miter" stroke-linecap="square"/>
+              <path d="M50 84 L82 6 L114 84" stroke="currentColor" stroke-width="11" stroke-linejoin="miter" stroke-linecap="square"/>
+              <path d="M67 54 L97 54" stroke="currentColor" stroke-width="11" stroke-linecap="square"/>
             </svg>
+          </span>
+          <div class="slide-card__col slide-card__col--l">
+            <span class="slide-card__name" id="card-name">Casa Escalante</span>
+            <span class="slide-card__place" id="card-place">San José</span>
+          </div>
+          <div class="slide-card__col slide-card__col--r">
+            <span class="slide-card__cat" id="card-cat">Residencial</span>
+            <span class="slide-card__year" id="card-year">2025</span>
           </div>
         </a>
 
@@ -205,7 +215,9 @@
     var stage       = document.getElementById("slider-stage");
     var card        = document.getElementById("slide-card");
     var cardName    = document.getElementById("card-name");
-    var cardMeta    = document.getElementById("card-meta");
+    var cardPlace   = document.getElementById("card-place");
+    var cardCat     = document.getElementById("card-cat");
+    var cardYear    = document.getElementById("card-year");
     var slideNumEl  = document.getElementById("slide-num");
     var slideTotEl  = document.getElementById("slide-total");
 
@@ -246,8 +258,10 @@
 
     function applyCard(p) {
       card.style.backgroundColor = p.color;
-      cardName.textContent = p.name;
-      cardMeta.textContent = p.location + " · " + p.category + " · " + p.year;
+      cardName.textContent  = p.name;
+      cardPlace.textContent = p.location;
+      cardCat.textContent   = p.category;
+      cardYear.textContent  = p.year;
     }
 
     /* ── Ease in-out cubic ── */
