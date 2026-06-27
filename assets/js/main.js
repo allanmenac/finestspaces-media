@@ -89,6 +89,7 @@ function buildMobileMenu() {
   const toggle = document.querySelector(".nav-toggle");
   toggle.addEventListener("click", () => {
     const open = menu.classList.toggle("is-open");
+    document.documentElement.classList.toggle("menu-open", open);
     toggle.textContent = open ? "cerrar" : "menú";
   });
 }
@@ -200,10 +201,19 @@ function swapContent(html) {
   });
 }
 
-async function navigate(href, push = true) {
+/* Color de acento de la cortina al navegar a un proyecto (Phase 2, Mersi).
+   La cortina toma el color del proyecto pulsado; si no hay, queda negra. */
+function setCurtainColor(color) {
+  if (!CL || !CR) return;
+  CL.style.background = color || "";
+  CR.style.background = color || "";
+}
+
+async function navigate(href, push = true, accent = "") {
   if (navigating) return;
   navigating = true;
 
+  setCurtainColor(accent);
   coverCurtain();
   const closed = new Promise((r) => setTimeout(r, TRANSITION_MS));
 
@@ -224,7 +234,20 @@ async function navigate(href, push = true) {
   initPage();            // reactivar animaciones de la nueva página
   openCurtain();         // descubrir → la página nueva ya está ahí
 
-  setTimeout(() => { navigating = false; }, TRANSITION_MS);
+  setTimeout(() => {
+    navigating = false;
+    setCurtainColor("");  // restablecer a negro para la próxima navegación
+  }, TRANSITION_MS);
+}
+
+/* Color de acento desde el enlace pulsado (tarjeta de proyecto / slide) */
+function accentFromLink(a) {
+  if (a.dataset && a.dataset.accent) return a.dataset.accent;
+  if (a.classList && a.classList.contains("slide-card") && a.style.backgroundColor)
+    return a.style.backgroundColor;
+  const etiq = a.querySelector && a.querySelector(".proj-card__etiq");
+  if (etiq && etiq.style.backgroundColor) return etiq.style.backgroundColor;
+  return "";
 }
 
 function isInternalLink(a) {
@@ -267,6 +290,34 @@ function initSmoothScroll() {
   gsap.ticker.add((time) => lenis.raf(time * 1000));
   gsap.ticker.lagSmoothing(0);
   window.__lenis = lenis;
+}
+
+/* Color de la barra según scroll (calcado de Mersi /projets/*):
+   en el Inicio la nav empieza crema sobre el slider de imágenes y pasa a
+   negro al terminar el slider, donde empieza el contenido claro.
+   Anima el color de .navbar → afecta logo (currentColor) y botón "menú". */
+const NAV_CREAM = "#EDE7DE";
+const NAV_DARK = "#1A1A1A";
+let navColorTrigger = null;
+
+function initNavScroll() {
+  const navbar = document.querySelector(".navbar");
+  if (!navbar) return;
+  if (navColorTrigger) { try { navColorTrigger.kill(); } catch (e) {} navColorTrigger = null; }
+
+  if (!hasGSAP() || prefersReduced()) { navbar.style.color = ""; return; }
+
+  const isHome = currentPage() === "index.html";
+  const slider = document.querySelector(".home-slider");
+  if (!isHome || !slider) { gsap.set(navbar, { clearProps: "color" }); return; }
+
+  gsap.set(navbar, { color: NAV_CREAM });
+  navColorTrigger = ScrollTrigger.create({
+    trigger: slider,
+    start: "bottom top+=72",     // el slider termina → empieza el contenido claro
+    onEnter: () => gsap.to(navbar, { color: NAV_DARK, duration: 0.4, ease: "power2.out" }),
+    onLeaveBack: () => gsap.to(navbar, { color: NAV_CREAM, duration: 0.4, ease: "power2.out" }),
+  });
 }
 
 /* Reinicia el scroll suave y la duración según la página (Inicio = 2.5) */
@@ -461,6 +512,7 @@ function initPage() {
   updateNavActive();
   buildReveals();
   buildPianoIntro();
+  initNavScroll();
 }
 
 /* =========================================================
@@ -490,8 +542,12 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
     // cerrar menú móvil si está abierto
     const mm = document.querySelector(".mobile-menu.is-open");
-    if (mm) { mm.classList.remove("is-open"); document.querySelector(".nav-toggle").textContent = "menú"; }
-    navigate(a.getAttribute("href"));
+    if (mm) {
+      mm.classList.remove("is-open");
+      document.documentElement.classList.remove("menu-open");
+      document.querySelector(".nav-toggle").textContent = "menú";
+    }
+    navigate(a.getAttribute("href"), true, accentFromLink(a));
   });
 
   // Atrás/adelante del navegador
@@ -499,7 +555,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // updateNavActive de inmediato; los reveals (SplitText) esperan a las fuentes
   updateNavActive();
-  const startReveals = () => { buildReveals(); buildPianoIntro(); };
+  const startReveals = () => { buildReveals(); buildPianoIntro(); initNavScroll(); };
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(startReveals);
   else startReveals();
 });

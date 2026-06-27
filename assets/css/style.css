@@ -112,7 +112,14 @@ h1, h2, h3, h4 { font-family: var(--serif); font-weight: 500; line-height: 1.05;
   letter-spacing: 0.04em;
   position: relative;
   padding: 2px 0;
+  /* Mersi: enlaces inactivos atenuados, activo/hover a opacidad plena */
+  opacity: 0.45;
+  transition: opacity 0.4s var(--ease);
 }
+.nav-link:hover,
+.nav-link.is-active { opacity: 1; }
+/* Inicio = página sin atenuación (noOpacityPages de Mersi) */
+.home-page .nav-link { opacity: 1; }
 .nav-link::after {
   content: "";
   position: absolute;
@@ -143,6 +150,8 @@ h1, h2, h3, h4 { font-family: var(--serif); font-weight: 500; line-height: 1.05;
   transition: transform 0.6s var(--ease);
 }
 .mobile-menu.is-open { transform: translateY(0); }
+/* Con el menú abierto, el logo y "cerrar" deben verse sobre el panel oscuro */
+html.menu-open .navbar { color: var(--cream) !important; }
 .mobile-menu a {
   font-family: var(--serif);
   font-size: clamp(2rem, 9vw, 3.5rem);
