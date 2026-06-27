@@ -217,9 +217,10 @@ async function navigate(href, push = true) {
   }
 
   await closed;          // esperar a que la cortina cubra del todo
+  clearPageAnims();      // matar ScrollTriggers/SplitText de la página saliente
   swapContent(html);     // la nueva página YA está lista detrás
   if (push) history.pushState({ href }, "", href);
-  window.scrollTo(0, 0);
+  if (lenis) resetLenisForPage(); else window.scrollTo(0, 0);
   initPage();            // reactivar animaciones de la nueva página
   openCurtain();         // descubrir → la página nueva ya está ahí
 
@@ -236,39 +237,121 @@ function isInternalLink(a) {
 }
 
 /* =========================================================
-   ANIMACIONES POR PÁGINA
+   SCROLL SUAVE (Lenis) + GSAP / ScrollTrigger
+   Config y tiempos calcados de mersi-architecture.com.
    ========================================================= */
-let revealObserver = null;
+const prefersReduced = () =>
+  window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const hasGSAP = () => typeof window.gsap !== "undefined" && typeof window.ScrollTrigger !== "undefined";
 
-function buildLineReveals() {
-  document.querySelectorAll(".line-reveal").forEach((el) => {
-    if (el.dataset.lineBuilt) return;
-    const lines = el.innerHTML.split(/<br\s*\/?>/i);
-    el.innerHTML = lines.map((l) => `<span class="ln"><span>${l.trim()}</span></span>`).join("");
-    el.dataset.lineBuilt = "1";
+let lenis = null;
+
+function initSmoothScroll() {
+  if (prefersReduced() || typeof window.Lenis === "undefined" || !hasGSAP()) return;
+  gsap.registerPlugin(ScrollTrigger);
+  if (typeof window.SplitText !== "undefined") gsap.registerPlugin(SplitText);
+
+  lenis = new Lenis({
+    duration: currentPage() === "index.html" ? 2.5 : 1.2,
+    easing: (n) => Math.min(1, 1.001 - Math.pow(2, -10 * n)),
+    orientation: "vertical",          // Lenis 1.x (= direction de Mersi)
+    gestureOrientation: "vertical",   // Lenis 1.x (= gestureDirection)
+    smoothWheel: true,                // (= smooth)
+    syncTouch: false,                 // (= smoothTouch:false)
+    touchMultiplier: 1.5,
+    wheelMultiplier: 0.8,
+    lerp: 0.06,
   });
+
+  lenis.on("scroll", ScrollTrigger.update);
+  gsap.ticker.add((time) => lenis.raf(time * 1000));
+  gsap.ticker.lagSmoothing(0);
+  window.__lenis = lenis;
+}
+
+/* Reinicia el scroll suave y la duración según la página (Inicio = 2.5) */
+function resetLenisForPage() {
+  if (!lenis) return;
+  lenis.options.duration = currentPage() === "index.html" ? 2.5 : 1.2;
+  lenis.scrollTo(0, { immediate: true });
+  lenis.resize();
+}
+
+/* =========================================================
+   ANIMACIONES DE REVELADO (GSAP)  — calcadas de Mersi:
+     .reveal       → [reveal-op]   opacity 0→1   1s  power2.out  delay .3   start "top 85%"
+     .reveal-clip  → [reveal-clip] clipPath inset 100%→0  1.35s power4.inOut delay .3 start "top 85%"
+     .line-reveal  → [line]        SplitText líneas+máscara yPercent 100→0 1s power3.out
+                                   stagger .05 delay .3  start "top 90%"
+   ========================================================= */
+let pageTriggers = [];
+let pageSplits = [];
+
+function clearPageAnims() {
+  pageTriggers.forEach((t) => { try { t.kill(); } catch (e) {} });
+  pageTriggers = [];
+  pageSplits.forEach((s) => { try { s.revert(); } catch (e) {} });
+  pageSplits = [];
+}
+
+/* Respaldo sin GSAP / con movimiento reducido: mostrar todo */
+function revealAllStatic() {
+  document.querySelectorAll(".reveal, .line-reveal").forEach((el) => { el.style.opacity = "1"; });
+  document
+    .querySelectorAll(".reveal-clip > img, .reveal-clip > .reveal-clip__inner")
+    .forEach((el) => { el.style.clipPath = "inset(0% 0% 0% 0%)"; });
 }
 
 function buildReveals() {
-  buildLineReveals();
-  const els = document.querySelectorAll(".reveal, .reveal-clip, .line-reveal");
-  if (!("IntersectionObserver" in window)) {
-    els.forEach((el) => el.classList.add("is-visible"));
-    return;
+  clearPageAnims();
+
+  if (prefersReduced() || !hasGSAP()) { revealAllStatic(); return; }
+
+  // [reveal-op] ← .reveal
+  document.querySelectorAll(".reveal").forEach((el) => {
+    gsap.set(el, { opacity: 0 });
+    pageTriggers.push(
+      ScrollTrigger.create({
+        trigger: el, start: "top 85%", once: true,
+        onEnter: () => gsap.to(el, { opacity: 1, duration: 1, ease: "power2.out", delay: 0.3 }),
+      })
+    );
+  });
+
+  // [reveal-clip] ← .reveal-clip
+  document.querySelectorAll(".reveal-clip").forEach((wrap) => {
+    const targets = wrap.querySelectorAll(":scope > img, :scope > .reveal-clip__inner");
+    if (!targets.length) return;
+    gsap.set(targets, { clipPath: "inset(100% 0% 0% 0%)" });
+    pageTriggers.push(
+      ScrollTrigger.create({
+        trigger: wrap, start: "top 85%", once: true,
+        onEnter: () =>
+          gsap.to(targets, { clipPath: "inset(0% 0% 0% 0%)", duration: 1.35, ease: "power4.inOut", delay: 0.3 }),
+      })
+    );
+  });
+
+  // [line] ← .line-reveal  (SplitText líneas + máscara)
+  if (typeof window.SplitText !== "undefined") {
+    document.querySelectorAll(".line-reveal").forEach((el) => {
+      const split = new SplitText(el, { type: "lines", mask: "lines", linesClass: "sl-line" });
+      pageSplits.push(split);
+      gsap.set(el, { opacity: 1 });
+      gsap.set(split.lines, { yPercent: 100 });
+      pageTriggers.push(
+        ScrollTrigger.create({
+          trigger: el, start: "top 90%", once: true,
+          onEnter: () =>
+            gsap.to(split.lines, { yPercent: 0, duration: 1, ease: "power3.out", stagger: 0.05, delay: 0.3 }),
+        })
+      );
+    });
+  } else {
+    document.querySelectorAll(".line-reveal").forEach((el) => { el.style.opacity = "1"; });
   }
-  if (revealObserver) revealObserver.disconnect();
-  revealObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((en) => {
-        if (en.isIntersecting) {
-          en.target.classList.add("is-visible");
-          revealObserver.unobserve(en.target);
-        }
-      });
-    },
-    { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
-  );
-  els.forEach((el) => revealObserver.observe(el));
+
+  ScrollTrigger.refresh();
 }
 
 /* Intro "pianista" — la onda izq→der al entrar el strip en pantalla */
@@ -394,6 +477,7 @@ document.addEventListener("DOMContentLoaded", () => {
   buildMobileMenu();
   buildFooter();
   buildCurtain();
+  initSmoothScroll();
   initFaqGlobal();
   initFiltersGlobal();
   initPianoMorphGlobal();
@@ -413,5 +497,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Atrás/adelante del navegador
   window.addEventListener("popstate", () => navigate(location.pathname.split("/").pop() || "index.html", false));
 
-  initPage();
+  // updateNavActive de inmediato; los reveals (SplitText) esperan a las fuentes
+  updateNavActive();
+  const startReveals = () => { buildReveals(); buildPianoIntro(); };
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(startReveals);
+  else startReveals();
 });

@@ -242,12 +242,8 @@ main { min-height: 100vh; }
   .split img, .split > .reveal-clip { order: -1 !important; }
 }
 
-.reveal {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 1s var(--ease), transform 1s var(--ease);
-}
-.reveal.is-visible { opacity: 1; transform: none; }
+/* Estado previo (pre-GSAP). GSAP anima opacidad → 1 (reveal-op de Mersi). */
+.reveal { opacity: 0; }
 
 /* =========================================================
    HOME — Mersi-style scroll-driven curtain slider
@@ -766,32 +762,17 @@ main { min-height: 100vh; }
    ANIMACIONES DE REVELADO (estilo Mersi: line / clip / op)
    ========================================================= */
 
-/* Revelado de imagen con cortina clip-path (como reveal-clip de Mersi) */
+/* Revelado de imagen con cortina clip-path (GSAP: reveal-clip de Mersi).
+   Estado previo: inset(100% 0 0 0). GSAP lo abre a inset(0). */
 .reveal-clip { position: relative; overflow: hidden; }
 .reveal-clip > img,
 .reveal-clip > .reveal-clip__inner {
-  clip-path: inset(0 0 100% 0);
-  transform: scale(1.08);
-  transition: clip-path 1.1s var(--ease), transform 1.4s var(--ease);
-}
-.reveal-clip.is-visible > img,
-.reveal-clip.is-visible > .reveal-clip__inner {
-  clip-path: inset(0 0 0 0);
-  transform: scale(1);
+  clip-path: inset(100% 0% 0% 0%);
 }
 
-/* Revelado de texto línea por línea (como line de Mersi) */
-.line-reveal { display: inline-block; }
-.line-reveal .ln { display: block; overflow: hidden; }
-.line-reveal .ln > span {
-  display: block;
-  transform: translateY(110%);
-  transition: transform 0.9s var(--ease);
-}
-.line-reveal.is-visible .ln > span { transform: translateY(0); }
-.line-reveal.is-visible .ln:nth-child(2) > span { transition-delay: 0.08s; }
-.line-reveal.is-visible .ln:nth-child(3) > span { transition-delay: 0.16s; }
-.line-reveal.is-visible .ln:nth-child(4) > span { transition-delay: 0.24s; }
+/* Revelado de texto línea por línea (GSAP SplitText: line de Mersi).
+   SplitText divide en líneas con máscara; cada línea sube yPercent 100→0. */
+.line-reveal { display: inline-block; opacity: 0; }
 
 /* =========================================================
    PORTAFOLIO — etiqueta de proyecto al pasar el cursor (Mersi)
@@ -1151,8 +1132,8 @@ main { min-height: 100vh; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
   .reveal { opacity: 1; transform: none; }
-  .reveal-clip > img { clip-path: none; transform: none; }
-  .line-reveal .ln > span { transform: none; }
+  .reveal-clip > img, .reveal-clip > .reveal-clip__inner { clip-path: none; transform: none; }
+  .line-reveal { opacity: 1; }
   .contact-marquee__track { animation: none; }
   .piano__track { transform: none !important; }
 }
