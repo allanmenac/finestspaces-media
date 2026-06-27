@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Proyecto · VISIONARQ</title>
+  <meta name="description" content="Proyecto de VISIONARQ — arquitectura y construcción en Costa Rica." />
+  <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <main>
+    <article class="proj-detail" id="proj-detail">
+
+      <!-- HERO — imagen a sangre completa con nombre del proyecto -->
+      <header class="pd-hero">
+        <div class="pd-hero__media">
+          <img id="pd-hero-img" src="" alt="" />
+        </div>
+        <div class="pd-hero__head">
+          <p class="eyebrow" id="pd-cat">Residencial</p>
+          <h1 class="pd-hero__title" id="pd-title">Proyecto</h1>
+          <p class="pd-hero__meta"><span id="pd-place">San José</span> · <span id="pd-year">2025</span></p>
+        </div>
+      </header>
+
+      <!-- INTRO + ficha -->
+      <section class="section section--tight pd-intro">
+        <p class="lead reveal" id="pd-lead"></p>
+        <div class="pd-facts reveal">
+          <div class="pd-fact"><span>Ubicación</span><p id="pd-f-place"></p></div>
+          <div class="pd-fact"><span>Año</span><p id="pd-f-year"></p></div>
+          <div class="pd-fact"><span>Categoría</span><p id="pd-f-cat"></p></div>
+          <div class="pd-fact"><span>Área</span><p id="pd-f-area"></p></div>
+        </div>
+      </section>
+
+      <!-- GALERÍA -->
+      <section class="pd-gallery">
+        <div class="reveal-clip pd-gallery__a"><img id="pd-g1" src="" alt="" /></div>
+        <div class="reveal-clip pd-gallery__b"><img id="pd-g2" src="" alt="" /></div>
+      </section>
+
+      <section class="section section--tight">
+        <p class="reveal" id="pd-body" style="max-width:54ch;color:var(--muted);line-height:1.8;"></p>
+      </section>
+
+      <!-- SIGUIENTE PROYECTO -->
+      <a class="pd-next" id="pd-next" href="portafolio.html">
+        <span class="pd-next__label">Siguiente proyecto</span>
+        <span class="pd-next__name" id="pd-next-name">—</span>
+        <svg width="16" height="16" viewBox="0 0 9 9" fill="none"><path d="M7 1H1M7 1V7M7 1L1 7" stroke="currentColor" stroke-width="1"/></svg>
+      </a>
+
+      <section class="section reveal" style="text-align:center;">
+        <a class="btn" href="portafolio.html">Volver al portafolio
+          <svg width="14" height="14" viewBox="0 0 9 9" fill="none"><path d="M7 1H1M7 1V7M7 1L1 7" stroke="currentColor" stroke-width="1"/></svg>
+        </a>
+      </section>
+
+    </article>
+  </main>
+
+  <script src="assets/js/vendor/gsap.min.js"></script>
+  <script src="assets/js/vendor/ScrollTrigger.min.js"></script>
+  <script src="assets/js/vendor/Flip.min.js"></script>
+  <script src="assets/js/vendor/SplitText.min.js"></script>
+  <script src="assets/js/vendor/lenis.min.js"></script>
+  <script src="assets/js/main.js"></script>
+
+  <!-- =====================================================
+       DATOS Y RELLENO DEL PROYECTO (según ?p=slug)
+       ===================================================== -->
+  <script>
+  (function () {
+    var P = {
+      "casa-escalante": {
+        name: "Casa Escalante", place: "San José", cat: "Residencial", year: "2025",
+        area: "320 m²", color: "#DC633F", hero: "assets/img/photos/proyecto-01.jpg",
+        g1: "assets/img/photos/proyecto-02.jpg", g2: "assets/img/photos/servicio-interiores.jpg",
+        lead: "Una casa de barrio reinterpretada: luz cenital, patios y materiales nobles que envejecen con dignidad.",
+        body: "Casa Escalante recupera la escala del barrio josefino y la lleva al presente. Los espacios se organizan alrededor de un patio central que ventila e ilumina, mientras la paleta de concreto, madera y vegetación da calidez a cada ambiente."
+      },
+      "cafe-barva": {
+        name: "Café Barva", place: "Heredia", cat: "Hospitality", year: "2025",
+        area: "180 m²", color: "#657B69", hero: "assets/img/photos/proyecto-02.jpg",
+        g1: "assets/img/photos/proyecto-03.jpg", g2: "assets/img/photos/servicio-construccion.jpg",
+        lead: "Un café de altura donde el grano, la madera y la montaña dialogan en un solo gesto.",
+        body: "En las faldas del volcán Barva diseñamos un espacio que celebra el ritual del café. La estructura de madera enmarca vistas a los cafetales y el mobiliario a medida convierte cada rincón en una invitación a quedarse."
+      },
+      "torre-sabana": {
+        name: "Torre Sabana", place: "San José", cat: "Comercial", year: "2024",
+        area: "4 200 m²", color: "#8B9EC1", hero: "assets/img/photos/proyecto-03.jpg",
+        g1: "assets/img/photos/proyecto-05.jpg", g2: "assets/img/photos/servicio-arquitectura.jpg",
+        lead: "Oficinas frente al parque metropolitano: una fachada que respira y vistas que trabajan.",
+        body: "Torre Sabana propone un edificio de oficinas eficiente y luminoso. La doble piel filtra el sol del oeste, los núcleos se concentran para liberar plantas diáfanas y las terrazas extienden el trabajo hacia el verde de La Sabana."
+      },
+      "villa-pacifico": {
+        name: "Villa Pacífico", place: "Guanacaste", cat: "Residencial", year: "2024",
+        area: "410 m²", color: "#CCB598", hero: "assets/img/photos/proyecto-04.jpg",
+        g1: "assets/img/photos/proyecto-07.jpg", g2: "assets/img/photos/servicio-interiores.jpg",
+        lead: "Una villa que se abre al Pacífico: brisa cruzada, sombra profunda y agua que refresca.",
+        body: "Pensada para el clima seco de Guanacaste, Villa Pacífico apuesta por aleros generosos, ventilación cruzada y un espejo de agua que regula la temperatura. El interior y el exterior se funden en una sola experiencia."
+      },
+      "los-yoses": {
+        name: "Apartamento Los Yoses", place: "San José", cat: "Interiores", year: "2024",
+        area: "120 m²", color: "#B3A696", hero: "assets/img/photos/proyecto-05.jpg",
+        g1: "assets/img/photos/proyecto-06.jpg", g2: "assets/img/photos/servicio-interiores.jpg",
+        lead: "Un apartamento de los años setenta devuelto a la luz, con carpintería a medida y tonos cálidos.",
+        body: "Reorganizamos por completo la planta para ganar luz y fluidez. La carpintería a medida ordena el espacio y una paleta cálida de maderas y textiles devuelve el carácter a este apartamento de Los Yoses."
+      },
+      "hotel-monteverde": {
+        name: "Hotel Monteverde", place: "Puntarenas", cat: "Hospitality", year: "2023",
+        area: "1 600 m²", color: "#918F7A", hero: "assets/img/photos/proyecto-06.jpg",
+        g1: "assets/img/photos/proyecto-04.jpg", g2: "assets/img/photos/servicio-construccion.jpg",
+        lead: "Un refugio entre la niebla: madera local, grandes ventanales y silencio.",
+        body: "En el bosque nuboso de Monteverde diseñamos un hotel que casi desaparece entre los árboles. La madera local, las pasarelas elevadas y los ventanales enmarcan la naturaleza sin interrumpirla."
+      },
+      "casa-cedros": {
+        name: "Casa Cedros", place: "Cartago", cat: "Residencial", year: "2023",
+        area: "280 m²", color: "#B19B68", hero: "assets/img/photos/proyecto-07.jpg",
+        g1: "assets/img/photos/proyecto-01.jpg", g2: "assets/img/photos/servicio-arquitectura.jpg",
+        lead: "Una casa de montaña hecha de piedra, madera y chimenea para el frío cartaginés.",
+        body: "Casa Cedros responde al clima fresco de Cartago con muros de piedra que acumulan calor, una chimenea central y grandes vidrios al sur. La arquitectura abraza, protege y enmarca el paisaje de montaña."
+      },
+      "oficinas-escazu": {
+        name: "Oficinas Escazú", place: "San José", cat: "Comercial", year: "2023",
+        area: "950 m²", color: "#4E6D73", hero: "assets/img/photos/proyecto-08.jpg",
+        g1: "assets/img/photos/proyecto-03.jpg", g2: "assets/img/photos/servicio-consultoria.jpg",
+        lead: "Espacios de trabajo flexibles donde la luz, la planta y la madera bajan el ritmo.",
+        body: "Para estas oficinas en Escazú diseñamos un entorno de trabajo amable: plantas diáfanas y reconfigurables, abundante vegetación interior y acabados en madera que suavizan la jornada y favorecen la concentración."
+      }
+    };
+
+    var ORDER = ["casa-escalante","cafe-barva","torre-sabana","villa-pacifico","los-yoses","hotel-monteverde","casa-cedros","oficinas-escazu"];
+
+    function slug() {
+      var m = location.search.match(/[?&]p=([^&]+)/);
+      return m ? decodeURIComponent(m[1]) : ORDER[0];
+    }
+
+    function set(id, val) { var el = document.getElementById(id); if (el) el.textContent = val; }
+    function img(id, src, alt) { var el = document.getElementById(id); if (el) { el.src = src; el.alt = alt || ""; } }
+
+    var key = slug();
+    var p = P[key] || P[ORDER[0]];
+
+    document.title = p.name + " · VISIONARQ";
+    img("pd-hero-img", p.hero, p.name);
+    set("pd-cat", p.cat);
+    set("pd-title", p.name);
+    set("pd-place", p.place);
+    set("pd-year", p.year);
+    set("pd-lead", p.lead);
+    set("pd-f-place", p.place);
+    set("pd-f-year", p.year);
+    set("pd-f-cat", p.cat);
+    set("pd-f-area", p.area);
+    img("pd-g1", p.g1, p.name);
+    img("pd-g2", p.g2, p.name);
+    set("pd-body", p.body);
+
+    // color de acento del proyecto (para el degradado del hero)
+    var detail = document.getElementById("proj-detail");
+    if (detail) detail.style.setProperty("--accent", p.color);
+
+    // siguiente proyecto
+    var idx = ORDER.indexOf(key);
+    var nextKey = ORDER[(idx + 1) % ORDER.length];
+    var next = P[nextKey];
+    var nextEl = document.getElementById("pd-next");
+    if (nextEl && next) {
+      nextEl.setAttribute("href", "proyecto.html?p=" + nextKey);
+      nextEl.setAttribute("data-accent", next.color);
+      set("pd-next-name", next.name);
+    }
+  })();
+  </script>
+</body>
+</html>

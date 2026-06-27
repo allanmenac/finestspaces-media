@@ -240,6 +240,59 @@ async function navigate(href, push = true, accent = "") {
   }, TRANSITION_MS);
 }
 
+/* Transición de imagen compartida (Flip, estilo Mersi): la foto de la tarjeta
+   vuela hasta el hero de la página de proyecto. */
+async function navigateProject(href, imgEl, accent) {
+  if (navigating) return;
+  if (!hasGSAP() || prefersReduced()) return navigate(href, true, accent);
+  navigating = true;
+
+  const rect = imgEl.getBoundingClientRect();
+  const src = imgEl.currentSrc || imgEl.src;
+
+  const clone = document.createElement("img");
+  clone.className = "flip-clone";
+  clone.src = src;
+  clone.style.top = rect.top + "px";
+  clone.style.left = rect.left + "px";
+  clone.style.width = rect.width + "px";
+  clone.style.height = rect.height + "px";
+  document.body.appendChild(clone);
+
+  let html;
+  try {
+    const res = await fetch(href, { headers: { "X-Requested-With": "fetch" } });
+    html = await res.text();
+  } catch (e) {
+    clone.remove();
+    window.location.href = href;
+    return;
+  }
+
+  clearPageAnims();
+  swapContent(html);            // ejecuta el script inline → rellena el hero
+  history.pushState({ href }, "", href);
+  if (lenis) resetLenisForPage(); else window.scrollTo(0, 0);
+  initPage();
+
+  const heroImg = document.getElementById("pd-hero-img");
+  if (!heroImg) { clone.remove(); navigating = false; return; }
+
+  gsap.set(heroImg, { opacity: 0 });   // se revela cuando el clon aterriza
+  requestAnimationFrame(() => {
+    const t = heroImg.getBoundingClientRect();
+    gsap.to(clone, {
+      top: t.top, left: t.left, width: t.width, height: t.height,
+      duration: 0.9, ease: "expo.inOut",
+      onComplete: () => {
+        gsap.set(heroImg, { opacity: 1 });
+        clone.remove();
+        setTimeout(() => { navigating = false; }, 30);
+      },
+    });
+  });
+}
+
 /* Color de acento desde el enlace pulsado (tarjeta de proyecto / slide) */
 function accentFromLink(a) {
   if (a.dataset && a.dataset.accent) return a.dataset.accent;
@@ -307,14 +360,14 @@ function initNavScroll() {
 
   if (!hasGSAP() || prefersReduced()) { navbar.style.color = ""; return; }
 
-  const isHome = currentPage() === "index.html";
-  const slider = document.querySelector(".home-slider");
-  if (!isHome || !slider) { gsap.set(navbar, { clearProps: "color" }); return; }
+  // Hero oscuro a tope de página: slider del Inicio o hero del proyecto
+  const hero = document.querySelector(".home-slider, .pd-hero");
+  if (!hero) { gsap.set(navbar, { clearProps: "color" }); return; }
 
   gsap.set(navbar, { color: NAV_CREAM });
   navColorTrigger = ScrollTrigger.create({
-    trigger: slider,
-    start: "bottom top+=72",     // el slider termina → empieza el contenido claro
+    trigger: hero,
+    start: "bottom top+=72",     // el hero termina → empieza el contenido claro
     onEnter: () => gsap.to(navbar, { color: NAV_DARK, duration: 0.4, ease: "power2.out" }),
     onLeaveBack: () => gsap.to(navbar, { color: NAV_CREAM, duration: 0.4, ease: "power2.out" }),
   });
@@ -582,7 +635,14 @@ document.addEventListener("DOMContentLoaded", () => {
       document.documentElement.classList.remove("menu-open");
       document.querySelector(".nav-toggle").textContent = "menú";
     }
-    navigate(a.getAttribute("href"), true, accentFromLink(a));
+    const href = a.getAttribute("href");
+    const card = e.target.closest(".proj-card");
+    const cardImg = card && card.querySelector(".proj-card__media img");
+    if (cardImg && href.indexOf("proyecto.html") === 0) {
+      navigateProject(href, cardImg, accentFromLink(a));   // imagen compartida (Flip)
+    } else {
+      navigate(href, true, accentFromLink(a));               // cortina
+    }
   });
 
   // Atrás/adelante del navegador
