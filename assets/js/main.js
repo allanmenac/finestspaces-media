@@ -508,10 +508,45 @@ function initFaqGlobal() {
 }
 
 /* Se ejecuta en cada página (carga inicial y tras cada swap AJAX) */
+/* Morph "tira → cuadrícula" con GSAP Flip (estilo Mersi).
+   Las 8 tarjetas arrancan en una tira horizontal y, al entrar en pantalla,
+   vuelan a su posición de cuadrícula (duration 2 → aquí 1.3, expo.inOut). */
+function initProjectsMorph() {
+  const rows = document.getElementById("proj-rows");
+  if (!rows) return;
+
+  // Móvil / sin GSAP / movimiento reducido: cuadrícula directa, sin Flip
+  if (prefersReduced() || !hasGSAP() || typeof window.Flip === "undefined" || window.innerWidth <= 760) {
+    rows.classList.remove("is-strip");
+    return;
+  }
+
+  rows.classList.add("is-strip");
+  const cards = rows.querySelectorAll(".proj-card");
+  const t = ScrollTrigger.create({
+    trigger: rows,
+    start: "top 78%",
+    once: true,
+    onEnter: () => {
+      const state = Flip.getState(cards);
+      rows.classList.remove("is-strip");
+      Flip.from(state, {
+        duration: 1.3,
+        ease: "expo.inOut",
+        stagger: 0.05,
+        absolute: true,
+        onComplete: () => ScrollTrigger.refresh(),
+      });
+    },
+  });
+  pageTriggers.push(t);
+}
+
 function initPage() {
   updateNavActive();
   buildReveals();
   buildPianoIntro();
+  initProjectsMorph();
   initNavScroll();
 }
 
@@ -555,7 +590,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // updateNavActive de inmediato; los reveals (SplitText) esperan a las fuentes
   updateNavActive();
-  const startReveals = () => { buildReveals(); buildPianoIntro(); initNavScroll(); };
+  const startReveals = () => { buildReveals(); buildPianoIntro(); initProjectsMorph(); initNavScroll(); };
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(startReveals);
   else startReveals();
 });

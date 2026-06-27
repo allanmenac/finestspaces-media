@@ -28,27 +28,12 @@
         <button class="filtro" data-cat="Interiores">interiores</button>
       </div>
 
-      <!-- STRIP "PIANO" — fijo mientras hace zoom y se desvanece (state 1) -->
-      <div class="piano-pin">
-        <div class="piano">
-          <div class="piano__track">
-            <div class="piano__img"><img src="assets/img/photos/proyecto-01.jpg" alt="" /></div>
-            <div class="piano__img"><img src="assets/img/photos/proyecto-02.jpg" alt="" /></div>
-            <div class="piano__img"><img src="assets/img/photos/proyecto-03.jpg" alt="" /></div>
-            <div class="piano__img"><img src="assets/img/photos/proyecto-04.jpg" alt="" /></div>
-            <div class="piano__img"><img src="assets/img/photos/proyecto-05.jpg" alt="" /></div>
-            <div class="piano__img"><img src="assets/img/photos/proyecto-06.jpg" alt="" /></div>
-            <div class="piano__img"><img src="assets/img/photos/proyecto-07.jpg" alt="" /></div>
-            <div class="piano__img"><img src="assets/img/photos/proyecto-08.jpg" alt="" /></div>
-          </div>
-        </div>
-      </div>
-
-    <!-- CUADRÍCULA ETIQUETADA — filas alternas 3 y 4 (state 2) -->
-    <div class="proj-rows">
+    <!-- CUADRÍCULA ETIQUETADA — se despliega desde una tira horizontal (Flip,
+         estilo Mersi): las 8 imágenes vuelan de la tira a la cuadrícula 3+5. -->
+    <div class="proj-rows" id="proj-rows">
 
       <div class="proj-row proj-row--3">
-        <a class="proj-card reveal-clip" href="contacto.html" data-cat="Residencial">
+        <a class="proj-card" href="contacto.html" data-cat="Residencial">
           <div class="proj-card__media">
             <img src="assets/img/photos/proyecto-01.jpg" alt="Casa Escalante" />
             <div class="proj-card__etiq" style="background:#DC633F;">
@@ -58,7 +43,7 @@
           </div>
           <div class="proj-card__cap"><h3>Casa Escalante</h3><span>San José · 2025</span></div>
         </a>
-        <a class="proj-card reveal-clip" href="contacto.html" data-cat="Hospitality">
+        <a class="proj-card" href="contacto.html" data-cat="Hospitality">
           <div class="proj-card__media">
             <img src="assets/img/photos/proyecto-02.jpg" alt="Café Barva" />
             <div class="proj-card__etiq" style="background:#657B69;color:var(--cream);">
@@ -68,7 +53,7 @@
           </div>
           <div class="proj-card__cap"><h3>Café Barva</h3><span>Heredia · 2025</span></div>
         </a>
-        <a class="proj-card reveal-clip" href="contacto.html" data-cat="Comercial">
+        <a class="proj-card" href="contacto.html" data-cat="Comercial">
           <div class="proj-card__media">
             <img src="assets/img/photos/proyecto-03.jpg" alt="Torre Sabana" />
             <div class="proj-card__etiq" style="background:#8B9EC1;">
@@ -81,7 +66,7 @@
       </div>
 
       <div class="proj-row proj-row--4">
-        <a class="proj-card reveal-clip" href="contacto.html" data-cat="Residencial">
+        <a class="proj-card" href="contacto.html" data-cat="Residencial">
           <div class="proj-card__media">
             <img src="assets/img/photos/proyecto-04.jpg" alt="Villa Pacífico" />
             <div class="proj-card__etiq" style="background:#CCB598;">
@@ -91,7 +76,7 @@
           </div>
           <div class="proj-card__cap"><h3>Villa Pacífico</h3><span>Guanacaste · 2024</span></div>
         </a>
-        <a class="proj-card reveal-clip" href="contacto.html" data-cat="Interiores">
+        <a class="proj-card" href="contacto.html" data-cat="Interiores">
           <div class="proj-card__media">
             <img src="assets/img/photos/proyecto-05.jpg" alt="Apartamento Los Yoses" />
             <div class="proj-card__etiq" style="background:#B3A696;">
@@ -101,7 +86,7 @@
           </div>
           <div class="proj-card__cap"><h3>Apartamento Los Yoses</h3><span>San José · 2024</span></div>
         </a>
-        <a class="proj-card reveal-clip" href="contacto.html" data-cat="Hospitality">
+        <a class="proj-card" href="contacto.html" data-cat="Hospitality">
           <div class="proj-card__media">
             <img src="assets/img/photos/proyecto-06.jpg" alt="Hotel Monteverde" />
             <div class="proj-card__etiq" style="background:#918F7A;color:var(--cream);">
@@ -111,7 +96,7 @@
           </div>
           <div class="proj-card__cap"><h3>Hotel Monteverde</h3><span>Puntarenas · 2023</span></div>
         </a>
-        <a class="proj-card reveal-clip" href="contacto.html" data-cat="Residencial">
+        <a class="proj-card" href="contacto.html" data-cat="Residencial">
           <div class="proj-card__media">
             <img src="assets/img/photos/proyecto-07.jpg" alt="Casa Cedros" />
             <div class="proj-card__etiq" style="background:#B19B68;">
@@ -121,7 +106,7 @@
           </div>
           <div class="proj-card__cap"><h3>Casa Cedros</h3><span>Cartago · 2023</span></div>
         </a>
-        <a class="proj-card reveal-clip" href="contacto.html" data-cat="Comercial">
+        <a class="proj-card" href="contacto.html" data-cat="Comercial">
           <div class="proj-card__media">
             <img src="assets/img/photos/proyecto-08.jpg" alt="Oficinas Escazú" />
             <div class="proj-card__etiq" style="background:#4E6D73;color:var(--cream);">
@@ -147,6 +132,7 @@
   </main>
   <script src="assets/js/vendor/gsap.min.js"></script>
   <script src="assets/js/vendor/ScrollTrigger.min.js"></script>
+  <script src="assets/js/vendor/Flip.min.js"></script>
   <script src="assets/js/vendor/SplitText.min.js"></script>
   <script src="assets/js/vendor/lenis.min.js"></script>
   <script src="assets/js/main.js"></script>

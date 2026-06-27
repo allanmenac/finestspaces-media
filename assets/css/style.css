@@ -1098,6 +1098,18 @@ main { min-height: 100vh; }
 .proj-row--4 { grid-template-columns: repeat(4, 1fr); }
 @media (max-width: 760px) { .proj-row--3, .proj-row--4 { grid-template-columns: repeat(2, 1fr); } }
 
+/* Estado "tira" (pre-Flip): las 8 tarjetas alineadas en una sola fila
+   horizontal; al hacer scroll, GSAP Flip las despliega a la cuadrícula. */
+.proj-rows.is-strip {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: clamp(0.5rem, 1.2vw, 1rem);
+}
+.proj-rows.is-strip .proj-row { display: contents; }
+.proj-rows.is-strip .proj-card__cap,
+.proj-rows.is-strip .proj-card__etiq { display: none; }
+
 .proj-card { display: block; }
 .proj-card__media { position: relative; overflow: hidden; }
 .proj-card__media img {
