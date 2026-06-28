@@ -756,23 +756,58 @@ main { min-height: 100vh; }
 .footer {
   background: var(--off-black);
   color: var(--cream);
-  padding: clamp(3rem, 8vw, 6rem) var(--gutter) 2rem;
+  padding: clamp(3.5rem, 8vw, 7rem) var(--gutter) 2rem;
 }
-.footer__top { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 2rem; align-items: flex-start; }
-.footer__brand { font-family: var(--serif); font-size: clamp(2rem, 6vw, 4.2rem); font-weight: 400; line-height: 0.95; letter-spacing: 0.04em; }
-.footer__brand-desc { display: block; font-family: var(--sans); font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(237,231,222,0.55); margin-top: 0.9rem; font-weight: 500; }
-.footer__cols { display: flex; gap: clamp(2rem, 6vw, 5rem); flex-wrap: wrap; }
-.footer__col h4 { font-family: var(--sans); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(237,231,222,0.5); margin-bottom: 1rem; font-weight: 500; }
-.footer__col a, .footer__col p { display: block; font-size: 0.95rem; margin-bottom: 0.5rem; color: rgba(237,231,222,0.85); transition: color 0.3s var(--ease); }
-.footer__col a:hover { color: var(--cream); }
+/* Marca: logo VA (se dibuja) + wordmark (se escribe) */
+.footer__brandwrap { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.9rem; padding-bottom: clamp(2.5rem, 6vw, 4.5rem); }
+.footer__brand { display: inline-flex; flex-direction: column; align-items: center; gap: 1rem; color: var(--cream); }
+.footer__mark { display: block; line-height: 0; }
+.footer__mark .mark { height: clamp(26px, 4vw, 40px); width: auto; color: var(--cream); display: block; }
+.footer__wm { font-family: var(--serif); font-weight: 700; font-size: clamp(2.2rem, 7vw, 4.6rem); letter-spacing: 0.14em; line-height: 1; }
+.footer__wm .fwm-ch { display: inline-block; will-change: transform; }
+.footer__tag { font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(237,231,222,0.55); }
+
+.footer__grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  padding: clamp(2.5rem, 5vw, 3.5rem) 0;
+  border-top: 1px solid rgba(237,231,222,0.14);
+}
+.footer__naplabel { display: block; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(237,231,222,0.45); margin-bottom: 1rem; }
+.footer__nav { display: flex; flex-direction: column; gap: 0.55rem; }
+.footer__nav a { font-size: 0.95rem; color: rgba(237,231,222,0.82); width: max-content; transition: opacity 0.3s var(--ease); }
+.footer__nav a:hover { opacity: 0.55; }
+.footer__nap { display: flex; flex-direction: column; gap: 0.5rem; }
+.footer__nap span, .footer__nap a { font-size: 0.95rem; color: rgba(237,231,222,0.82); }
+.footer__nap a:hover { color: var(--cream); }
+.footer__nap .footer__naplabel { color: rgba(237,231,222,0.45); }
+
+.footer__social { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+.soc {
+  width: 38px; height: 38px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 1px solid rgba(237,231,222,0.22);
+  transition: background-color 0.35s var(--ease), border-color 0.35s var(--ease), transform 0.35s var(--ease);
+}
+.soc svg { width: 16px; height: 16px; fill: rgba(237,231,222,0.78); transition: fill 0.35s var(--ease); }
+.soc:hover { background: var(--cream); border-color: var(--cream); transform: translateY(-3px); }
+.soc:hover svg { fill: var(--off-black); }
+
 .footer__bottom {
   display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
-  margin-top: clamp(3rem, 8vw, 6rem);
   padding-top: 1.5rem;
-  border-top: 1px solid rgba(237,231,222,0.15);
+  border-top: 1px solid rgba(237,231,222,0.14);
   font-size: 0.75rem;
-  color: rgba(237,231,222,0.6);
+  color: rgba(237,231,222,0.55);
   letter-spacing: 0.04em;
+}
+.footer__legal { display: inline-flex; gap: 1.4rem; }
+.footer__legal a { transition: opacity 0.3s var(--ease); }
+.footer__legal a:hover { opacity: 0.6; }
+@media (max-width: 760px) {
+  .footer__grid { grid-template-columns: 1fr; gap: 2rem; }
+  .footer__bottom { flex-direction: column; gap: 0.6rem; }
 }
 
 /* =========================================================
