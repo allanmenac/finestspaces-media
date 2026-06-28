@@ -260,7 +260,7 @@
     var activeCardIndex = 0;
 
     function applyCard(p) {
-      card.style.backgroundColor = p.color;
+      card.dataset.accent = p.color;   /* color (oscuro) para la cortina de transición */
       cardName.textContent  = p.name;
       cardPlace.textContent = p.location;
       cardCat.textContent   = p.category;

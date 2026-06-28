@@ -1,3 +1,11 @@
+/* ----------  Tipografía autoalojada (Syne + Sora)  ---------- */
+@font-face { font-family:"Syne"; font-style:normal; font-weight:600; font-display:swap; src:url("../fonts/syne-600.woff2") format("woff2"); }
+@font-face { font-family:"Syne"; font-style:normal; font-weight:700; font-display:swap; src:url("../fonts/syne-700.woff2") format("woff2"); }
+@font-face { font-family:"Syne"; font-style:normal; font-weight:800; font-display:swap; src:url("../fonts/syne-800.woff2") format("woff2"); }
+@font-face { font-family:"Sora"; font-style:normal; font-weight:400; font-display:swap; src:url("../fonts/sora-400.woff2") format("woff2"); }
+@font-face { font-family:"Sora"; font-style:normal; font-weight:500; font-display:swap; src:url("../fonts/sora-500.woff2") format("woff2"); }
+@font-face { font-family:"Sora"; font-style:normal; font-weight:600; font-display:swap; src:url("../fonts/sora-600.woff2") format("woff2"); }
+
 /* =========================================================
    VISION ARQ — Sistema de diseño
    Inspirado en: Mersi Architecture (estructura, transiciones)
@@ -22,8 +30,9 @@
   --olive:      #2F2F2F;
   --clay:       #444444;
 
-  --serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
-  --sans:  "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  /* Tipografía VISIONARQ — Syne (display, geométrica/futurista) + Sora (texto) */
+  --serif: "Syne", "Sora", system-ui, sans-serif;   /* títulos / wordmark */
+  --sans:  "Sora", system-ui, -apple-system, sans-serif;  /* cuerpo / UI */
 
   --ease: cubic-bezier(0.65, 0.05, 0.36, 1);
   --gutter: clamp(1.25rem, 4vw, 4rem);
@@ -64,10 +73,10 @@ h1, h2, h3, h4 { font-family: var(--serif); font-weight: 500; line-height: 1.05;
 
 .display {
   font-family: var(--serif);
-  font-weight: 300;
-  font-size: clamp(2.75rem, 9vw, 8rem);
-  line-height: 0.95;
-  letter-spacing: -0.01em;
+  font-weight: 700;
+  font-size: clamp(2.6rem, 8.4vw, 7.4rem);
+  line-height: 0.98;
+  letter-spacing: -0.015em;
 }
 
 .eyebrow {
@@ -79,10 +88,11 @@ h1, h2, h3, h4 { font-family: var(--serif); font-weight: 500; line-height: 1.05;
 }
 
 .lead {
-  font-family: var(--serif);
-  font-size: clamp(1.35rem, 2.6vw, 2.1rem);
-  font-weight: 300;
-  line-height: 1.3;
+  font-family: var(--sans);
+  font-size: clamp(1.2rem, 2.2vw, 1.7rem);
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
 }
 
 /* =========================================================
@@ -326,12 +336,14 @@ main { min-height: 100vh; }
   display: flex;
   align-items: stretch;
   justify-content: space-between;
-  transition: background-color 0.5s var(--ease);
   cursor: pointer;
   overflow: hidden;
-  color: var(--cream);
+  /* Tarjeta clara con el logo VA estampado en relieve (efecto 3D / letterpress) */
+  background: #E7E6E2;
+  color: var(--off-black);
+  box-shadow: 0 24px 60px -28px rgba(0,0,0,0.45);
 }
-/* Logo VA grabado al centro (tono sobre tono) */
+/* Logo VA estampado al centro — pequeño, en relieve tono sobre tono */
 .slide-card__logo {
   position: absolute;
   inset: 0;
@@ -339,20 +351,21 @@ main { min-height: 100vh; }
   align-items: center;
   justify-content: center;
   pointer-events: none;
-  padding: 0 18%;
 }
 .slide-card__logo .mark {
   height: auto;
-  width: 64%;
-  color: var(--cream);
-  opacity: 0.16;
+  width: 30%;
+  color: #E7E6E2;                 /* mismo tono que la tarjeta */
+  filter:
+    drop-shadow(0.6px 0.6px 0.4px rgba(0,0,0,0.30))
+    drop-shadow(-0.8px -0.8px 0.4px rgba(255,255,255,0.95));
 }
 /* Flecha esquina superior derecha */
 .slide-card__corner {
   position: absolute;
   top: clamp(1rem, 1.9vw, 1.6rem);
   right: clamp(1.5rem, 2.6vw, 2.4rem);
-  color: var(--cream);
+  color: var(--off-black);
   line-height: 0;
 }
 .slide-card__corner svg { width: 15px; height: 15px; }
@@ -1140,7 +1153,27 @@ main { min-height: 100vh; }
 .proj-card.is-hidden { display: none; }
 
 /* =========================================================
-   CAPA GLOBAL — oscurecido ~5% + viñeteado suave (sobre todo el sitio)
+   TRATAMIENTO DE FOTOS — color, pero con una capa de oscuridad/fundido
+   para una estética más cohesiva y artística (sobre toda imagen).
+   ========================================================= */
+.home-slider img,
+.reveal-clip img, .reveal-clip > img,
+.proj-card__media img,
+.pd-hero__media img,
+.pd-gallery img,
+.blog-entry img,
+.paso__media img,
+.about-hero img,
+.contact-marquee img,
+.piano__img img {
+  filter: brightness(0.84) contrast(1.04) saturate(0.96);
+  transition: filter 0.6s var(--ease);
+}
+.proj-card:hover .proj-card__media img,
+.blog-entry:hover img { filter: brightness(0.94) contrast(1.04) saturate(1); }
+
+/* =========================================================
+   CAPA GLOBAL — oscurecido + viñeteado (fundido artístico sobre el sitio)
    ========================================================= */
 .site-tint {
   position: fixed;
@@ -1148,8 +1181,8 @@ main { min-height: 100vh; }
   z-index: 1400;            /* sobre el contenido; bajo cortinas (1500) y loader (2000) */
   pointer-events: none;     /* nunca bloquea la interacción */
   background:
-    radial-gradient(125% 125% at 50% 48%, rgba(20,20,20,0) 52%, rgba(20,20,20,0.10) 100%),
-    rgba(20,20,20,0.05);
+    radial-gradient(135% 135% at 50% 42%, rgba(15,15,15,0) 46%, rgba(15,15,15,0.22) 100%),
+    rgba(15,15,15,0.06);
 }
 
 @media (prefers-reduced-motion: reduce) {
