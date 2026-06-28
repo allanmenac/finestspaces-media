@@ -24,10 +24,8 @@ const SITE = {
 
 /* ----------  Monograma VA (logo)  ---------- */
 const MARK = `
-  <svg class="mark" viewBox="0 0 120 88" fill="none" aria-hidden="true">
-    <path d="M6 84 L38 6 L70 84" stroke="currentColor" stroke-width="11" stroke-linejoin="miter" stroke-linecap="square"/>
-    <path d="M50 84 L82 6 L114 84" stroke="currentColor" stroke-width="11" stroke-linejoin="miter" stroke-linecap="square"/>
-    <path d="M67 54 L97 54" stroke="currentColor" stroke-width="11" stroke-linecap="square"/>
+  <svg class="mark" viewBox="0 0 803 311" fill="none" aria-hidden="true">
+    <path fill="currentColor" fill-rule="evenodd" d="M216.937,283.265C210.099,274.044 161.416,209.01 108.752,138.745C56.088,68.48 13,10.753 13,10.462C13,10.172 18.063,10.062 24.25,10.217L35.5,10.5L115,116.435C158.725,174.699 194.95,222.498 195.5,222.654C196.05,222.81 232.384,175.027 276.242,116.469L355.984,10L401.099,10C436.794,10 446.109,10.261 445.709,11.25C445.29,12.287 232.191,296.893 230.058,299.265C229.679,299.686 223.775,292.486 216.937,283.265ZM267.645,297.169C268.665,295.601 317.42,230.342 375.989,152.149L482.479,9.98L527.963,10.24L573.448,10.5L579.111,18C596.349,40.829 788.709,297.702 789.352,298.75C789.947,299.722 787.592,300 778.78,300L767.442,300L664.571,162.783C569.534,36.017 561.596,25.717 560.333,27.533C559.581,28.615 513.407,90.25 457.724,164.5L356.482,299.5L311.136,299.76L265.791,300.021L267.645,297.169Z"/>
   </svg>`;
 
 /* ----------  Helpers  ---------- */
@@ -59,8 +57,8 @@ function buildNav() {
 
   const s = document.createElement("style");
   s.textContent = `
-    .nav-logo { display:flex; align-items:center; gap:.55rem; }
-    .nav-logo .mark { height:1.45rem; width:auto; display:block; }
+    .nav-logo { display:flex; align-items:center; gap:.6rem; }
+    .nav-logo .mark { height:.85rem; width:auto; display:block; }
     .nav-logo__text { font-family: var(--serif); font-weight:500; font-size:1.18rem; letter-spacing:.18em; }
     @media (max-width:380px){ .nav-logo__text{ display:none; } }`;
   document.head.appendChild(s);

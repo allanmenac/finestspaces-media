@@ -7,19 +7,20 @@
 
 /* ----------  Variables  ---------- */
 :root {
-  --cream:      #EDE7DE;   /* fondo principal */
-  --cream-soft: #E4DDD2;   /* fondo alterno */
-  --off-black:  #1A1A1A;   /* texto principal */
-  --muted:      #6B655C;   /* texto secundario */
-  --line:       #C9C1B5;   /* líneas / bordes */
+  /* Paleta monocromática (gris claro → negros profundos) — marca VISIONARQ */
+  --cream:      #ECECEA;   /* fondo principal (gris muy claro) */
+  --cream-soft: #E1E1DF;   /* fondo alterno */
+  --off-black:  #141414;   /* texto principal (negro profundo) */
+  --muted:      #6E6E6C;   /* texto secundario (gris medio) */
+  --line:       #CFCFCC;   /* líneas / bordes */
 
-  /* Acentos para las tarjetas de proyecto (tomados de la referencia Mersi) */
-  --terracotta: #DC633F;
-  --sage:       #657B69;
-  --slate:      #8B9EC1;
-  --tan:        #CCB598;
-  --olive:      #918F7A;
-  --clay:       #B3A696;
+  /* "Acentos" de proyecto en escala de gris (sin color) */
+  --terracotta: #2A2A2A;
+  --sage:       #3A3A3A;
+  --slate:      #4A4A4A;
+  --tan:        #5A5A5A;
+  --olive:      #2F2F2F;
+  --clay:       #444444;
 
   --serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
   --sans:  "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -328,7 +329,7 @@ main { min-height: 100vh; }
   transition: background-color 0.5s var(--ease);
   cursor: pointer;
   overflow: hidden;
-  color: var(--off-black);
+  color: var(--cream);
 }
 /* Logo VA grabado al centro (tono sobre tono) */
 .slide-card__logo {
@@ -338,19 +339,20 @@ main { min-height: 100vh; }
   align-items: center;
   justify-content: center;
   pointer-events: none;
+  padding: 0 18%;
 }
 .slide-card__logo .mark {
-  height: 64%;
-  width: auto;
-  color: var(--off-black);
-  opacity: 0.14;
+  height: auto;
+  width: 64%;
+  color: var(--cream);
+  opacity: 0.16;
 }
 /* Flecha esquina superior derecha */
 .slide-card__corner {
   position: absolute;
   top: clamp(1rem, 1.9vw, 1.6rem);
   right: clamp(1.5rem, 2.6vw, 2.4rem);
-  color: var(--off-black);
+  color: var(--cream);
   line-height: 0;
 }
 .slide-card__corner svg { width: 15px; height: 15px; }
