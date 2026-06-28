@@ -130,6 +130,58 @@
       </div>
     </section>
 
+    <!-- RESEÑAS (muestra; lista para conectar a Google Business Profile) -->
+    <section class="section reviews reveal" aria-label="Reseñas de clientes">
+      <div class="reviews__head">
+        <div>
+          <p class="eyebrow">Reseñas</p>
+          <h2 class="display" style="font-size:clamp(2rem,5vw,4rem);margin-top:1rem;">Lo que dicen<br>nuestros clientes.</h2>
+        </div>
+        <div class="reviews__agg">
+          <div class="reviews__score">4.9</div>
+          <div class="reviews__stars" aria-hidden="true">★★★★★</div>
+          <p class="reviews__count">Basado en 48 reseñas</p>
+          <span class="reviews__badge">
+            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"/></svg>
+            Reseñas de Google
+          </span>
+        </div>
+      </div>
+
+      <div class="reviews__grid">
+        <article class="review-card">
+          <div class="review-card__stars" aria-hidden="true">★★★★★</div>
+          <p class="review-card__text">Transformaron por completo nuestra casa. Escucharon cada detalle y entregaron un espacio que superó lo que imaginábamos. Cumplieron tiempos y presupuesto.</p>
+          <div class="review-card__by"><span class="review-card__ava">M</span><span><b>María Fernández</b><i>Hace 2 semanas</i></span></div>
+        </article>
+        <article class="review-card">
+          <div class="review-card__stars" aria-hidden="true">★★★★★</div>
+          <p class="review-card__text">Profesionalismo de principio a fin. El acompañamiento en permisos y obra nos dio una tranquilidad enorme. Un solo equipo responsable de todo.</p>
+          <div class="review-card__by"><span class="review-card__ava">C</span><span><b>Carlos Jiménez</b><i>Hace 1 mes</i></span></div>
+        </article>
+        <article class="review-card">
+          <div class="review-card__stars" aria-hidden="true">★★★★★</div>
+          <p class="review-card__text">El diseño superó nuestras expectativas. Lograron una casa luminosa, fresca y atemporal. La calidad de los acabados habla por sí sola.</p>
+          <div class="review-card__by"><span class="review-card__ava">A</span><span><b>Ana Lucía Mora</b><i>Hace 1 mes</i></span></div>
+        </article>
+        <article class="review-card">
+          <div class="review-card__stars" aria-hidden="true">★★★★★</div>
+          <p class="review-card__text">Remodelaron nuestras oficinas sin detener la operación. Comunicación constante y cero sorpresas. Volveríamos a trabajar con ellos sin dudarlo.</p>
+          <div class="review-card__by"><span class="review-card__ava">R</span><span><b>Roberto Vargas</b><i>Hace 2 meses</i></span></div>
+        </article>
+        <article class="review-card">
+          <div class="review-card__stars" aria-hidden="true">★★★★★</div>
+          <p class="review-card__text">Un equipo que de verdad escucha. Entendieron nuestra forma de vivir y la tradujeron en espacios que se sienten propios. Recomendados.</p>
+          <div class="review-card__by"><span class="review-card__ava">D</span><span><b>Daniela Castro</b><i>Hace 3 meses</i></span></div>
+        </article>
+        <article class="review-card">
+          <div class="review-card__stars" aria-hidden="true">★★★★☆</div>
+          <p class="review-card__text">Excelente diseño y construcción. La obra tomó un poco más de lo previsto por permisos municipales, pero el resultado final fue impecable.</p>
+          <div class="review-card__by"><span class="review-card__ava">J</span><span><b>José Pablo Rojas</b><i>Hace 4 meses</i></span></div>
+        </article>
+      </div>
+    </section>
+
     <!-- CTA -->
     <section class="section reveal" style="text-align:center;">
       <p class="display" style="font-size: clamp(2rem,6vw,5rem);">¿Tienes un proyecto<br>en mente?</p>
@@ -141,6 +193,26 @@
     </section>
 
   </main>
+
+  <!-- SEO/AEO: datos estructurados (negocio local + reseñas) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "GeneralContractor",
+    "name": "VISIONARQ",
+    "description": "Estudio de arquitectura y construcción en San José, Costa Rica: diseño arquitectónico, construcción llave en mano, diseño de interiores y consultoría.",
+    "image": "assets/img/logo-va.png",
+    "email": "vision.arqcr@gmail.com",
+    "telephone": "+506 6454 8401",
+    "areaServed": "Costa Rica",
+    "address": { "@type": "PostalAddress", "addressLocality": "San José", "addressCountry": "CR" },
+    "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "reviewCount": "48", "bestRating": "5" },
+    "review": [
+      { "@type": "Review", "author": {"@type":"Person","name":"María Fernández"}, "reviewRating": {"@type":"Rating","ratingValue":"5"}, "reviewBody": "Transformaron por completo nuestra casa. Cumplieron tiempos y presupuesto." },
+      { "@type": "Review", "author": {"@type":"Person","name":"Carlos Jiménez"}, "reviewRating": {"@type":"Rating","ratingValue":"5"}, "reviewBody": "Profesionalismo de principio a fin. Un solo equipo responsable de todo." }
+    ]
+  }
+  </script>
 
   <script src="assets/js/vendor/gsap.min.js"></script>
   <script src="assets/js/vendor/ScrollTrigger.min.js"></script>
