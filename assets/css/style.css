@@ -1498,3 +1498,47 @@ main { min-height: 100vh; }
 @media (max-width: 860px) { .svc-seo__grid { grid-template-columns: 1fr; } .svc-seo__aside { position: static; } }
 
 .svc-faq .qa { margin-top: 2.5rem; }
+
+/* =========================================================
+   CONTACTO — hero con imágenes cambiantes + tarjeta central
+   ========================================================= */
+.ct-hero { position: relative; display: grid; grid-template-columns: 1.05fr 0.95fr; min-height: 92vh; }
+.ct-hero__media { position: relative; overflow: hidden; background: var(--off-black); }
+.ct-hero__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; animation: ctFade 16s linear infinite; }
+.ct-hero__img:nth-child(1) { animation-delay: 0s; }
+.ct-hero__img:nth-child(2) { animation-delay: 4s; }
+.ct-hero__img:nth-child(3) { animation-delay: 8s; }
+.ct-hero__img:nth-child(4) { animation-delay: 12s; }
+@keyframes ctFade { 0% { opacity: 0; } 3% { opacity: 1; } 22% { opacity: 1; } 26% { opacity: 0; } 100% { opacity: 0; } }
+.ct-hero__media::before { content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(to bottom, rgba(15,15,15,0.35), rgba(15,15,15,0) 24%); }
+
+.ct-side { display: flex; align-items: center; justify-content: center; padding: calc(var(--nav-h) + 2rem) clamp(1.25rem, 4vw, 4rem) 3rem; }
+.ct-card {
+  width: min(440px, 100%);
+  background: var(--cream); border: 1px solid var(--line); border-radius: 4px;
+  padding: clamp(1.8rem, 3.5vw, 3rem);
+  box-shadow: 0 40px 90px -50px rgba(0,0,0,0.6);
+}
+.ct-card__logo svg { width: 56px; height: auto; color: var(--off-black); display: block; }
+.ct-card__brand { display: block; font-family: var(--serif); font-weight: 700; letter-spacing: 0.16em; font-size: 1.05rem; margin: 0.9rem 0 1.4rem; }
+.ct-card__title { font-family: var(--serif); font-weight: 700; font-size: clamp(1.7rem, 3.2vw, 2.5rem); line-height: 1.02; }
+.ct-card__lead { color: var(--muted); margin: 0.9rem 0 1.6rem; line-height: 1.6; font-size: 0.96rem; }
+
+.ct-news__label { display: block; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.6rem; }
+.ct-news__field { display: flex; align-items: center; border-bottom: 1px solid var(--off-black); padding-bottom: 0.5rem; }
+.ct-news__field input { flex: 1; background: none; border: none; font-family: var(--sans); font-size: 0.95rem; color: var(--off-black); padding: 0.2rem 0; }
+.ct-news__field input:focus { outline: none; }
+.ct-news__field button { color: var(--off-black); display: inline-flex; transition: transform 0.3s var(--ease); }
+.ct-news__field button:hover { transform: translate(2px, -2px); }
+
+.ct-info { margin-top: 1.8rem; display: flex; flex-direction: column; gap: 0.9rem; border-top: 1px solid var(--line); padding-top: 1.6rem; }
+.ct-info a, .ct-info p { font-size: 0.95rem; color: var(--off-black); }
+.ct-info span { display: block; font-size: 0.64rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.2rem; }
+.ct-info a:hover { color: var(--muted); }
+
+@media (max-width: 860px) {
+  .ct-hero { grid-template-columns: 1fr; min-height: 0; }
+  .ct-hero__media { height: 48vh; }
+  .ct-side { padding: 2.5rem var(--gutter) 1rem; }
+  .ct-card { width: 100%; }
+}
