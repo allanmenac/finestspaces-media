@@ -631,7 +631,7 @@ function initProjectsMorph() {
   const cards = rows.querySelectorAll(".proj-card");
   const t = ScrollTrigger.create({
     trigger: rows,
-    start: "top 78%",
+    start: "top 38%",   // tira visible al cargar; se despliega al hacer scroll
     once: true,
     onEnter: () => {
       const state = Flip.getState(cards);

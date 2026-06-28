@@ -1056,32 +1056,33 @@ main { min-height: 100vh; }
    PROYECTOS — cuadrícula "piano" + filtro fijo + filas alternas (Mersi projets)
    ========================================================= */
 .proj-hero {
-  min-height: 78vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   text-align: center;
-  padding: calc(var(--nav-h) + 2rem) var(--gutter) 0;
+  padding: calc(var(--nav-h) + clamp(3rem, 9vh, 7rem)) var(--gutter) 0;
   position: relative;
 }
 .proj-hero__title {
   font-family: var(--serif);
-  font-weight: 300;
-  font-size: clamp(2.5rem, 7vw, 6rem);
-  line-height: 0.98;
-  letter-spacing: -0.01em;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: clamp(1.7rem, 4.2vw, 3.4rem);
+  line-height: 1.04;
+  letter-spacing: 0.005em;
+  max-width: 18ch;
 }
 
-/* Filtro que se fija arriba al hacer scroll */
+/* Filtro centrado que se fija arriba al hacer scroll */
 .proj-filtros {
   position: sticky;
   top: calc(var(--nav-h) - 0.5rem);
   z-index: 40;
-  display: inline-flex;
+  display: flex;
   gap: 0.4rem;
-  margin: clamp(2rem, 5vw, 3.5rem) auto 0;
-  padding: 0.5rem;
+  margin: clamp(1.6rem, 4vw, 2.6rem) auto clamp(2rem, 5vw, 3rem);
+  padding: 0.45rem;
   background: var(--cream-soft);
   border: 1px solid var(--line);
   border-radius: 100px;
@@ -1142,7 +1143,7 @@ main { min-height: 100vh; }
 }
 
 /* Cuadrícula etiquetada — filas alternas de 3 y 4 columnas */
-.proj-rows { padding: clamp(3rem, 8vw, 7rem) var(--gutter); display: flex; flex-direction: column; gap: clamp(2rem, 5vw, 4rem); }
+.proj-rows { padding: 0 var(--gutter) clamp(3rem, 8vw, 7rem); display: flex; flex-direction: column; gap: clamp(2rem, 5vw, 4rem); }
 .proj-row { display: grid; gap: clamp(0.75rem, 2vw, 1.5rem); }
 .proj-row--3 { grid-template-columns: repeat(3, 1fr); }
 .proj-row--4 { grid-template-columns: repeat(4, 1fr); }

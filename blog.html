@@ -133,6 +133,7 @@
     function isMobile() { return window.innerWidth <= 760; }
 
     var N = 3; /* images per column */
+    var SLOW = 1.9; /* >1 = más lento para leer (más distancia de scroll) */
 
     function setup() {
       if (isMobile()) {
@@ -145,8 +146,8 @@
       var vh = window.innerHeight;
       var shift = (N - 1) * vh; /* total distance each column travels */
 
-      /* Wrapper height = sticky element height + desired scroll distance */
-      wrapper.style.height = (N * vh) + "px";
+      /* Wrapper height = pantalla fija + distancia de scroll (ampliada para leer) */
+      wrapper.style.height = (vh + (N - 1) * vh * SLOW) + "px";
 
       /* Left starts showing the BOTTOM image (blog-01):
          translateY(-shift) brings blog-01 into view at t=0 */
