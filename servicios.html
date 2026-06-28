@@ -19,67 +19,75 @@
       <p class="lead reveal">Acompañamos cada proyecto de principio a fin: del primer boceto a la entrega de llaves. Estas son las cuatro áreas en las que trabajamos.</p>
     </section>
 
-    <!-- 01 Arquitectura -->
-    <section class="section section--tight reveal split">
-      <div>
-        <span class="service__num">01</span>
-        <h2 style="font-size:clamp(2rem,5vw,3.5rem);font-weight:400;margin:.5rem 0 1rem;">Arquitectura</h2>
-        <p style="color:var(--muted);max-width:42ch;">Diseño arquitectónico a la medida. Estudiamos el terreno, la luz y la forma de vivir de cada cliente para crear espacios atemporales y bien resueltos.</p>
-        <ul style="list-style:none;margin-top:1.5rem;display:flex;flex-direction:column;gap:.6rem;color:var(--off-black);">
-          <li>— Levantamientos arquitectónicos</li>
-          <li>— Anteproyectos y diseño conceptual</li>
-          <li>— Planos constructivos y detalles</li>
-          <li>— Modelado 3D y visualización</li>
-        </ul>
-      </div>
-      <div class="reveal-clip" style="aspect-ratio:4/5;"><img src="assets/img/photos/servicio-arquitectura.jpg" alt="Proyecto de arquitectura" style="width:100%;height:100%;object-fit:cover;" /></div>
-    </section>
+    <!-- SERVICIOS — recorrido con tarjeta central fija (estilo Mersi).
+         La tarjeta del centro permanece; la imagen (izq.) y el texto (der.)
+         cambian al hacer scroll entre los 4 servicios. -->
+    <section class="svc-scroll" id="svc-scroll">
+      <div class="svc-stage">
 
-    <!-- 02 Construcción -->
-    <section class="section section--tight reveal split">
-      <div class="reveal-clip" style="aspect-ratio:4/5;order:-1;"><img src="assets/img/photos/servicio-construccion.jpg" alt="Construcción y obra" style="width:100%;height:100%;object-fit:cover;" /></div>
-      <div>
-        <span class="service__num">02</span>
-        <h2 style="font-size:clamp(2rem,5vw,3.5rem);font-weight:400;margin:.5rem 0 1rem;">Construcción</h2>
-        <p style="color:var(--muted);max-width:42ch;">Ejecutamos y dirigimos la obra con control absoluto de calidad, tiempos y presupuesto. Un solo equipo responsable, del diseño a la realidad.</p>
-        <ul style="list-style:none;margin-top:1.5rem;display:flex;flex-direction:column;gap:.6rem;color:var(--off-black);">
-          <li>— Construcción llave en mano</li>
-          <li>— Remodelaciones y ampliaciones</li>
-          <li>— Dirección y supervisión de obra</li>
-          <li>— Control de calidad y acabados</li>
-        </ul>
-      </div>
-    </section>
+        <!-- IZQUIERDA — imagen que cambia (dos imágenes en bucle por servicio) -->
+        <div class="svc-media">
+          <div class="svc-media__svc is-active" data-i="0">
+            <img class="a" src="assets/img/photos/servicio-arquitectura.jpg" alt="Arquitectura" />
+            <img class="b" src="assets/img/photos/proyecto-03.jpg" alt="" />
+          </div>
+          <div class="svc-media__svc" data-i="1">
+            <img class="a" src="assets/img/photos/servicio-construccion.jpg" alt="Construcción" />
+            <img class="b" src="assets/img/photos/proyecto-05.jpg" alt="" />
+          </div>
+          <div class="svc-media__svc" data-i="2">
+            <img class="a" src="assets/img/photos/servicio-interiores.jpg" alt="Interiores" />
+            <img class="b" src="assets/img/photos/proyecto-02.jpg" alt="" />
+          </div>
+          <div class="svc-media__svc" data-i="3">
+            <img class="a" src="assets/img/photos/servicio-consultoria.jpg" alt="Consultoría" />
+            <img class="b" src="assets/img/photos/proyecto-08.jpg" alt="" />
+          </div>
+        </div>
 
-    <!-- 03 Interiores -->
-    <section class="section section--tight reveal split">
-      <div>
-        <span class="service__num">03</span>
-        <h2 style="font-size:clamp(2rem,5vw,3.5rem);font-weight:400;margin:.5rem 0 1rem;">Diseño de interiores</h2>
-        <p style="color:var(--muted);max-width:42ch;">Ambientes cálidos, funcionales y con carácter. Seleccionamos materiales, mobiliario e iluminación para que cada espacio cuente una historia.</p>
-        <ul style="list-style:none;margin-top:1.5rem;display:flex;flex-direction:column;gap:.6rem;color:var(--off-black);">
-          <li>— Concepto y paleta de materiales</li>
-          <li>— Selección de mobiliario y luminarias</li>
-          <li>— Diseño a medida (carpintería)</li>
-          <li>— Styling y entrega final</li>
-        </ul>
-      </div>
-      <div class="reveal-clip" style="aspect-ratio:4/5;"><img src="assets/img/photos/servicio-interiores.jpg" alt="Diseño de interiores" style="width:100%;height:100%;object-fit:cover;" /></div>
-    </section>
+        <!-- CENTRO — tarjeta fija con logo + marca + servicio activo -->
+        <div class="svc-card">
+          <span class="svc-card__logo" aria-hidden="true">
+            <svg viewBox="0 0 803 311" fill="none"><path fill="currentColor" fill-rule="evenodd" d="M216.937,283.265C210.099,274.044 161.416,209.01 108.752,138.745C56.088,68.48 13,10.753 13,10.462C13,10.172 18.063,10.062 24.25,10.217L35.5,10.5L115,116.435C158.725,174.699 194.95,222.498 195.5,222.654C196.05,222.81 232.384,175.027 276.242,116.469L355.984,10L401.099,10C436.794,10 446.109,10.261 445.709,11.25C445.29,12.287 232.191,296.893 230.058,299.265C229.679,299.686 223.775,292.486 216.937,283.265ZM267.645,297.169C268.665,295.601 317.42,230.342 375.989,152.149L482.479,9.98L527.963,10.24L573.448,10.5L579.111,18C596.349,40.829 788.709,297.702 789.352,298.75C789.947,299.722 787.592,300 778.78,300L767.442,300L664.571,162.783C569.534,36.017 561.596,25.717 560.333,27.533C559.581,28.615 513.407,90.25 457.724,164.5L356.482,299.5L311.136,299.76L265.791,300.021L267.645,297.169Z"/></svg>
+          </span>
+          <span class="svc-card__brand">VISIONARQ</span>
+          <span class="svc-card__tag">Constructora y Consultora</span>
+          <span class="svc-card__rule"></span>
+          <span class="svc-card__active"><b id="svc-num">01</b><span id="svc-name">Arquitectura</span></span>
+        </div>
 
-    <!-- 04 Consultoría -->
-    <section class="section section--tight reveal split">
-      <div class="reveal-clip" style="aspect-ratio:4/5;order:-1;"><img src="assets/img/photos/servicio-consultoria.jpg" alt="Consultoría" style="width:100%;height:100%;object-fit:cover;" /></div>
-      <div>
-        <span class="service__num">04</span>
-        <h2 style="font-size:clamp(2rem,5vw,3.5rem);font-weight:400;margin:.5rem 0 1rem;">Consultoría</h2>
-        <p style="color:var(--muted);max-width:42ch;">¿No sabes por dónde empezar? Te asesoramos con criterio técnico para tomar las mejores decisiones antes y durante tu proyecto.</p>
-        <ul style="list-style:none;margin-top:1.5rem;display:flex;flex-direction:column;gap:.6rem;color:var(--off-black);">
-          <li>— Planes maestros</li>
-          <li>— Estudios de factibilidad</li>
-          <li>— Permisos y trámites municipales</li>
-          <li>— Peritajes y segundas opiniones</li>
-        </ul>
+        <!-- DERECHA — texto que cambia -->
+        <div class="svc-copy">
+          <div class="svc-copy__svc is-active" data-i="0">
+            <span class="svc-copy__num">01</span>
+            <h2 class="svc-copy__title">Arquitectura</h2>
+            <p class="svc-copy__desc">Diseño arquitectónico a la medida. Estudiamos el terreno, la luz y la forma de vivir de cada cliente para crear espacios atemporales y bien resueltos.</p>
+            <ul class="svc-copy__list"><li>Levantamientos arquitectónicos</li><li>Anteproyectos y diseño conceptual</li><li>Planos constructivos y detalles</li><li>Modelado 3D y visualización</li></ul>
+            <a class="svc-copy__link" href="servicio.html?s=arquitectura">Ver servicio<svg width="13" height="13" viewBox="0 0 9 9" fill="none"><path d="M7 1H1M7 1V7M7 1L1 7" stroke="currentColor" stroke-width="1"/></svg></a>
+          </div>
+          <div class="svc-copy__svc" data-i="1">
+            <span class="svc-copy__num">02</span>
+            <h2 class="svc-copy__title">Construcción</h2>
+            <p class="svc-copy__desc">Ejecutamos y dirigimos la obra con control absoluto de calidad, tiempos y presupuesto. Un solo equipo responsable, del diseño a la realidad.</p>
+            <ul class="svc-copy__list"><li>Construcción llave en mano</li><li>Remodelaciones y ampliaciones</li><li>Dirección y supervisión de obra</li><li>Control de calidad y acabados</li></ul>
+            <a class="svc-copy__link" href="servicio.html?s=construccion">Ver servicio<svg width="13" height="13" viewBox="0 0 9 9" fill="none"><path d="M7 1H1M7 1V7M7 1L1 7" stroke="currentColor" stroke-width="1"/></svg></a>
+          </div>
+          <div class="svc-copy__svc" data-i="2">
+            <span class="svc-copy__num">03</span>
+            <h2 class="svc-copy__title">Diseño de interiores</h2>
+            <p class="svc-copy__desc">Ambientes cálidos, funcionales y con carácter. Seleccionamos materiales, mobiliario e iluminación para que cada espacio cuente una historia.</p>
+            <ul class="svc-copy__list"><li>Concepto y paleta de materiales</li><li>Selección de mobiliario y luminarias</li><li>Diseño a medida (carpintería)</li><li>Styling y entrega final</li></ul>
+            <a class="svc-copy__link" href="servicio.html?s=interiores">Ver servicio<svg width="13" height="13" viewBox="0 0 9 9" fill="none"><path d="M7 1H1M7 1V7M7 1L1 7" stroke="currentColor" stroke-width="1"/></svg></a>
+          </div>
+          <div class="svc-copy__svc" data-i="3">
+            <span class="svc-copy__num">04</span>
+            <h2 class="svc-copy__title">Consultoría</h2>
+            <p class="svc-copy__desc">¿No sabes por dónde empezar? Te asesoramos con criterio técnico para tomar las mejores decisiones antes y durante tu proyecto.</p>
+            <ul class="svc-copy__list"><li>Planes maestros</li><li>Estudios de factibilidad</li><li>Permisos y trámites municipales</li><li>Peritajes y segundas opiniones</li></ul>
+            <a class="svc-copy__link" href="servicio.html?s=consultoria">Ver servicio<svg width="13" height="13" viewBox="0 0 9 9" fill="none"><path d="M7 1H1M7 1V7M7 1L1 7" stroke="currentColor" stroke-width="1"/></svg></a>
+          </div>
+        </div>
+
       </div>
     </section>
 

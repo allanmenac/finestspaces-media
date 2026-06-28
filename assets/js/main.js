@@ -648,11 +648,52 @@ function initProjectsMorph() {
   pageTriggers.push(t);
 }
 
+/* Servicios — recorrido con tarjeta central fija: cambia imagen/texto activo
+   según el progreso de scroll por la sección. */
+let svcOnScroll = null;
+function initServicesScroll() {
+  const scroll = document.getElementById("svc-scroll");
+  if (!scroll) return;
+  const medias = scroll.querySelectorAll(".svc-media__svc");
+  const copies = scroll.querySelectorAll(".svc-copy__svc");
+  const numEl = document.getElementById("svc-num");
+  const nameEl = document.getElementById("svc-name");
+  const N = copies.length;
+  if (!N) return;
+
+  let current = -1;
+  const setActive = (i) => {
+    if (i === current) return;
+    current = i;
+    medias.forEach((m, k) => m.classList.toggle("is-active", k === i));
+    copies.forEach((c, k) => c.classList.toggle("is-active", k === i));
+    if (numEl) numEl.textContent = String(i + 1).padStart(2, "0");
+    if (nameEl && copies[i]) nameEl.textContent = copies[i].querySelector(".svc-copy__title").textContent;
+  };
+
+  const clamp = (v) => Math.max(0, Math.min(1, v));
+  let raf = false;
+  const update = () => {
+    raf = false;
+    if (window.innerWidth <= 860) { setActive(0); return; }
+    const total = scroll.offsetHeight - window.innerHeight;
+    if (total <= 0) return;
+    const t = clamp(-scroll.getBoundingClientRect().top / total);
+    setActive(Math.min(N - 1, Math.floor(t * N)));
+  };
+
+  if (svcOnScroll) window.removeEventListener("scroll", svcOnScroll);
+  svcOnScroll = () => { if (!scroll.isConnected) return; if (!raf) { raf = true; requestAnimationFrame(update); } };
+  window.addEventListener("scroll", svcOnScroll, { passive: true });
+  update();
+}
+
 function initPage() {
   updateNavActive();
   buildReveals();
   buildPianoIntro();
   initProjectsMorph();
+  initServicesScroll();
   initNavScroll();
 }
 
@@ -703,7 +744,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // updateNavActive de inmediato; los reveals (SplitText) esperan a las fuentes
   updateNavActive();
-  const startReveals = () => { buildReveals(); buildPianoIntro(); initProjectsMorph(); initNavScroll(); };
+  const startReveals = () => { buildReveals(); buildPianoIntro(); initProjectsMorph(); initServicesScroll(); initNavScroll(); };
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(startReveals);
   else startReveals();
 });
