@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 803 311" width="803" height="311" fill="none">
+  <defs>
+    <clipPath id="vaV">
+      <rect x="13" y="0" width="0" height="311">
+        <animate attributeName="width" from="0" to="432" dur="1.3s" begin="0s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.65 0.05 0.36 1"/>
+      </rect>
+    </clipPath>
+    <clipPath id="vaA">
+      <rect x="789" y="0" width="0" height="311">
+        <animate attributeName="x" from="789" to="266" dur="1.3s" begin="0s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.65 0.05 0.36 1"/>
+        <animate attributeName="width" from="0" to="523" dur="1.3s" begin="0s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.65 0.05 0.36 1"/>
+      </rect>
+    </clipPath>
+  </defs>
+  <path fill="#FFFFFF" fill-rule="evenodd" clip-path="url(#vaV)" d="M216.94,283.27C210.1,274.04 161.42,209.01 108.75,138.75C56.09,68.48 13,10.75 13,10.46C13,10.17 18.06,10.06 24.25,10.22L35.5,10.5L115,116.44C158.73,174.7 194.95,222.5 195.5,222.65C196.05,222.81 232.38,175.03 276.24,116.47L355.98,10L401.1,10C436.79,10 446.11,10.26 445.71,11.25C445.29,12.29 232.19,296.89 230.06,299.27C229.68,299.69 223.78,292.49 216.94,283.27Z"/>
+  <path fill="#FFFFFF" fill-rule="evenodd" clip-path="url(#vaA)" d="M267.65,297.17C268.67,295.6 317.42,230.34 375.99,152.15L482.48,9.98L527.96,10.24L573.45,10.5L579.11,18C596.35,40.83 788.71,297.7 789.35,298.75C789.95,299.72 787.59,300 778.78,300L767.44,300L664.57,162.78C569.53,36.02 561.6,25.72 560.33,27.53C559.58,28.62 513.41,90.25 457.72,164.5L356.48,299.5L311.14,299.76L265.79,300.02L267.65,297.17Z"/>
+</svg>
