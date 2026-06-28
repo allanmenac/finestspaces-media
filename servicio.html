@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Servicio · VISIONARQ</title>
+  <meta name="description" content="Servicio de VISIONARQ — arquitectura y construcción en San José, Costa Rica." />
+  <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <main>
+    <article class="proj-detail svc-detail" id="svc-detail">
+
+      <!-- HERO -->
+      <header class="pd-hero">
+        <div class="pd-hero__media"><img id="sv-hero" src="" alt="" /></div>
+        <div class="pd-hero__head">
+          <p class="eyebrow" id="sv-kicker">Servicio</p>
+          <h1 class="pd-hero__title" id="sv-title">Servicio</h1>
+          <p class="pd-hero__meta" id="sv-sub"></p>
+        </div>
+      </header>
+
+      <!-- INTRO -->
+      <section class="section section--tight pd-intro">
+        <p class="lead reveal" id="sv-lead"></p>
+        <div class="pd-facts reveal" id="sv-facts"></div>
+      </section>
+
+      <!-- GALERÍA ANIMADA -->
+      <section class="svc-gal" id="sv-gallery" aria-label="Galería"></section>
+
+      <!-- CONTENIDO SEO -->
+      <section class="section svc-seo">
+        <div class="svc-seo__grid">
+          <div class="svc-seo__main reveal" id="sv-seo"></div>
+          <aside class="svc-seo__aside reveal">
+            <h3 id="sv-aside-title">Cómo trabajamos</h3>
+            <ul id="sv-steps"></ul>
+            <a class="btn" href="contacto.html">Agendar una cita
+              <svg width="14" height="14" viewBox="0 0 9 9" fill="none"><path d="M7 1H1M7 1V7M7 1L1 7" stroke="currentColor" stroke-width="1"/></svg>
+            </a>
+          </aside>
+        </div>
+      </section>
+
+      <!-- FAQ específica (AEO) -->
+      <section class="section svc-faq reveal" aria-label="Preguntas frecuentes">
+        <p class="eyebrow">Preguntas frecuentes</p>
+        <h2 class="display" style="font-size:clamp(1.8rem,5vw,3.4rem);margin-top:1rem;" id="sv-faq-title">Lo que más preguntan.</h2>
+        <div class="qa"><div class="qa-list" id="sv-qa-list"></div><div class="qa-answers" id="sv-qa-answers" hidden></div></div>
+      </section>
+
+      <!-- SIGUIENTE SERVICIO -->
+      <a class="pd-next" id="sv-next" href="servicios.html">
+        <span class="pd-next__label">Siguiente servicio</span>
+        <span class="pd-next__name" id="sv-next-name">—</span>
+        <svg width="16" height="16" viewBox="0 0 9 9" fill="none"><path d="M7 1H1M7 1V7M7 1L1 7" stroke="currentColor" stroke-width="1"/></svg>
+      </a>
+    </article>
+  </main>
+
+  <script type="application/ld+json" id="sv-faqschema"></script>
+
+  <script src="assets/js/vendor/gsap.min.js"></script>
+  <script src="assets/js/vendor/ScrollTrigger.min.js"></script>
+  <script src="assets/js/vendor/Flip.min.js"></script>
+  <script src="assets/js/vendor/SplitText.min.js"></script>
+  <script src="assets/js/vendor/lenis.min.js"></script>
+  <script src="assets/js/main.js"></script>
+
+  <script>
+  (function () {
+    var IMG = "assets/img/photos/";
+    var S = {
+      "arquitectura": {
+        kicker: "Servicio 01", name: "Arquitectura", sub: "Diseño arquitectónico a la medida · Costa Rica",
+        hero: IMG+"servicio-arquitectura.jpg", color:"#1E1E1E",
+        lead: "Diseñamos arquitectura atemporal y bien resuelta: estudiamos el terreno, la luz y la forma de vivir de cada cliente para crear espacios que perduran.",
+        facts: [["Entregables","Planos, 3D, detalles"],["Plazo típico","6–10 semanas"],["Ideal para","Casas, comercios, oficinas"],["Cobertura","Todo Costa Rica"]],
+        gallery: [IMG+"proyecto-01.jpg",IMG+"proyecto-03.jpg",IMG+"servicio-interiores.jpg",IMG+"proyecto-05.jpg",IMG+"proyecto-07.jpg"],
+        seo: "<h2>Diseño arquitectónico en Costa Rica</h2><p>En VISIONARQ desarrollamos <b>proyectos de arquitectura a la medida</b> en San José y todo Costa Rica: vivienda unifamiliar, remodelaciones, locales comerciales y oficinas. Cada diseño nace de un análisis riguroso del terreno, el clima tropical, la orientación solar y la normativa municipal, para lograr espacios eficientes, luminosos y de bajo mantenimiento.</p><p>Nuestro proceso de <b>diseño arquitectónico</b> incluye anteproyecto, planos constructivos, modelado 3D y la documentación necesaria para tramitar permisos. Trabajamos con materiales honestos y soluciones pasivas —ventilación cruzada, sombra y aprovechamiento de la luz natural— que reducen el consumo energético y mejoran la calidad de vida.</p><h3>¿Por qué contratar un estudio de arquitectura?</h3><p>Un buen diseño arquitectónico protege tu inversión, evita errores costosos en obra y aumenta el valor de la propiedad. Al integrar arquitectura y construcción bajo un mismo equipo, garantizamos coherencia entre lo que se dibuja y lo que se construye.</p>",
+        steps: ["Levantamiento y análisis del terreno","Anteproyecto y diseño conceptual","Planos constructivos y detalles","Modelado 3D y visualización"],
+        faqs: [
+          ["¿Cuánto cuesta un diseño arquitectónico en Costa Rica?","El costo del diseño suele calcularse como un porcentaje del valor de la obra o por metro cuadrado. Para vivienda ronda entre el 5% y el 10% del costo de construcción. Ofrecemos una primera consulta sin costo para darte un presupuesto claro."],
+          ["¿Cuánto tarda el diseño de una casa?","Un anteproyecto residencial toma de 6 a 10 semanas, según la complejidad y la rapidez de las aprobaciones. Te entregamos un cronograma realista desde el inicio."],
+          ["¿Es obligatorio contratar un arquitecto colegiado?","Sí. En Costa Rica los planos para permiso de construcción deben llevar la firma de un profesional colegiado (CFIA). Trabajar con un arquitecto también te protege legal y técnicamente."],
+          ["¿Diseñan en todo el país?","Sí. Nuestro estudio está en San José y desarrollamos proyectos en Guanacaste, el Pacífico, Heredia, Alajuela, Cartago y la Zona Norte."]
+        ]
+      },
+      "construccion": {
+        kicker: "Servicio 02", name: "Construcción", sub: "Construcción llave en mano · Costa Rica",
+        hero: IMG+"servicio-construccion.jpg", color:"#2C2C2C",
+        lead: "Ejecutamos y dirigimos la obra con control absoluto de calidad, tiempos y presupuesto. Un solo equipo responsable, del diseño a la entrega de llaves.",
+        facts: [["Modalidad","Llave en mano"],["Control","Calidad · tiempo · costo"],["Ideal para","Obra nueva y remodelación"],["Cobertura","Todo Costa Rica"]],
+        gallery: [IMG+"servicio-construccion.jpg",IMG+"proyecto-05.jpg",IMG+"proyecto-07.jpg",IMG+"proyecto-01.jpg",IMG+"proyecto-04.jpg"],
+        seo: "<h2>Construcción llave en mano en Costa Rica</h2><p>VISIONARQ ofrece <b>construcción llave en mano</b>: nos encargamos de toda la obra —desde la cimentación hasta los acabados— con un único equipo responsable de la calidad, el cronograma y el presupuesto. Esto elimina la descoordinación típica entre diseñador y constructor y te da un solo interlocutor de principio a fin.</p><p>Dirigimos y supervisamos cada etapa: estructura, instalaciones, acabados y entrega. Aplicamos control de calidad continuo, bitácora de obra y reportes de avance, para que sepas exactamente en qué se invierte cada colón. También realizamos <b>remodelaciones y ampliaciones</b> sin detener, en lo posible, tu operación o tu vida diaria.</p><h3>¿Cuánto cuesta construir en Costa Rica?</h3><p>El costo por metro cuadrado depende de los acabados, la ubicación y la complejidad. Una vivienda de acabados medios ronda entre $700 y $1.100 por m². Preparamos un presupuesto detallado y transparente antes de iniciar.</p>",
+        steps: ["Presupuesto y cronograma detallado","Gestión de permisos y trámites","Ejecución y dirección de obra","Control de calidad y entrega"],
+        faqs: [
+          ["¿Cuánto cuesta construir una casa en Costa Rica?","Una vivienda con acabados medios oscila entre $700 y $1.100 por metro cuadrado, según ubicación y diseño. Te entregamos un presupuesto detallado tras evaluar tu proyecto."],
+          ["¿Qué incluye una construcción llave en mano?","Incluye diseño (o uso de tu diseño), permisos, ejecución completa de la obra, dirección, control de calidad y entrega final lista para habitar. Un solo equipo responsable de todo."],
+          ["¿Cuánto tarda construir una casa?","Según escala y complejidad, de 6 meses a más de un año. Definimos un cronograma realista desde el inicio y reportamos el avance."],
+          ["¿Hacen remodelaciones y ampliaciones?","Sí. Realizamos remodelaciones, ampliaciones y obra nueva, coordinando los trabajos para minimizar molestias."]
+        ]
+      },
+      "interiores": {
+        kicker: "Servicio 03", name: "Diseño de interiores", sub: "Interiorismo y diseño a medida · Costa Rica",
+        hero: IMG+"servicio-interiores.jpg", color:"#242424",
+        lead: "Creamos ambientes cálidos, funcionales y con carácter. Seleccionamos materiales, mobiliario e iluminación para que cada espacio cuente tu historia.",
+        facts: [["Incluye","Concepto, materiales, mobiliario"],["A medida","Carpintería y luminarias"],["Ideal para","Casa, oficina, hospitality"],["Cobertura","Todo Costa Rica"]],
+        gallery: [IMG+"servicio-interiores.jpg",IMG+"proyecto-02.jpg",IMG+"proyecto-06.jpg",IMG+"proyecto-04.jpg",IMG+"proyecto-08.jpg"],
+        seo: "<h2>Diseño de interiores en Costa Rica</h2><p>Nuestro servicio de <b>interiorismo</b> abarca el concepto espacial, la paleta de materiales y acabados, la selección de mobiliario y luminarias, el diseño de cocinas y baños y la supervisión de la instalación. Diseñamos ambientes que se sienten propios: cálidos, funcionales y pensados para el clima tropical.</p><p>Trabajamos con <b>carpintería y mobiliario a medida</b> y con proveedores locales e internacionales para lograr exactamente lo que imaginaste. Cuidamos la iluminación —natural y artificial— porque es la que da atmósfera, profundidad y elegancia a cada espacio.</p><h3>¿Qué incluye el servicio de diseño de interiores?</h3><p>Concepto y moodboard, paleta de materiales, planos de mobiliario e iluminación, diseño a medida y styling final. Te acompañamos hasta el último detalle.</p>",
+        steps: ["Concepto y paleta de materiales","Selección de mobiliario y luminarias","Diseño a medida (carpintería)","Styling y entrega final"],
+        faqs: [
+          ["¿Qué incluye el servicio de diseño de interiores?","Concepto espacial, paleta de materiales y acabados, selección de mobiliario y luminarias, diseño de cocinas y baños, carpintería a medida y supervisión de la instalación."],
+          ["¿Cuánto cuesta contratar un diseñador de interiores en Costa Rica?","Depende del alcance: por ambiente, por proyecto completo o por metro cuadrado. Hacemos una propuesta a tu medida tras una primera reunión sin costo."],
+          ["¿Puedo contratar solo el diseño de interiores sin construcción?","Sí. Puedes contratar únicamente el interiorismo, o combinarlo con arquitectura y construcción para un resultado totalmente integrado."],
+          ["¿Trabajan con mobiliario a medida?","Sí. Diseñamos carpintería y mobiliario a medida y coordinamos su fabricación con talleres de confianza."]
+        ]
+      },
+      "consultoria": {
+        kicker: "Servicio 04", name: "Consultoría", sub: "Asesoría, permisos y factibilidad · Costa Rica",
+        hero: IMG+"servicio-consultoria.jpg", color:"#383838",
+        lead: "¿No sabes por dónde empezar? Te asesoramos con criterio técnico para tomar las mejores decisiones antes y durante tu proyecto.",
+        facts: [["Incluye","Planes maestros y factibilidad"],["Trámites","Permisos municipales"],["Ideal para","Inversionistas y propietarios"],["Cobertura","Todo Costa Rica"]],
+        gallery: [IMG+"servicio-consultoria.jpg",IMG+"proyecto-03.jpg",IMG+"proyecto-08.jpg",IMG+"servicio-arquitectura.jpg",IMG+"proyecto-06.jpg"],
+        seo: "<h2>Consultoría en arquitectura y construcción</h2><p>Ofrecemos <b>consultoría técnica</b> para que tomes decisiones informadas: planes maestros, estudios de factibilidad, análisis de terrenos, presupuestos preliminares y gestión de <b>permisos y trámites municipales</b> en Costa Rica. Ideal si estás evaluando una inversión, comprando un lote o necesitas una segunda opinión profesional.</p><p>También realizamos peritajes y revisiones de proyectos en curso. Nuestro objetivo es anticipar riesgos, optimizar costos y proteger el calendario antes de que comiencen los problemas en obra.</p><h3>¿Necesito permisos para construir en Costa Rica?</h3><p>Sí. La mayoría de obras requieren permiso municipal y cumplimiento del CFIA. Gestionamos los trámites y te explicamos cada requisito con claridad.</p>",
+        steps: ["Análisis de terreno y factibilidad","Plan maestro y presupuesto","Gestión de permisos y trámites","Peritajes y segundas opiniones"],
+        faqs: [
+          ["¿Necesito permisos para construir o remodelar en Costa Rica?","La mayoría de obras requieren permiso municipal y la firma de un profesional colegiado (CFIA). Nosotros gestionamos los trámites por ti."],
+          ["¿Qué es un estudio de factibilidad?","Es un análisis técnico y económico que determina si un proyecto es viable en un terreno dado: usos permitidos, costos estimados, riesgos y retorno. Te ayuda a decidir antes de invertir."],
+          ["¿Pueden dar una segunda opinión sobre mi proyecto?","Sí. Revisamos proyectos en curso, planos o presupuestos y te damos una opinión técnica independiente."],
+          ["¿Cuánto cuesta una consultoría?","Depende del alcance. Para casos puntuales ofrecemos sesiones de asesoría; para proyectos mayores, una propuesta a medida. La primera conversación es sin costo."]
+        ]
+      }
+    };
+    var ORDER = ["arquitectura","construccion","interiores","consultoria"];
+    function slug(){ var m=location.search.match(/[?&]s=([^&]+)/); return m?decodeURIComponent(m[1]):ORDER[0]; }
+    function el(id){ return document.getElementById(id); }
+
+    var key = slug(); var p = S[key] || S[ORDER[0]];
+    document.title = p.name + " · VISIONARQ";
+    el("svc-detail").style.setProperty("--accent", p.color);
+    el("sv-hero").src = p.hero; el("sv-hero").alt = p.name;
+    el("sv-kicker").textContent = p.kicker;
+    el("sv-title").textContent = p.name;
+    el("sv-sub").textContent = p.sub;
+    el("sv-lead").textContent = p.lead;
+    el("sv-facts").innerHTML = p.facts.map(function(f){ return '<div class="pd-fact"><span>'+f[0]+'</span><p>'+f[1]+'</p></div>'; }).join("");
+    el("sv-gallery").innerHTML = p.gallery.map(function(src,i){ return '<figure class="svc-gal__item reveal-clip svc-gal__item--'+(i%5)+'"><img src="'+src+'" alt="'+p.name+'" loading="lazy"/></figure>'; }).join("");
+    el("sv-seo").innerHTML = p.seo;
+    el("sv-steps").innerHTML = p.steps.map(function(s){ return '<li>'+s+'</li>'; }).join("");
+    el("sv-faq-title").textContent = "Sobre " + p.name.toLowerCase();
+    el("sv-qa-list").innerHTML = p.faqs.map(function(f,i){ return '<button class="qa-q" data-q="sv'+i+'"><span class="qa-num">'+String(i+1).padStart(2,"0")+'</span><span class="qa-text">'+f[0]+'</span><span class="qa-arrow">&rarr;</span></button>'; }).join("");
+    el("sv-qa-answers").innerHTML = p.faqs.map(function(f,i){ return '<div class="qa-a" data-a="sv'+i+'"><h3>'+f[0]+'</h3><p>'+f[1]+'</p></div>'; }).join("");
+
+    // schema FAQ (AEO)
+    el("sv-faqschema").textContent = JSON.stringify({
+      "@context":"https://schema.org","@type":"FAQPage",
+      "mainEntity": p.faqs.map(function(f){ return {"@type":"Question","name":f[0],"acceptedAnswer":{"@type":"Answer","text":f[1]}}; })
+    });
+
+    var idx = ORDER.indexOf(key); var nextKey = ORDER[(idx+1)%ORDER.length];
+    var nextEl = el("sv-next");
+    nextEl.setAttribute("href","servicio.html?s="+nextKey);
+    nextEl.setAttribute("data-accent", S[nextKey].color);
+    el("sv-next-name").textContent = S[nextKey].name;
+  })();
+  </script>
+</body>
+</html>
