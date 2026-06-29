@@ -168,13 +168,10 @@ function buildFooter() {
   const footer = document.createElement("footer");
   footer.className = "footer";
   footer.innerHTML = `
-    <div class="footer__pattern" aria-hidden="true"></div>
-
     <div class="footer__brandwrap">
       <a class="footer__brand" href="index.html" aria-label="${SITE.brand} — inicio">
         <span class="footer__mark">${MARK_SPLIT}</span>
         <span class="footer__wm">VISIONARQ</span>
-        <span class="footer__tag">Constructora y Consultora</span>
       </a>
     </div>
 

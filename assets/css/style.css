@@ -340,11 +340,15 @@ main { min-height: 100vh; }
 }
 .slide-card__logo .mark {
   height: auto;
-  width: 22%;
-  color: rgba(236,236,234,0.13);   /* tinte claro tenue sobre el gris oscuro */
+  width: 23%;
+  /* Letterpress fuerte: la marca parece HUNDIDA en la tarjeta.
+     Relleno más oscuro que la tarjeta + sombra interna arriba (oscura) y
+     reflejo de luz abajo (claro) = relieve marcado tipo prensa. */
+  color: rgba(8,8,8,0.55);
   filter:
-    drop-shadow(1.2px 1.2px 0.4px rgba(0,0,0,0.65))
-    drop-shadow(-1.2px -1.2px 0.4px rgba(255,255,255,0.22));
+    drop-shadow(0 2px 1.2px rgba(255,255,255,0.24))
+    drop-shadow(0 -1.6px 1.2px rgba(0,0,0,0.7))
+    drop-shadow(0 0 0.4px rgba(0,0,0,0.5));
 }
 /* Flecha esquina superior derecha */
 .slide-card__corner {
@@ -741,28 +745,13 @@ main { min-height: 100vh; }
    FOOTER
    ========================================================= */
 .footer {
-  position: relative;
-  overflow: hidden;
   background: var(--off-black);
   color: var(--cream);
   padding: clamp(3.5rem, 8vw, 7rem) var(--gutter) 2rem;
 }
-/* Patrón de logo VA en relieve, repetido suavemente (estilo "MS" de Mersi) */
-.footer__pattern {
-  position: absolute;
-  inset: 0;
-  background-image: url(../img/va-pattern.svg);
-  background-repeat: repeat;
-  background-size: clamp(120px, 14vw, 180px) auto;
-  opacity: 0.5;
-  pointer-events: none;
-  z-index: 0;
-}
-.footer > *:not(.footer__pattern) { position: relative; z-index: 1; }
-
-/* Marca: logo VA (se dibuja) + wordmark (se escribe) — todo en la misma caja
-   de ancho: el logo, "VISIONARQ" y "Constructora y Consultora" comparten el
-   mismo ancho y los textos se reparten para alinear con los bordes del logo. */
+/* Marca: logo VA (se dibuja) + wordmark (se escribe) — ambos en la misma caja
+   de ancho: las letras de "VISIONARQ" se reparten para alinear con los bordes
+   del logo. */
 .footer__brandwrap { display: flex; flex-direction: column; align-items: center; text-align: center; padding-bottom: clamp(2.5rem, 6vw, 4.5rem); }
 .footer__brand { display: flex; flex-direction: column; align-items: center; gap: 0.9rem; color: var(--cream); width: min(440px, 82vw); }
 .footer__mark { display: block; line-height: 0; width: 100%; }
@@ -770,7 +759,6 @@ main { min-height: 100vh; }
 .footer__wm { font-family: var(--serif); font-weight: 700; font-size: clamp(1.7rem, 6vw, 3rem); letter-spacing: 0; line-height: 1; width: 100%; }
 .footer__wm.is-letters { display: flex; justify-content: space-between; }
 .footer__wm .lt { display: inline-block; will-change: transform; }
-.footer__tag { font-size: clamp(0.6rem, 1.3vw, 0.74rem); text-transform: uppercase; color: rgba(237,231,222,0.6); width: 100%; text-align: justify; text-align-last: justify; }
 
 .footer__grid {
   display: grid;
