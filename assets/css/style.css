@@ -1061,7 +1061,7 @@ main { min-height: 100vh; }
 /* HERO del portafolio: ocupa casi toda la primera pantalla; el título y el
    menú quedan centrados y la TIRA de imágenes asoma abajo (estilo Mersi). */
 .pf-hero {
-  min-height: calc(100svh - 28vh);
+  min-height: calc(100svh - 30vh);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1161,9 +1161,15 @@ main { min-height: 100vh; }
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: 1fr;
-  gap: clamp(0.5rem, 1.2vw, 1rem);
+  gap: clamp(0.3rem, 0.7vw, 0.7rem);
+  /* Tira a sangre (de borde a borde) y a ras del fondo de la pantalla, como Mersi */
+  padding: 0 clamp(0.3rem, 0.7vw, 0.7rem);
+  height: 30vh;
 }
 .proj-rows.is-strip .proj-row { display: contents; }
+.proj-rows.is-strip .proj-card,
+.proj-rows.is-strip .proj-card__media { height: 100%; }
+.proj-rows.is-strip .proj-card__media img { height: 100%; aspect-ratio: auto; object-fit: cover; }
 .proj-rows.is-strip .slide-card--mini { display: none; }
 
 .proj-card { display: block; }
