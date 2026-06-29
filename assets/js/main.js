@@ -676,18 +676,21 @@ function initProjectsMorph() {
   const rows = document.getElementById("proj-rows");
   if (!rows) return;
 
-  // Marca VA estampada (letterpress) dentro de cada tarjeta de hover — una sola vez
-  rows.querySelectorAll(".proj-card__etiq").forEach((etiq) => {
-    if (!etiq.querySelector(".pc-emboss")) {
-      const span = document.createElement("span");
-      span.className = "pc-emboss";
-      span.setAttribute("aria-hidden", "true");
-      span.innerHTML = MARK;
-      etiq.appendChild(span);
-    }
+  // Construye la tarjeta de hover idéntica a la del inicio: inyecta la flecha
+  // de esquina y la marca VA estampada en cada slide-card--mini (una sola vez).
+  rows.querySelectorAll(".slide-card--mini").forEach((mc) => {
+    if (mc.querySelector(".slide-card__logo")) return;
+    const corner = document.createElement("span");
+    corner.className = "slide-card__corner";
+    corner.setAttribute("aria-hidden", "true");
+    corner.innerHTML = '<svg viewBox="0 0 9 9" fill="none"><path d="M7 1H1M7 1V7M7 1L1 7" stroke="currentColor" stroke-width="1.1"/></svg>';
+    const logo = document.createElement("span");
+    logo.className = "slide-card__logo";
+    logo.setAttribute("aria-hidden", "true");
+    logo.innerHTML = MARK;
+    mc.appendChild(corner);
+    mc.appendChild(logo);
   });
-
-  const caps = rows.querySelectorAll(".proj-card__cap");
 
   // Móvil / sin GSAP / movimiento reducido: cuadrícula directa, sin Flip
   if (prefersReduced() || !hasGSAP() || typeof window.Flip === "undefined" || window.innerWidth <= 760) {
@@ -697,8 +700,6 @@ function initProjectsMorph() {
 
   rows.classList.add("is-strip");
   const cards = rows.querySelectorAll(".proj-card");
-  // El texto bajo las fotos aparece SOLO cuando termina la animación
-  gsap.set(caps, { opacity: 0, y: 8 });
   const t = ScrollTrigger.create({
     trigger: rows,
     start: "top 55%",   // la tira asoma abajo al cargar; se despliega al hacer scroll
@@ -709,12 +710,9 @@ function initProjectsMorph() {
       Flip.from(state, {
         duration: 1.25,
         ease: "expo.inOut",
-        stagger: 0.05,
+        stagger: 0.045,
         absolute: true,
-        onComplete: () => {
-          gsap.to(caps, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out", stagger: 0.04 });
-          ScrollTrigger.refresh();
-        },
+        onComplete: () => ScrollTrigger.refresh(),
       });
     },
   });

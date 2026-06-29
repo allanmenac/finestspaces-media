@@ -12,7 +12,7 @@
   <main>
     <!-- HERO — título centrado + menú de categorías centrado + tira de imágenes
          abajo (estilo Mersi /projets). Al hacer scroll, la tira se despliega
-         en cuadrícula con GSAP Flip. -->
+         en cuadrícula 3+4+3+4 (14 imágenes) con GSAP Flip. -->
     <section class="pf-hero">
       <div class="pf-hero__head">
         <h1 class="pf-hero__title line-reveal">Espacios honestos,<br>moldeados por<br>historias reales.</h1>
@@ -27,46 +27,39 @@
     </section>
 
     <div class="proj-gallery">
-      <!-- Tira → cuadrícula 3 + 4 (Flip). Cada imagen tiene una tarjeta en
-           escala de grises (como la del inicio) que aparece al pasar el cursor. -->
+      <!-- Tira → cuadrícula 3 + 4 + 3 + 4 (Flip). Sin texto bajo las imágenes:
+           cada imagen revela, al pasar el cursor, una tarjeta idéntica a la del
+           inicio (nombre + lugar a la izq, marca VA estampada al centro,
+           categoría + año a la der, flecha en la esquina). -->
       <div class="proj-rows is-strip" id="proj-rows">
 
         <div class="proj-row proj-row--3">
           <a class="proj-card" href="proyecto.html?p=casa-escalante" data-cat="Residencial">
             <div class="proj-card__media">
               <img src="assets/img/photos/proyecto-01.jpg" alt="Casa Escalante" />
-              <div class="proj-card__etiq" style="background:#1C1C1C;">
-                <span class="proj-card__etiq-txt">
-                  <span class="proj-card__etiq-name">Casa Escalante</span>
-                  <span class="proj-card__etiq-cat">Residencial · San José</span>
-                </span>
-              </div>
+              <span class="slide-card slide-card--mini" style="background:#161616;" aria-hidden="true">
+                <div class="slide-card__col slide-card__col--l"><span class="slide-card__name">Casa Escalante</span><span class="slide-card__place">San José</span></div>
+                <div class="slide-card__col slide-card__col--r"><span class="slide-card__cat">Residencial</span><span class="slide-card__year">2025</span></div>
+              </span>
             </div>
-            <div class="proj-card__cap"><h3>Casa Escalante</h3><span>Residencial</span></div>
           </a>
           <a class="proj-card" href="proyecto.html?p=cafe-barva" data-cat="Hospitality">
             <div class="proj-card__media">
               <img src="assets/img/photos/proyecto-02.jpg" alt="Café Barva" />
-              <div class="proj-card__etiq" style="background:#3A3A3A;">
-                <span class="proj-card__etiq-txt">
-                  <span class="proj-card__etiq-name">Café Barva</span>
-                  <span class="proj-card__etiq-cat">Hospitality · Heredia</span>
-                </span>
-              </div>
+              <span class="slide-card slide-card--mini" style="background:#2C2C2C;" aria-hidden="true">
+                <div class="slide-card__col slide-card__col--l"><span class="slide-card__name">Café Barva</span><span class="slide-card__place">Heredia</span></div>
+                <div class="slide-card__col slide-card__col--r"><span class="slide-card__cat">Hospitality</span><span class="slide-card__year">2025</span></div>
+              </span>
             </div>
-            <div class="proj-card__cap"><h3>Café Barva</h3><span>Hospitality</span></div>
           </a>
           <a class="proj-card" href="proyecto.html?p=torre-sabana" data-cat="Comercial">
             <div class="proj-card__media">
               <img src="assets/img/photos/proyecto-03.jpg" alt="Torre Sabana" />
-              <div class="proj-card__etiq" style="background:#262626;">
-                <span class="proj-card__etiq-txt">
-                  <span class="proj-card__etiq-name">Torre Sabana</span>
-                  <span class="proj-card__etiq-cat">Comercial · San José</span>
-                </span>
-              </div>
+              <span class="slide-card slide-card--mini" style="background:#1F1F1F;" aria-hidden="true">
+                <div class="slide-card__col slide-card__col--l"><span class="slide-card__name">Torre Sabana</span><span class="slide-card__place">San José</span></div>
+                <div class="slide-card__col slide-card__col--r"><span class="slide-card__cat">Comercial</span><span class="slide-card__year">2024</span></div>
+              </span>
             </div>
-            <div class="proj-card__cap"><h3>Torre Sabana</h3><span>Comercial</span></div>
           </a>
         </div>
 
@@ -74,50 +67,107 @@
           <a class="proj-card" href="proyecto.html?p=villa-pacifico" data-cat="Residencial">
             <div class="proj-card__media">
               <img src="assets/img/photos/proyecto-04.jpg" alt="Villa Pacífico" />
-              <div class="proj-card__etiq" style="background:#444444;">
-                <span class="proj-card__etiq-txt">
-                  <span class="proj-card__etiq-name">Villa Pacífico</span>
-                  <span class="proj-card__etiq-cat">Residencial · Guanacaste</span>
-                </span>
-              </div>
+              <span class="slide-card slide-card--mini" style="background:#3A3A3A;" aria-hidden="true">
+                <div class="slide-card__col slide-card__col--l"><span class="slide-card__name">Villa Pacífico</span><span class="slide-card__place">Guanacaste</span></div>
+                <div class="slide-card__col slide-card__col--r"><span class="slide-card__cat">Residencial</span><span class="slide-card__year">2024</span></div>
+              </span>
             </div>
-            <div class="proj-card__cap"><h3>Villa Pacífico</h3><span>Residencial</span></div>
           </a>
           <a class="proj-card" href="proyecto.html?p=los-yoses" data-cat="Interiores">
             <div class="proj-card__media">
               <img src="assets/img/photos/proyecto-05.jpg" alt="Apartamento Los Yoses" />
-              <div class="proj-card__etiq" style="background:#2E2E2E;">
-                <span class="proj-card__etiq-txt">
-                  <span class="proj-card__etiq-name">Los Yoses</span>
-                  <span class="proj-card__etiq-cat">Interiores · San José</span>
-                </span>
-              </div>
+              <span class="slide-card slide-card--mini" style="background:#242424;" aria-hidden="true">
+                <div class="slide-card__col slide-card__col--l"><span class="slide-card__name">Los Yoses</span><span class="slide-card__place">San José</span></div>
+                <div class="slide-card__col slide-card__col--r"><span class="slide-card__cat">Interiores</span><span class="slide-card__year">2024</span></div>
+              </span>
             </div>
-            <div class="proj-card__cap"><h3>Apartamento Los Yoses</h3><span>Interiores</span></div>
           </a>
           <a class="proj-card" href="proyecto.html?p=hotel-monteverde" data-cat="Hospitality">
             <div class="proj-card__media">
               <img src="assets/img/photos/proyecto-06.jpg" alt="Hotel Monteverde" />
-              <div class="proj-card__etiq" style="background:#4C4C4C;">
-                <span class="proj-card__etiq-txt">
-                  <span class="proj-card__etiq-name">Hotel Monteverde</span>
-                  <span class="proj-card__etiq-cat">Hospitality · Puntarenas</span>
-                </span>
-              </div>
+              <span class="slide-card slide-card--mini" style="background:#444444;" aria-hidden="true">
+                <div class="slide-card__col slide-card__col--l"><span class="slide-card__name">Hotel Monteverde</span><span class="slide-card__place">Puntarenas</span></div>
+                <div class="slide-card__col slide-card__col--r"><span class="slide-card__cat">Hospitality</span><span class="slide-card__year">2023</span></div>
+              </span>
             </div>
-            <div class="proj-card__cap"><h3>Hotel Monteverde</h3><span>Hospitality</span></div>
           </a>
+          <a class="proj-card" href="proyecto.html?p=casa-cedros" data-cat="Residencial">
+            <div class="proj-card__media">
+              <img src="assets/img/photos/proyecto-07.jpg" alt="Casa Cedros" />
+              <span class="slide-card slide-card--mini" style="background:#2A2A2A;" aria-hidden="true">
+                <div class="slide-card__col slide-card__col--l"><span class="slide-card__name">Casa Cedros</span><span class="slide-card__place">Cartago</span></div>
+                <div class="slide-card__col slide-card__col--r"><span class="slide-card__cat">Residencial</span><span class="slide-card__year">2023</span></div>
+              </span>
+            </div>
+          </a>
+        </div>
+
+        <div class="proj-row proj-row--3">
           <a class="proj-card" href="proyecto.html?p=oficinas-escazu" data-cat="Comercial">
             <div class="proj-card__media">
               <img src="assets/img/photos/proyecto-08.jpg" alt="Oficinas Escazú" />
-              <div class="proj-card__etiq" style="background:#222222;">
-                <span class="proj-card__etiq-txt">
-                  <span class="proj-card__etiq-name">Oficinas Escazú</span>
-                  <span class="proj-card__etiq-cat">Comercial · San José</span>
-                </span>
-              </div>
+              <span class="slide-card slide-card--mini" style="background:#333333;" aria-hidden="true">
+                <div class="slide-card__col slide-card__col--l"><span class="slide-card__name">Oficinas Escazú</span><span class="slide-card__place">San José</span></div>
+                <div class="slide-card__col slide-card__col--r"><span class="slide-card__cat">Comercial</span><span class="slide-card__year">2023</span></div>
+              </span>
             </div>
-            <div class="proj-card__cap"><h3>Oficinas Escazú</h3><span>Comercial</span></div>
+          </a>
+          <a class="proj-card" href="proyecto.html?p=estudio-aranjuez" data-cat="Interiores">
+            <div class="proj-card__media">
+              <img src="assets/img/photos/servicio-arquitectura.jpg" alt="Estudio Aranjuez" />
+              <span class="slide-card slide-card--mini" style="background:#1C1C1C;" aria-hidden="true">
+                <div class="slide-card__col slide-card__col--l"><span class="slide-card__name">Estudio Aranjuez</span><span class="slide-card__place">San José</span></div>
+                <div class="slide-card__col slide-card__col--r"><span class="slide-card__cat">Interiores</span><span class="slide-card__year">2023</span></div>
+              </span>
+            </div>
+          </a>
+          <a class="proj-card" href="proyecto.html?p=nave-lindora" data-cat="Comercial">
+            <div class="proj-card__media">
+              <img src="assets/img/photos/servicio-construccion.jpg" alt="Nave Lindora" />
+              <span class="slide-card slide-card--mini" style="background:#4A4A4A;" aria-hidden="true">
+                <div class="slide-card__col slide-card__col--l"><span class="slide-card__name">Nave Lindora</span><span class="slide-card__place">Santa Ana</span></div>
+                <div class="slide-card__col slide-card__col--r"><span class="slide-card__cat">Comercial</span><span class="slide-card__year">2022</span></div>
+              </span>
+            </div>
+          </a>
+        </div>
+
+        <div class="proj-row proj-row--4">
+          <a class="proj-card" href="proyecto.html?p=loft-amon" data-cat="Interiores">
+            <div class="proj-card__media">
+              <img src="assets/img/photos/servicio-interiores.jpg" alt="Loft Amón" />
+              <span class="slide-card slide-card--mini" style="background:#262626;" aria-hidden="true">
+                <div class="slide-card__col slide-card__col--l"><span class="slide-card__name">Loft Amón</span><span class="slide-card__place">San José</span></div>
+                <div class="slide-card__col slide-card__col--r"><span class="slide-card__cat">Interiores</span><span class="slide-card__year">2022</span></div>
+              </span>
+            </div>
+          </a>
+          <a class="proj-card" href="proyecto.html?p=plaza-tarcoles" data-cat="Comercial">
+            <div class="proj-card__media">
+              <img src="assets/img/photos/servicio-consultoria.jpg" alt="Plaza Tárcoles" />
+              <span class="slide-card slide-card--mini" style="background:#383838;" aria-hidden="true">
+                <div class="slide-card__col slide-card__col--l"><span class="slide-card__name">Plaza Tárcoles</span><span class="slide-card__place">Puntarenas</span></div>
+                <div class="slide-card__col slide-card__col--r"><span class="slide-card__cat">Comercial</span><span class="slide-card__year">2022</span></div>
+              </span>
+            </div>
+          </a>
+          <a class="proj-card" href="proyecto.html?p=casa-tamarindo" data-cat="Residencial">
+            <div class="proj-card__media">
+              <img src="assets/img/photos/blog-01.jpg" alt="Casa Tamarindo" />
+              <span class="slide-card slide-card--mini" style="background:#202020;" aria-hidden="true">
+                <div class="slide-card__col slide-card__col--l"><span class="slide-card__name">Casa Tamarindo</span><span class="slide-card__place">Guanacaste</span></div>
+                <div class="slide-card__col slide-card__col--r"><span class="slide-card__cat">Residencial</span><span class="slide-card__year">2022</span></div>
+              </span>
+            </div>
+          </a>
+          <a class="proj-card" href="proyecto.html?p=refugio-osa" data-cat="Hospitality">
+            <div class="proj-card__media">
+              <img src="assets/img/photos/blog-02.jpg" alt="Refugio Osa" />
+              <span class="slide-card slide-card--mini" style="background:#404040;" aria-hidden="true">
+                <div class="slide-card__col slide-card__col--l"><span class="slide-card__name">Refugio Osa</span><span class="slide-card__place">Osa</span></div>
+                <div class="slide-card__col slide-card__col--r"><span class="slide-card__cat">Hospitality</span><span class="slide-card__year">2021</span></div>
+              </span>
+            </div>
           </a>
         </div>
 

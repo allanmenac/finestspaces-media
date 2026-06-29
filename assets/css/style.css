@@ -1164,8 +1164,7 @@ main { min-height: 100vh; }
   gap: clamp(0.5rem, 1.2vw, 1rem);
 }
 .proj-rows.is-strip .proj-row { display: contents; }
-.proj-rows.is-strip .proj-card__cap,
-.proj-rows.is-strip .proj-card__etiq { display: none; }
+.proj-rows.is-strip .slide-card--mini { display: none; }
 
 .proj-card { display: block; }
 .proj-card__media { position: relative; overflow: hidden; }
@@ -1173,43 +1172,21 @@ main { min-height: 100vh; }
   width: 100%; aspect-ratio: 3/4; object-fit: cover;
   transition: transform 1.1s var(--ease);
 }
-.proj-card:hover .proj-card__media img { transform: scale(1.06); }
-/* Tarjeta al pasar el cursor (como la del inicio, en escala de grises):
-   panel inferior que sube; nombre + categoría a la izquierda y la marca VA
-   estampada (letterpress) a la derecha. */
-.proj-card__etiq {
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
-  height: 42%;
-  display: flex;
-  align-items: flex-end;
-  padding: clamp(0.9rem, 1.5vw, 1.35rem);
-  color: var(--cream);
-  overflow: hidden;
-  transform: translateY(101%);
-  transition: transform 0.55s var(--ease);
+.proj-card:hover .proj-card__media img { transform: scale(1.04); }
+
+/* Tarjeta al pasar el cursor = la MISMA tarjeta del inicio (slide-card),
+   reducida y centrada sobre la imagen. Oculta por defecto; aparece al hover. */
+.slide-card--mini {
+  width: min(86%, 290px);
+  height: clamp(92px, 11.5vw, 128px);
+  padding: clamp(0.85rem, 1.4vw, 1.2rem) clamp(1rem, 1.7vw, 1.45rem);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.96);
   pointer-events: none;
+  transition: opacity 0.4s var(--ease), transform 0.45s var(--ease), background-color 0.6s var(--ease);
+  box-shadow: 0 22px 54px -22px rgba(0,0,0,0.65);
 }
-.proj-card:hover .proj-card__etiq { transform: translateY(0); }
-.proj-card__etiq-txt { position: relative; z-index: 1; }
-.proj-card__etiq-name { font-family: var(--sans); font-weight: 600; font-size: clamp(0.95rem, 1.5vw, 1.2rem); line-height: 1.05; display: block; }
-.proj-card__etiq-cat { font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.7; margin-top: 0.35rem; display: block; }
-/* Marca VA estampada (letterpress fuerte) en el panel */
-.proj-card__etiq .pc-emboss {
-  position: absolute;
-  right: clamp(0.5rem, 1vw, 1rem);
-  bottom: -10%;
-  width: 44%;
-  color: rgba(8,8,8,0.5);
-  filter:
-    drop-shadow(0 1.6px 1px rgba(255,255,255,0.22))
-    drop-shadow(0 -1.3px 1px rgba(0,0,0,0.66));
-  pointer-events: none;
-}
-.proj-card__etiq .pc-emboss svg { display: block; width: 100%; height: auto; }
-.proj-card__cap { display: flex; justify-content: space-between; align-items: baseline; margin-top: 0.55rem; gap: 1rem; }
-.proj-card__cap h3 { font-family: var(--sans); font-weight: 600; font-size: 0.82rem; letter-spacing: 0.01em; }
-.proj-card__cap span { font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.proj-card:hover .slide-card--mini { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 .proj-card.is-hidden { display: none; }
 
 /* =========================================================
