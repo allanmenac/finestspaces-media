@@ -676,6 +676,19 @@ function initProjectsMorph() {
   const rows = document.getElementById("proj-rows");
   if (!rows) return;
 
+  // Marca VA estampada (letterpress) dentro de cada tarjeta de hover — una sola vez
+  rows.querySelectorAll(".proj-card__etiq").forEach((etiq) => {
+    if (!etiq.querySelector(".pc-emboss")) {
+      const span = document.createElement("span");
+      span.className = "pc-emboss";
+      span.setAttribute("aria-hidden", "true");
+      span.innerHTML = MARK;
+      etiq.appendChild(span);
+    }
+  });
+
+  const caps = rows.querySelectorAll(".proj-card__cap");
+
   // Móvil / sin GSAP / movimiento reducido: cuadrícula directa, sin Flip
   if (prefersReduced() || !hasGSAP() || typeof window.Flip === "undefined" || window.innerWidth <= 760) {
     rows.classList.remove("is-strip");
@@ -684,19 +697,24 @@ function initProjectsMorph() {
 
   rows.classList.add("is-strip");
   const cards = rows.querySelectorAll(".proj-card");
+  // El texto bajo las fotos aparece SOLO cuando termina la animación
+  gsap.set(caps, { opacity: 0, y: 8 });
   const t = ScrollTrigger.create({
     trigger: rows,
-    start: "top 38%",   // tira visible al cargar; se despliega al hacer scroll
+    start: "top 55%",   // la tira asoma abajo al cargar; se despliega al hacer scroll
     once: true,
     onEnter: () => {
       const state = Flip.getState(cards);
       rows.classList.remove("is-strip");
       Flip.from(state, {
-        duration: 1.3,
+        duration: 1.25,
         ease: "expo.inOut",
         stagger: 0.05,
         absolute: true,
-        onComplete: () => ScrollTrigger.refresh(),
+        onComplete: () => {
+          gsap.to(caps, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out", stagger: 0.04 });
+          ScrollTrigger.refresh();
+        },
       });
     },
   });

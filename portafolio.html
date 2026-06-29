@@ -10,114 +10,118 @@
 </head>
 <body>
   <main>
-    <!-- HERO — consistente con las demás páginas (page-head) -->
-    <section class="page-head">
-      <p class="eyebrow reveal">Portafolio</p>
-      <h1 class="display line-reveal">Espacios honestos,<br>moldeados por historias reales.</h1>
-      <p class="lead reveal">Una selección de proyectos de arquitectura, construcción e interiorismo desarrollados en Costa Rica.</p>
+    <!-- HERO — título centrado + menú de categorías centrado + tira de imágenes
+         abajo (estilo Mersi /projets). Al hacer scroll, la tira se despliega
+         en cuadrícula con GSAP Flip. -->
+    <section class="pf-hero">
+      <div class="pf-hero__head">
+        <h1 class="pf-hero__title line-reveal">Espacios honestos,<br>moldeados por<br>historias reales.</h1>
+        <div class="proj-filtros reveal">
+          <button class="filtro is-active" data-cat="todos">todos</button>
+          <button class="filtro" data-cat="Residencial">residencial</button>
+          <button class="filtro" data-cat="Comercial">comercial</button>
+          <button class="filtro" data-cat="Hospitality">hospitality</button>
+          <button class="filtro" data-cat="Interiores">interiores</button>
+        </div>
+      </div>
     </section>
 
-    <!-- GALERÍA — filtro anclado + morph piano→cuadrícula al hacer scroll -->
     <div class="proj-gallery">
-      <div class="proj-filtros reveal">
-        <button class="filtro is-active" data-cat="todos">todos</button>
-        <button class="filtro" data-cat="Residencial">residencial</button>
-        <button class="filtro" data-cat="Comercial">comercial</button>
-        <button class="filtro" data-cat="Hospitality">hospitality</button>
-        <button class="filtro" data-cat="Interiores">interiores</button>
+      <!-- Tira → cuadrícula 3 + 4 (Flip). Cada imagen tiene una tarjeta en
+           escala de grises (como la del inicio) que aparece al pasar el cursor. -->
+      <div class="proj-rows is-strip" id="proj-rows">
+
+        <div class="proj-row proj-row--3">
+          <a class="proj-card" href="proyecto.html?p=casa-escalante" data-cat="Residencial">
+            <div class="proj-card__media">
+              <img src="assets/img/photos/proyecto-01.jpg" alt="Casa Escalante" />
+              <div class="proj-card__etiq" style="background:#1C1C1C;">
+                <span class="proj-card__etiq-txt">
+                  <span class="proj-card__etiq-name">Casa Escalante</span>
+                  <span class="proj-card__etiq-cat">Residencial · San José</span>
+                </span>
+              </div>
+            </div>
+            <div class="proj-card__cap"><h3>Casa Escalante</h3><span>Residencial</span></div>
+          </a>
+          <a class="proj-card" href="proyecto.html?p=cafe-barva" data-cat="Hospitality">
+            <div class="proj-card__media">
+              <img src="assets/img/photos/proyecto-02.jpg" alt="Café Barva" />
+              <div class="proj-card__etiq" style="background:#3A3A3A;">
+                <span class="proj-card__etiq-txt">
+                  <span class="proj-card__etiq-name">Café Barva</span>
+                  <span class="proj-card__etiq-cat">Hospitality · Heredia</span>
+                </span>
+              </div>
+            </div>
+            <div class="proj-card__cap"><h3>Café Barva</h3><span>Hospitality</span></div>
+          </a>
+          <a class="proj-card" href="proyecto.html?p=torre-sabana" data-cat="Comercial">
+            <div class="proj-card__media">
+              <img src="assets/img/photos/proyecto-03.jpg" alt="Torre Sabana" />
+              <div class="proj-card__etiq" style="background:#262626;">
+                <span class="proj-card__etiq-txt">
+                  <span class="proj-card__etiq-name">Torre Sabana</span>
+                  <span class="proj-card__etiq-cat">Comercial · San José</span>
+                </span>
+              </div>
+            </div>
+            <div class="proj-card__cap"><h3>Torre Sabana</h3><span>Comercial</span></div>
+          </a>
+        </div>
+
+        <div class="proj-row proj-row--4">
+          <a class="proj-card" href="proyecto.html?p=villa-pacifico" data-cat="Residencial">
+            <div class="proj-card__media">
+              <img src="assets/img/photos/proyecto-04.jpg" alt="Villa Pacífico" />
+              <div class="proj-card__etiq" style="background:#444444;">
+                <span class="proj-card__etiq-txt">
+                  <span class="proj-card__etiq-name">Villa Pacífico</span>
+                  <span class="proj-card__etiq-cat">Residencial · Guanacaste</span>
+                </span>
+              </div>
+            </div>
+            <div class="proj-card__cap"><h3>Villa Pacífico</h3><span>Residencial</span></div>
+          </a>
+          <a class="proj-card" href="proyecto.html?p=los-yoses" data-cat="Interiores">
+            <div class="proj-card__media">
+              <img src="assets/img/photos/proyecto-05.jpg" alt="Apartamento Los Yoses" />
+              <div class="proj-card__etiq" style="background:#2E2E2E;">
+                <span class="proj-card__etiq-txt">
+                  <span class="proj-card__etiq-name">Los Yoses</span>
+                  <span class="proj-card__etiq-cat">Interiores · San José</span>
+                </span>
+              </div>
+            </div>
+            <div class="proj-card__cap"><h3>Apartamento Los Yoses</h3><span>Interiores</span></div>
+          </a>
+          <a class="proj-card" href="proyecto.html?p=hotel-monteverde" data-cat="Hospitality">
+            <div class="proj-card__media">
+              <img src="assets/img/photos/proyecto-06.jpg" alt="Hotel Monteverde" />
+              <div class="proj-card__etiq" style="background:#4C4C4C;">
+                <span class="proj-card__etiq-txt">
+                  <span class="proj-card__etiq-name">Hotel Monteverde</span>
+                  <span class="proj-card__etiq-cat">Hospitality · Puntarenas</span>
+                </span>
+              </div>
+            </div>
+            <div class="proj-card__cap"><h3>Hotel Monteverde</h3><span>Hospitality</span></div>
+          </a>
+          <a class="proj-card" href="proyecto.html?p=oficinas-escazu" data-cat="Comercial">
+            <div class="proj-card__media">
+              <img src="assets/img/photos/proyecto-08.jpg" alt="Oficinas Escazú" />
+              <div class="proj-card__etiq" style="background:#222222;">
+                <span class="proj-card__etiq-txt">
+                  <span class="proj-card__etiq-name">Oficinas Escazú</span>
+                  <span class="proj-card__etiq-cat">Comercial · San José</span>
+                </span>
+              </div>
+            </div>
+            <div class="proj-card__cap"><h3>Oficinas Escazú</h3><span>Comercial</span></div>
+          </a>
+        </div>
+
       </div>
-
-    <!-- CUADRÍCULA ETIQUETADA — se despliega desde una tira horizontal (Flip,
-         estilo Mersi): las 8 imágenes vuelan de la tira a la cuadrícula 3+5. -->
-    <div class="proj-rows" id="proj-rows">
-
-      <div class="proj-row proj-row--3">
-        <a class="proj-card" href="proyecto.html?p=casa-escalante" data-cat="Residencial">
-          <div class="proj-card__media">
-            <img src="assets/img/photos/proyecto-01.jpg" alt="Casa Escalante" />
-            <div class="proj-card__etiq" style="background:#DC633F;">
-              <span class="proj-card__etiq-name">Casa Escalante</span>
-              <span class="proj-card__etiq-cat">Residencial</span>
-            </div>
-          </div>
-          <div class="proj-card__cap"><h3>Casa Escalante</h3><span>Residencial</span></div>
-        </a>
-        <a class="proj-card" href="proyecto.html?p=cafe-barva" data-cat="Hospitality">
-          <div class="proj-card__media">
-            <img src="assets/img/photos/proyecto-02.jpg" alt="Café Barva" />
-            <div class="proj-card__etiq" style="background:#657B69;color:var(--cream);">
-              <span class="proj-card__etiq-name">Café Barva</span>
-              <span class="proj-card__etiq-cat">Hospitality</span>
-            </div>
-          </div>
-          <div class="proj-card__cap"><h3>Café Barva</h3><span>Hospitality</span></div>
-        </a>
-        <a class="proj-card" href="proyecto.html?p=torre-sabana" data-cat="Comercial">
-          <div class="proj-card__media">
-            <img src="assets/img/photos/proyecto-03.jpg" alt="Torre Sabana" />
-            <div class="proj-card__etiq" style="background:#8B9EC1;">
-              <span class="proj-card__etiq-name">Torre Sabana</span>
-              <span class="proj-card__etiq-cat">Comercial</span>
-            </div>
-          </div>
-          <div class="proj-card__cap"><h3>Torre Sabana</h3><span>Comercial</span></div>
-        </a>
-      </div>
-
-      <div class="proj-row proj-row--4">
-        <a class="proj-card" href="proyecto.html?p=villa-pacifico" data-cat="Residencial">
-          <div class="proj-card__media">
-            <img src="assets/img/photos/proyecto-04.jpg" alt="Villa Pacífico" />
-            <div class="proj-card__etiq" style="background:#CCB598;">
-              <span class="proj-card__etiq-name">Villa Pacífico</span>
-              <span class="proj-card__etiq-cat">Residencial</span>
-            </div>
-          </div>
-          <div class="proj-card__cap"><h3>Villa Pacífico</h3><span>Residencial</span></div>
-        </a>
-        <a class="proj-card" href="proyecto.html?p=los-yoses" data-cat="Interiores">
-          <div class="proj-card__media">
-            <img src="assets/img/photos/proyecto-05.jpg" alt="Apartamento Los Yoses" />
-            <div class="proj-card__etiq" style="background:#B3A696;">
-              <span class="proj-card__etiq-name">Los Yoses</span>
-              <span class="proj-card__etiq-cat">Interiores</span>
-            </div>
-          </div>
-          <div class="proj-card__cap"><h3>Apartamento Los Yoses</h3><span>Interiores</span></div>
-        </a>
-        <a class="proj-card" href="proyecto.html?p=hotel-monteverde" data-cat="Hospitality">
-          <div class="proj-card__media">
-            <img src="assets/img/photos/proyecto-06.jpg" alt="Hotel Monteverde" />
-            <div class="proj-card__etiq" style="background:#918F7A;color:var(--cream);">
-              <span class="proj-card__etiq-name">Hotel Monteverde</span>
-              <span class="proj-card__etiq-cat">Hospitality</span>
-            </div>
-          </div>
-          <div class="proj-card__cap"><h3>Hotel Monteverde</h3><span>Hospitality</span></div>
-        </a>
-        <a class="proj-card" href="proyecto.html?p=casa-cedros" data-cat="Residencial">
-          <div class="proj-card__media">
-            <img src="assets/img/photos/proyecto-07.jpg" alt="Casa Cedros" />
-            <div class="proj-card__etiq" style="background:#B19B68;">
-              <span class="proj-card__etiq-name">Casa Cedros</span>
-              <span class="proj-card__etiq-cat">Residencial</span>
-            </div>
-          </div>
-          <div class="proj-card__cap"><h3>Casa Cedros</h3><span>Residencial</span></div>
-        </a>
-        <a class="proj-card" href="proyecto.html?p=oficinas-escazu" data-cat="Comercial">
-          <div class="proj-card__media">
-            <img src="assets/img/photos/proyecto-08.jpg" alt="Oficinas Escazú" />
-            <div class="proj-card__etiq" style="background:#4E6D73;color:var(--cream);">
-              <span class="proj-card__etiq-name">Oficinas Escazú</span>
-              <span class="proj-card__etiq-cat">Comercial</span>
-            </div>
-          </div>
-          <div class="proj-card__cap"><h3>Oficinas Escazú</h3><span>Comercial</span></div>
-        </a>
-      </div>
-
-    </div>
     </div><!-- /proj-gallery -->
 
     <section class="section reveal" style="text-align:center;">
