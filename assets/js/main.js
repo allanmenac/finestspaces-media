@@ -112,7 +112,6 @@ function buildNav() {
     ${navLogo}
     <div class="nav-links">
       ${links}
-      <a class="nav-link" href="${SITE.instagram}" target="_blank" rel="noopener">instagram</a>
     </div>
     <button class="nav-toggle" aria-label="Abrir menú">menú</button>`;
   document.body.prepend(nav);
@@ -142,7 +141,6 @@ function buildMobileMenu() {
   menu.className = "mobile-menu";
   menu.innerHTML = `
     ${links}
-    <a href="${SITE.instagram}" target="_blank" rel="noopener">instagram</a>
     <span class="eyebrow">${SITE.city}</span>`;
   document.body.appendChild(menu);
 
@@ -202,26 +200,45 @@ function buildFooter() {
   initFooterAnim(footer);
 }
 
-/* Animación del pie: el logo VA se dibuja y "VISIONARQ" se escribe letra a
-   letra al entrar en pantalla (una sola vez). */
+/* Animación del pie: el logo VA se dibuja y "VISIONARQ" se escribe letra a letra
+   al entrar en pantalla. Se RE-ARMA en cada página (incluida la navegación AJAX)
+   y se REPITE cada vez que se vuelve a llegar al pie (onEnter / onLeaveBack). */
+let footerTrigger = null;
 function initFooterAnim(footer) {
+  footer = footer || document.querySelector(".footer");
+  if (!footer) return;
   const logoScope = footer.querySelector(".footer__mark");
   const wm = footer.querySelector(".footer__wm");
-  const letters = wm ? letterify(wm) : [];
-  if (prefersReduced() || !hasGSAP()) { letters.forEach((s) => (s.style.opacity = 1)); return; }
-  // estado inicial: logo oculto + letras abajo
-  gsap.set(footer.querySelector(".va-v"), { clipPath: "inset(0% 100% 0% 0%)" });
-  gsap.set(footer.querySelector(".va-a"), { clipPath: "inset(0% 0% 0% 100%)" });
-  if (letters.length) gsap.set(letters, { yPercent: 120, opacity: 0 });
-  ScrollTrigger.create({
+  // Convertir a letras una sola vez; en los re-armes reutilizar los .lt existentes
+  let letters = wm ? Array.prototype.slice.call(wm.querySelectorAll(".lt")) : [];
+  if (wm && !letters.length) letters = letterify(wm);
+
+  if (footerTrigger) { try { footerTrigger.kill(); } catch (e) {} footerTrigger = null; }
+
+  const v = footer.querySelector(".va-v");
+  const a = footer.querySelector(".va-a");
+
+  if (prefersReduced() || !hasGSAP()) {
+    letters.forEach((s) => (s.style.opacity = 1));
+    if (v) v.style.clipPath = "none";
+    if (a) a.style.clipPath = "none";
+    return;
+  }
+
+  var reset = function () {
+    if (v) gsap.set(v, { clipPath: "inset(0% 100% 0% 0%)" });
+    if (a) gsap.set(a, { clipPath: "inset(0% 0% 0% 100%)" });
+    if (letters.length) gsap.set(letters, { yPercent: 120, opacity: 0 });
+  };
+  reset();
+
+  footerTrigger = ScrollTrigger.create({
     trigger: footer,
-    start: "top 82%",
-    once: true,
-    onEnter: () => {
-      drawLogoIn(logoScope, 1.2, 0);     // V→ / A← (la misma animación del logo)
-      writeLetters(letters, 0.55);       // "VISIONARQ" se escribe
-    },
+    start: "top 85%",
+    onEnter: () => { drawLogoIn(logoScope, 1.2, 0); writeLetters(letters, 0.5); },
+    onLeaveBack: () => reset(),   // al subir por encima del pie, rearmar para repetir
   });
+  pageTriggers.push(footerTrigger);
 }
 
 /* ----------  Loader (SOLO en la primera carga del Inicio)  ---------- */
@@ -468,6 +485,9 @@ function initNavScroll() {
 
   if (!hasGSAP() || prefersReduced()) { navbar.style.color = ""; return; }
 
+  // Servicios: fondo oscuro de principio a fin (slider + pie) → nav SIEMPRE crema
+  if (document.querySelector(".svc-slider")) { gsap.set(navbar, { color: NAV_CREAM }); return; }
+
   // Hero oscuro a tope de página: slider del Inicio o hero del proyecto
   const hero = document.querySelector(".home-slider, .pd-hero");
   if (!hero) { gsap.set(navbar, { clearProps: "color" }); return; }
@@ -692,9 +712,12 @@ function initProjectsMorph() {
     mc.appendChild(logo);
   });
 
+  const cta = document.getElementById("pf-cta");
+
   // Móvil / sin GSAP / movimiento reducido: cuadrícula directa, sin Flip
   if (prefersReduced() || !hasGSAP() || typeof window.Flip === "undefined" || window.innerWidth <= 760) {
     rows.classList.remove("is-strip");
+    if (cta) cta.classList.add("is-on");
     return;
   }
 
@@ -712,7 +735,7 @@ function initProjectsMorph() {
         ease: "expo.inOut",
         stagger: 0.045,
         absolute: true,
-        onComplete: () => ScrollTrigger.refresh(),
+        onComplete: () => { if (cta) cta.classList.add("is-on"); ScrollTrigger.refresh(); },
       });
     },
   });
@@ -766,6 +789,7 @@ function initPage() {
   initProjectsMorph();
   initServicesScroll();
   initNavScroll();
+  initFooterAnim();   // re-armar la animación del pie en cada página (AJAX incl.)
 }
 
 /* =========================================================
