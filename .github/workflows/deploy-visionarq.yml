@@ -1,0 +1,51 @@
+name: Mirror site to visionarq
+
+# Cada vez que se hace push a la rama del sitio, copia SOLO los archivos del
+# sitio (sin los medios de Finest Spaces) al repositorio `visionarq`, que es
+# el que Netlify publica. Así no hay que mover archivos a mano.
+
+on:
+  push:
+    branches: [claude/architecture-website-setup-ef3k08]
+  workflow_dispatch: {}   # permite ejecutarlo manualmente desde la pestaña Actions
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar finestspaces-media (origen)
+        uses: actions/checkout@v4
+        with:
+          path: source
+
+      - name: Descargar visionarq (destino)
+        uses: actions/checkout@v4
+        with:
+          repository: allanmenac/visionarq
+          token: ${{ secrets.VISIONARQ_TOKEN }}
+          path: target
+
+      - name: Copiar archivos del sitio
+        run: |
+          set -e
+          # 1) borrar el contenido anterior de visionarq (conservando .git)
+          find target -maxdepth 1 -mindepth 1 -not -name '.git' -exec rm -rf {} +
+          # 2) copiar SOLO los archivos del sitio
+          cd source
+          cp index.html servicios.html portafolio.html proyecto.html \
+             servicio.html nosotros.html blog.html contacto.html gracias.html \
+             netlify.toml README.md ../target/
+          cp -r assets ../target/
+
+      - name: Confirmar y subir a visionarq
+        run: |
+          cd target
+          git config user.name "visionarq-sync"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Sin cambios que publicar."
+          else
+            git commit -m "Sync sitio desde finestspaces-media (${GITHUB_SHA::7})"
+            git push
+          fi
