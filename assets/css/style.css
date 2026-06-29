@@ -753,10 +753,10 @@ main { min-height: 100vh; }
    de ancho: las letras de "VISIONARQ" se reparten para alinear con los bordes
    del logo. */
 .footer__brandwrap { display: flex; flex-direction: column; align-items: center; text-align: center; padding-bottom: clamp(2.5rem, 6vw, 4.5rem); }
-.footer__brand { display: flex; flex-direction: column; align-items: center; gap: 0.9rem; color: var(--cream); width: min(440px, 82vw); }
+.footer__brand { display: flex; flex-direction: column; align-items: center; gap: 0.7rem; color: var(--cream); width: min(248px, 62vw); }
 .footer__mark { display: block; line-height: 0; width: 100%; }
 .footer__mark .mark--split { width: 100%; height: auto; color: var(--cream); display: block; }
-.footer__wm { font-family: var(--serif); font-weight: 700; font-size: clamp(1.7rem, 6vw, 3rem); letter-spacing: 0; line-height: 1; width: 100%; }
+.footer__wm { font-family: var(--serif); font-weight: 700; font-size: clamp(0.92rem, 2.4vw, 1.18rem); letter-spacing: 0; line-height: 1; width: 100%; }
 .footer__wm.is-letters { display: flex; justify-content: space-between; }
 .footer__wm .lt { display: inline-block; will-change: transform; }
 
@@ -1176,9 +1176,9 @@ main { min-height: 100vh; }
 .proj-card:hover .proj-card__etiq { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 .proj-card__etiq-name { font-family: var(--serif); font-size: 1.4rem; font-weight: 400; line-height: 1; display: block; }
 .proj-card__etiq-cat { font-size: 0.66rem; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.75; margin-top: 0.3rem; display: block; }
-.proj-card__cap { display: flex; justify-content: space-between; align-items: baseline; margin-top: 0.8rem; gap: 1rem; }
-.proj-card__cap h3 { font-family: var(--serif); font-weight: 400; font-size: 1.15rem; }
-.proj-card__cap span { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.proj-card__cap { display: flex; justify-content: space-between; align-items: baseline; margin-top: 0.55rem; gap: 1rem; }
+.proj-card__cap h3 { font-family: var(--sans); font-weight: 600; font-size: 0.82rem; letter-spacing: 0.01em; }
+.proj-card__cap span { font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
 .proj-card.is-hidden { display: none; }
 
 /* =========================================================

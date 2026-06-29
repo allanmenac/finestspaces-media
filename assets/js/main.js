@@ -49,10 +49,11 @@ function drawLogoIn(scope, duration, delay) {
     if (a.style) a.style.clipPath = "none";
     return;
   }
-  gsap.set(v, { clipPath: "inset(0 100% 0 0)" });   // V oculta por la derecha
-  gsap.set(a, { clipPath: "inset(0 0 0 100%)" });    // A oculta por la izquierda
-  gsap.to([v], { clipPath: "inset(0 0% 0 0)", duration: duration || 1.2, ease: "power3.inOut", delay: delay || 0 });
-  gsap.to([a], { clipPath: "inset(0 0% 0 0)", duration: duration || 1.2, ease: "power3.inOut", delay: delay || 0 });
+  // Unidades en % en los cuatro lados para que GSAP interpole bien ambas letras.
+  gsap.set(v, { clipPath: "inset(0% 100% 0% 0%)" });   // V oculta por la derecha
+  gsap.set(a, { clipPath: "inset(0% 0% 0% 100%)" });   // A oculta por la izquierda
+  gsap.to(v, { clipPath: "inset(0% 0% 0% 0%)", duration: duration || 1.2, ease: "power3.inOut", delay: delay || 0 });
+  gsap.to(a, { clipPath: "inset(0% 0% 0% 0%)", duration: duration || 1.2, ease: "power3.inOut", delay: delay || 0 });
 }
 
 /* Convierte el texto de un elemento en letras (flex) para escribir y para
@@ -209,8 +210,8 @@ function initFooterAnim(footer) {
   const letters = wm ? letterify(wm) : [];
   if (prefersReduced() || !hasGSAP()) { letters.forEach((s) => (s.style.opacity = 1)); return; }
   // estado inicial: logo oculto + letras abajo
-  gsap.set(footer.querySelector(".va-v"), { clipPath: "inset(0 100% 0 0)" });
-  gsap.set(footer.querySelector(".va-a"), { clipPath: "inset(0 0 0 100%)" });
+  gsap.set(footer.querySelector(".va-v"), { clipPath: "inset(0% 100% 0% 0%)" });
+  gsap.set(footer.querySelector(".va-a"), { clipPath: "inset(0% 0% 0% 100%)" });
   if (letters.length) gsap.set(letters, { yPercent: 120, opacity: 0 });
   ScrollTrigger.create({
     trigger: footer,
