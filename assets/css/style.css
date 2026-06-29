@@ -326,13 +326,22 @@ main { min-height: 100vh; }
   /* Tarjeta GRIS OSCURA: el color lo fija el JS por proyecto y cambia al
      hacer scroll. Texto claro; logo VA estampado en relieve con contraste. */
   color: var(--cream);
-  transition: background-color 0.6s var(--ease);
   box-shadow: 0 26px 64px -28px rgba(0,0,0,0.6);
+}
+/* Cortina/wipe de color: sube de abajo→arriba al cambiar de proyecto.
+   El color lo fija el JS (color del siguiente proyecto). */
+.slide-card__wipe {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  will-change: clip-path;
 }
 /* Logo VA estampado al centro — pequeño (sin tapar el texto), relieve marcado */
 .slide-card__logo {
   position: absolute;
   inset: 0;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -353,6 +362,7 @@ main { min-height: 100vh; }
 /* Flecha esquina superior derecha */
 .slide-card__corner {
   position: absolute;
+  z-index: 2;
   top: clamp(1rem, 1.9vw, 1.6rem);
   right: clamp(1.5rem, 2.6vw, 2.4rem);
   color: var(--cream);
@@ -362,7 +372,7 @@ main { min-height: 100vh; }
 /* Columnas izquierda / derecha */
 .slide-card__col {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

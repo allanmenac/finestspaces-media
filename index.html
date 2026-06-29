@@ -22,6 +22,7 @@
 
         <!-- Tarjeta central (barra horizontal, estilo Mersi) -->
         <a class="slide-card" id="slide-card" href="portafolio.html" aria-label="Ver portafolio">
+          <span class="slide-card__wipe" id="card-wipe" aria-hidden="true"></span>
           <span class="slide-card__corner" aria-hidden="true">
             <svg viewBox="0 0 9 9" fill="none"><path d="M7 1H1M7 1V7M7 1L1 7" stroke="currentColor" stroke-width="1.1"/></svg>
           </span>
@@ -281,6 +282,7 @@
     var track       = document.getElementById("slider-track");
     var stage       = document.getElementById("slider-stage");
     var card        = document.getElementById("slide-card");
+    var cardWipe    = document.getElementById("card-wipe");
     var cardName    = document.getElementById("card-name");
     var cardPlace   = document.getElementById("card-place");
     var cardCat     = document.getElementById("card-cat");
@@ -316,17 +318,46 @@
     });
 
     /* Initial card */
-    applyCard(PROJECTS[0]);
+    card.style.backgroundColor = PROJECTS[0].color;
+    card.dataset.accent = PROJECTS[0].color;
+    cardWipe.style.clipPath = "inset(100% 0 0 0)";   /* oculto: la cortina sube desde abajo */
+    applyCardText(PROJECTS[0]);
     var activeCardIndex = 0;
 
-    function applyCard(p) {
-      card.style.backgroundColor = p.color;   /* gris oscuro: cambia por proyecto al hacer scroll */
-      card.dataset.accent = p.color;           /* mismo color para la cortina de transición */
+    /* Solo el texto (el color lo maneja la cortina/wipe sincronizada al scroll) */
+    function applyCardText(p) {
       cardName.textContent  = p.name;
       cardPlace.textContent = p.location;
       cardCat.textContent   = p.category;
       cardYear.textContent  = p.year;
     }
+
+    /* ── Intro: la tarjeta entra de IZQUIERDA → DERECHA, con un pequeño retardo
+       después de que la página carga (más tarde aún si hay loader). ── */
+    card.style.clipPath = "inset(0 100% 0 0)";
+    function revealCard() {
+      if (window.gsap) {
+        gsap.to(card, { clipPath: "inset(0% 0% 0% 0%)", duration: 1.0, ease: "power3.inOut" });
+      } else {
+        card.style.transition = "clip-path 1s cubic-bezier(.7,0,.2,1)";
+        card.style.clipPath = "inset(0% 0% 0% 0%)";
+      }
+    }
+    /* Espera a que el loader termine (si existe) antes de revelar la tarjeta,
+       para que la entrada izq→der se vea DESPUÉS de cargar la página. */
+    (function whenIntroReady() {
+      var start = Date.now();
+      (function check() {
+        var l = document.querySelector(".loader");
+        if (l) {
+          if (l.classList.contains("is-done")) return setTimeout(revealCard, 250);
+          return setTimeout(check, 120);
+        }
+        /* aún sin loader: espera un poco por si main.js no lo ha inyectado */
+        if (Date.now() - start < 600) return setTimeout(check, 80);
+        setTimeout(revealCard, 300);
+      })();
+    })();
 
     /* ── Ease in-out cubic ── */
     function ease(t) {
@@ -348,6 +379,9 @@
           lp.style.clipPath = i === 0 ? "" : "inset(100% 0 0 0)";
           rp.style.clipPath = i === 0 ? "" : "inset(0 0 100% 0)";
         });
+        cardWipe.style.clipPath = "inset(100% 0 0 0)";
+        card.style.backgroundColor = PROJECTS[0].color;
+        if (activeCardIndex !== 0) { activeCardIndex = 0; applyCardText(PROJECTS[0]); }
         return;
       }
 
@@ -390,18 +424,31 @@
         }
       });
 
-      /* ── Update card: swap at 50% of each transition ── */
-      var targetCardIdx = (progress > 0.5 ? fromIdx + 1 : fromIdx);
-      targetCardIdx = Math.min(targetCardIdx, N - 1);
+      /* ── Card colour WIPE (sincronizado con el movimiento de las imágenes):
+         la cortina sube de ABAJO → ARRIBA al pasar al siguiente proyecto,
+         cambiando de un gris al siguiente. ── */
+      var nextIdx = Math.min(fromIdx + 1, N - 1);
+      var cur = PROJECTS[fromIdx];
+      var nxt = PROJECTS[nextIdx];
+      card.style.backgroundColor = cur.color;     /* base = color actual */
+      if (nextIdx !== fromIdx && progress > 0) {
+        cardWipe.style.backgroundColor = nxt.color;
+        cardWipe.style.clipPath = "inset(" + ((1 - progress) * 100).toFixed(2) + "% 0 0 0)";
+      } else {
+        cardWipe.style.clipPath = "inset(100% 0 0 0)";
+      }
+      card.dataset.accent = (progress > 0.5 ? nxt.color : cur.color);
 
+      /* Texto: cambia al pasar la mitad de la cortina */
+      var targetCardIdx = (progress > 0.5 ? nextIdx : fromIdx);
       if (targetCardIdx !== activeCardIndex) {
         activeCardIndex = targetCardIdx;
         card.classList.add("is-changing");
         var idx = activeCardIndex;
         setTimeout(function () {
-          applyCard(PROJECTS[idx]);
+          applyCardText(PROJECTS[idx]);
           card.classList.remove("is-changing");
-        }, 220);
+        }, 160);
       }
     }
 
