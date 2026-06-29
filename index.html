@@ -8,7 +8,7 @@
   <meta property="og:title" content="VISIONARQ · Constructora y Consultora" />
   <meta property="og:description" content="Arquitectura, construcción, diseño interior y consultoría en San José, Costa Rica." />
   <meta property="og:type" content="website" />
-  <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml" />
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 <body class="home-page">
@@ -39,11 +39,6 @@
             <span class="slide-card__year" id="card-year">2025</span>
           </div>
         </a>
-
-        <!-- Contador de diapositivas -->
-        <div class="slide-counter">
-          <span id="slide-num">01</span>&thinsp;/&thinsp;<span id="slide-total">04</span>
-        </div>
 
       </div><!-- /slider-stage -->
     </div><!-- /slider-track -->
@@ -290,12 +285,9 @@
     var cardPlace   = document.getElementById("card-place");
     var cardCat     = document.getElementById("card-cat");
     var cardYear    = document.getElementById("card-year");
-    var slideNumEl  = document.getElementById("slide-num");
-    var slideTotEl  = document.getElementById("slide-total");
 
     /* ── Track height: N × 100vh ── */
     track.style.height = (N * 100) + "vh";
-    slideTotEl.textContent = String(N).padStart(2, "0");
 
     /* ── Build slides (insert before the card) ── */
     var slides = PROJECTS.map(function (p, i) {
@@ -315,7 +307,6 @@
 
     /* Card and counter sit above all slides */
     card.style.zIndex          = N + 5;
-    document.querySelector(".slide-counter").style.zIndex = N + 5;
 
     /* ── Initial state: slides > 0 hidden with curtain ── */
     slides.forEach(function (slide, i) {
@@ -329,7 +320,8 @@
     var activeCardIndex = 0;
 
     function applyCard(p) {
-      card.dataset.accent = p.color;   /* color (oscuro) para la cortina de transición */
+      card.style.backgroundColor = p.color;   /* gris oscuro: cambia por proyecto al hacer scroll */
+      card.dataset.accent = p.color;           /* mismo color para la cortina de transición */
       cardName.textContent  = p.name;
       cardPlace.textContent = p.location;
       cardCat.textContent   = p.category;
@@ -408,7 +400,6 @@
         var idx = activeCardIndex;
         setTimeout(function () {
           applyCard(PROJECTS[idx]);
-          slideNumEl.textContent = String(idx + 1).padStart(2, "0");
           card.classList.remove("is-changing");
         }, 220);
       }

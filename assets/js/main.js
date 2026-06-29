@@ -28,6 +28,56 @@ const MARK = `
     <path fill="currentColor" fill-rule="evenodd" d="M216.937,283.265C210.099,274.044 161.416,209.01 108.752,138.745C56.088,68.48 13,10.753 13,10.462C13,10.172 18.063,10.062 24.25,10.217L35.5,10.5L115,116.435C158.725,174.699 194.95,222.498 195.5,222.654C196.05,222.81 232.384,175.027 276.242,116.469L355.984,10L401.099,10C436.794,10 446.109,10.261 445.709,11.25C445.29,12.287 232.191,296.893 230.058,299.265C229.679,299.686 223.775,292.486 216.937,283.265ZM267.645,297.169C268.665,295.601 317.42,230.342 375.989,152.149L482.479,9.98L527.963,10.24L573.448,10.5L579.111,18C596.349,40.829 788.709,297.702 789.352,298.75C789.947,299.722 787.592,300 778.78,300L767.442,300L664.571,162.783C569.534,36.017 561.596,25.717 560.333,27.533C559.581,28.615 513.407,90.25 457.724,164.5L356.482,299.5L311.136,299.76L265.791,300.021L267.645,297.169Z"/>
   </svg>`;
 
+/* ----------  Monograma VA en dos trazos (V y A) para animación de dibujo
+   en direcciones opuestas (nav, loader, pie)  ---------- */
+const VA_V = "M216.94,283.27C210.1,274.04 161.42,209.01 108.75,138.75C56.09,68.48 13,10.75 13,10.46C13,10.17 18.06,10.06 24.25,10.22L35.5,10.5L115,116.44C158.73,174.7 194.95,222.5 195.5,222.65C196.05,222.81 232.38,175.03 276.24,116.47L355.98,10L401.1,10C436.79,10 446.11,10.26 445.71,11.25C445.29,12.29 232.19,296.89 230.06,299.27C229.68,299.69 223.78,292.49 216.94,283.27Z";
+const VA_A = "M267.65,297.17C268.67,295.6 317.42,230.34 375.99,152.15L482.48,9.98L527.96,10.24L573.45,10.5L579.11,18C596.35,40.83 788.71,297.7 789.35,298.75C789.95,299.72 787.59,300 778.78,300L767.44,300L664.57,162.78C569.53,36.02 561.6,25.72 560.33,27.53C559.58,28.62 513.41,90.25 457.72,164.5L356.48,299.5L311.14,299.76L265.79,300.02L267.65,297.17Z";
+const MARK_SPLIT = `
+  <svg class="mark mark--split" viewBox="0 0 803 311" fill="none" aria-hidden="true">
+    <path class="va-v" fill="currentColor" fill-rule="evenodd" d="${VA_V}"/>
+    <path class="va-a" fill="currentColor" fill-rule="evenodd" d="${VA_A}"/>
+  </svg>`;
+
+/* Dibuja el logo: la V de izq→der y la A de der→izq, encontrándose al centro. */
+function drawLogoIn(scope, duration, delay) {
+  if (!scope) return;
+  const v = scope.querySelector(".va-v");
+  const a = scope.querySelector(".va-a");
+  if (!v || !a) return;
+  if (prefersReduced() || !hasGSAP()) {
+    if (v.style) v.style.clipPath = "none";
+    if (a.style) a.style.clipPath = "none";
+    return;
+  }
+  gsap.set(v, { clipPath: "inset(0 100% 0 0)" });   // V oculta por la derecha
+  gsap.set(a, { clipPath: "inset(0 0 0 100%)" });    // A oculta por la izquierda
+  gsap.to([v], { clipPath: "inset(0 0% 0 0)", duration: duration || 1.2, ease: "power3.inOut", delay: delay || 0 });
+  gsap.to([a], { clipPath: "inset(0 0% 0 0)", duration: duration || 1.2, ease: "power3.inOut", delay: delay || 0 });
+}
+
+/* Convierte el texto de un elemento en letras (flex) para escribir y para
+   ocupar exactamente el ancho del contenedor (mismo "box" que el logo). */
+function letterify(el) {
+  const txt = (el.textContent || "").trim();
+  el.textContent = "";
+  el.classList.add("is-letters");
+  const spans = [];
+  for (const ch of txt) {
+    const s = document.createElement("span");
+    s.className = "lt";
+    s.textContent = ch;
+    el.appendChild(s);
+    spans.push(s);
+  }
+  return spans;
+}
+function writeLetters(spans, delay) {
+  if (!spans.length) return;
+  if (prefersReduced() || !hasGSAP()) { spans.forEach((s) => (s.style.opacity = 1)); return; }
+  gsap.set(spans, { yPercent: 120, opacity: 0 });
+  gsap.to(spans, { yPercent: 0, opacity: 1, duration: 0.5, ease: "power3.out", stagger: 0.05, delay: delay || 0 });
+}
+
 /* ----------  Iconos sociales (simple-icons, monocromos)  ---------- */
 const SOCIAL = [
   { name: "Instagram", href: "#", d: "M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077" },
@@ -49,7 +99,7 @@ const currentPage = () => {
 function buildNav() {
   const navLogo = `
     <a class="nav-logo" href="index.html" aria-label="${SITE.brand} — inicio">
-      ${MARK}
+      ${MARK_SPLIT}
       <span class="nav-logo__text">VISIONARQ</span>
     </a>`;
   const links = SITE.links
@@ -68,9 +118,9 @@ function buildNav() {
 
   const s = document.createElement("style");
   s.textContent = `
-    .nav-logo { display:flex; align-items:center; gap:.6rem; }
-    .nav-logo .mark { height:.85rem; width:auto; display:block; }
-    .nav-logo__text { font-family: var(--serif); font-weight:500; font-size:1.18rem; letter-spacing:.18em; }
+    .nav-logo { display:flex; align-items:center; gap:.55rem; }
+    .nav-logo .mark { height:.82rem; width:auto; display:block; }
+    .nav-logo__text { font-family: var(--serif); font-weight:700; font-size:.92rem; letter-spacing:.16em; }
     @media (max-width:380px){ .nav-logo__text{ display:none; } }`;
   document.head.appendChild(s);
 }
@@ -118,12 +168,14 @@ function buildFooter() {
   const footer = document.createElement("footer");
   footer.className = "footer";
   footer.innerHTML = `
+    <div class="footer__pattern" aria-hidden="true"></div>
+
     <div class="footer__brandwrap">
       <a class="footer__brand" href="index.html" aria-label="${SITE.brand} — inicio">
-        <span class="footer__mark">${MARK}</span>
+        <span class="footer__mark">${MARK_SPLIT}</span>
         <span class="footer__wm">VISIONARQ</span>
+        <span class="footer__tag">Constructora y Consultora</span>
       </a>
-      <p class="footer__tag">${SITE.tagline}</p>
     </div>
 
     <div class="footer__grid">
@@ -155,27 +207,21 @@ function buildFooter() {
 /* Animación del pie: el logo VA se dibuja y "VISIONARQ" se escribe letra a
    letra al entrar en pantalla (una sola vez). */
 function initFooterAnim(footer) {
-  if (prefersReduced() || !hasGSAP()) return;
-  const mark = footer.querySelector(".footer__mark .mark");
+  const logoScope = footer.querySelector(".footer__mark");
   const wm = footer.querySelector(".footer__wm");
-  if (!mark || !wm) return;
-
-  gsap.set(mark, { clipPath: "inset(0 100% 0 0)" });
-  let split = null;
-  if (typeof window.SplitText !== "undefined") {
-    split = new SplitText(wm, { type: "chars", charsClass: "fwm-ch" });
-    gsap.set(split.chars, { yPercent: 120, opacity: 0 });
-  }
+  const letters = wm ? letterify(wm) : [];
+  if (prefersReduced() || !hasGSAP()) { letters.forEach((s) => (s.style.opacity = 1)); return; }
+  // estado inicial: logo oculto + letras abajo
+  gsap.set(footer.querySelector(".va-v"), { clipPath: "inset(0 100% 0 0)" });
+  gsap.set(footer.querySelector(".va-a"), { clipPath: "inset(0 0 0 100%)" });
+  if (letters.length) gsap.set(letters, { yPercent: 120, opacity: 0 });
   ScrollTrigger.create({
     trigger: footer,
     start: "top 82%",
     once: true,
     onEnter: () => {
-      gsap.to(mark, { clipPath: "inset(0 0% 0 0)", duration: 1.1, ease: "power3.inOut" });
-      if (split)
-        gsap.to(split.chars, {
-          yPercent: 0, opacity: 1, duration: 0.5, ease: "power3.out", stagger: 0.045, delay: 0.25,
-        });
+      drawLogoIn(logoScope, 1.2, 0);     // V→ / A← (la misma animación del logo)
+      writeLetters(letters, 0.55);       // "VISIONARQ" se escribe
     },
   });
 }
@@ -185,11 +231,22 @@ function buildLoaderIfHome() {
   if (currentPage() !== "index.html") return;
   const loader = document.createElement("div");
   loader.className = "loader";
-  loader.innerHTML = `<div class="loader__logo">${MARK}</div><div class="loader__brand">VISIONARQ</div><div class="loader__word">Constructora y Consultora</div>`;
+  loader.innerHTML = `
+    <div class="loader__inner">
+      <div class="loader__logo">${MARK_SPLIT}</div>
+      <div class="loader__brand">VISIONARQ</div>
+    </div>`;
   document.body.prepend(loader);
-  const done = () => setTimeout(() => loader.classList.add("is-done"), 900);
-  if (document.readyState === "complete") done();
-  else window.addEventListener("load", done);
+
+  const brand = loader.querySelector(".loader__brand");
+  const letters = letterify(brand);
+  const play = () => {
+    drawLogoIn(loader.querySelector(".loader__logo"), 1.3, 0.15);  // V→ / A←
+    writeLetters(letters, 1.0);                                     // nombre se escribe
+    setTimeout(() => loader.classList.add("is-done"), 3000);        // dura más para leer
+  };
+  if (document.readyState === "complete") play();
+  else window.addEventListener("load", play);
 }
 
 /* =========================================================
@@ -747,4 +804,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const startReveals = () => { buildReveals(); buildPianoIntro(); initProjectsMorph(); initServicesScroll(); initNavScroll(); };
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(startReveals);
   else startReveals();
+
+  // El logo de la nav se dibuja una vez (tras el loader en el Inicio)
+  const navLogoEl = document.querySelector(".nav-logo");
+  if (navLogoEl) setTimeout(() => drawLogoIn(navLogoEl, 1.0, 0), currentPage() === "index.html" ? 3050 : 250);
 });

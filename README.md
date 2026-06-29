@@ -5,8 +5,7 @@ Sitio web del estudio de arquitectura y construcción **VISIONARQ** (San José, 
 
 Es un sitio **estático** (HTML, CSS y JavaScript). No necesita compilarse ni instalar nada.
 
-> Este repositorio también almacena archivos de medios (fotos y videos) de Finest Spaces
-> Studio Ltd. El sitio web vive junto a ellos; las fotos del sitio están en `assets/img/photos/`.
+> Las imágenes del sitio están en `assets/img/photos/`.
 
 ---
 
