@@ -28,8 +28,8 @@
         <div class="pd-facts reveal" id="sv-facts"></div>
       </section>
 
-      <!-- GALERÍA ANIMADA -->
-      <section class="svc-gal" id="sv-gallery" aria-label="Galería"></section>
+      <!-- DETALLE — filas alternas foto/texto (foto izq, foto der, foto izq) -->
+      <section class="svc-rows" id="sv-rows" aria-label="Detalle del servicio"></section>
 
       <!-- CONTENIDO SEO -->
       <section class="section svc-seo">
@@ -135,6 +135,29 @@
         ]
       }
     };
+    /* Filas alternas (foto + texto) por servicio — 3 filas cada uno. */
+    var ROWS = {
+      "arquitectura": [
+        ["Diseño a la medida","Cada proyecto de arquitectura parte del terreno, la luz y la forma de vivir del cliente. Diseñamos casas, oficinas y locales comerciales eficientes, luminosos y atemporales en San José y todo Costa Rica."],
+        ["Del boceto al plano","Desarrollamos anteproyecto, planos constructivos, detalles y modelado 3D. Documentamos todo lo necesario para tramitar permisos y construir sin sorpresas."],
+        ["Arquitectura para el trópico","Aplicamos estrategias pasivas —ventilación cruzada, sombra y aprovechamiento de la luz natural— que reducen el consumo energético y mejoran el confort en el clima costarricense."]
+      ],
+      "construccion": [
+        ["Construcción llave en mano","Construimos del cimiento a los acabados con un solo equipo responsable de la calidad, el tiempo y el presupuesto. Un único interlocutor de principio a fin."],
+        ["Dirección y control de obra","Supervisamos cada etapa con bitácora, reportes de avance y control de calidad continuo, para que sepas exactamente en qué se invierte cada colón."],
+        ["Remodelaciones y ampliaciones","Renovamos y ampliamos espacios existentes con la mínima molestia, coordinando los trabajos para proteger tu operación o tu vida diaria."]
+      ],
+      "interiores": [
+        ["Ambientes con carácter","Diseñamos interiores cálidos y funcionales: concepto espacial, paleta de materiales y una atmósfera pensada para el clima tropical."],
+        ["Mobiliario y carpintería a medida","Seleccionamos mobiliario, luminarias y textiles, y diseñamos carpintería a medida para lograr exactamente lo que imaginaste."],
+        ["La luz como material","Cuidamos la iluminación natural y artificial —la que da atmósfera, profundidad y elegancia— hasta el styling y la entrega final."]
+      ],
+      "consultoria": [
+        ["Decisiones con criterio técnico","Te asesoramos antes de invertir: planes maestros, estudios de factibilidad y análisis de terreno para decidir con información clara."],
+        ["Permisos y trámites","Gestionamos permisos municipales y requisitos del CFIA, anticipando los trámites para proteger tu calendario y tu presupuesto."],
+        ["Peritajes y segundas opiniones","Revisamos proyectos, planos y presupuestos en curso y te damos una opinión técnica independiente para reducir riesgos."]
+      ]
+    };
     var ORDER = ["arquitectura","construccion","interiores","consultoria"];
     function slug(){ var m=location.search.match(/[?&]s=([^&]+)/); return m?decodeURIComponent(m[1]):ORDER[0]; }
     function el(id){ return document.getElementById(id); }
@@ -148,7 +171,14 @@
     el("sv-sub").textContent = p.sub;
     el("sv-lead").textContent = p.lead;
     el("sv-facts").innerHTML = p.facts.map(function(f){ return '<div class="pd-fact"><span>'+f[0]+'</span><p>'+f[1]+'</p></div>'; }).join("");
-    el("sv-gallery").innerHTML = p.gallery.map(function(src,i){ return '<figure class="svc-gal__item reveal-clip svc-gal__item--'+(i%5)+'"><img src="'+src+'" alt="'+p.name+'" loading="lazy"/></figure>'; }).join("");
+    var rowData = ROWS[key] || ROWS[ORDER[0]];
+    el("sv-rows").innerHTML = rowData.map(function(r,i){
+      var img = p.gallery[i % p.gallery.length];
+      return '<div class="svc-row'+(i % 2 ? ' svc-row--rev' : '')+'">'+
+               '<div class="svc-row__media reveal-clip"><img src="'+img+'" alt="'+p.name+' — '+r[0]+'" loading="lazy"/></div>'+
+               '<div class="svc-row__text"><h2 class="svc-row__title">'+r[0]+'</h2><p class="svc-row__desc">'+r[1]+'</p></div>'+
+             '</div>';
+    }).join("");
     el("sv-seo").innerHTML = p.seo;
     el("sv-steps").innerHTML = p.steps.map(function(s){ return '<li>'+s+'</li>'; }).join("");
     el("sv-faq-title").textContent = "Sobre " + p.name.toLowerCase();

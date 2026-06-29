@@ -10,165 +10,180 @@
 </head>
 <body>
   <main>
-    <section class="page-head">
-      <p class="eyebrow reveal">Servicios</p>
-      <h1 class="display line-reveal">Un estudio,<br>cuatro disciplinas.</h1>
-      <p class="lead reveal">Acompañamos cada proyecto de principio a fin: del primer boceto a la entrega de llaves. Estas son las cuatro áreas en las que trabajamos.</p>
-    </section>
+    <!-- SERVICIOS — slider tipo Inicio: a la izquierda la foto del servicio, a la
+         derecha el texto del servicio; al centro una tarjeta cuadrada con borde
+         y el logo VA estampado/animado. La cortina sube/baja al hacer scroll y
+         el tono gris cambia en cada servicio (escala de grises). 4 servicios. -->
+    <section class="svc-slider" id="svc-slider">
+      <div class="svc-stage" id="svc-stage">
 
-    <!-- SERVICIOS — recorrido con tarjeta central fija (estilo Mersi).
-         La tarjeta del centro permanece; la imagen (izq.) y el texto (der.)
-         cambian al hacer scroll entre los 4 servicios. -->
-    <section class="svc-scroll" id="svc-scroll">
-      <div class="svc-stage">
-
-        <!-- IZQUIERDA — imagen que cambia (dos imágenes en bucle por servicio) -->
-        <div class="svc-media">
-          <div class="svc-media__svc is-active" data-i="0">
-            <img class="a" src="assets/img/photos/servicio-arquitectura.jpg" alt="Arquitectura" />
-            <img class="b" src="assets/img/photos/proyecto-03.jpg" alt="" />
-          </div>
-          <div class="svc-media__svc" data-i="1">
-            <img class="a" src="assets/img/photos/servicio-construccion.jpg" alt="Construcción" />
-            <img class="b" src="assets/img/photos/proyecto-05.jpg" alt="" />
-          </div>
-          <div class="svc-media__svc" data-i="2">
-            <img class="a" src="assets/img/photos/servicio-interiores.jpg" alt="Interiores" />
-            <img class="b" src="assets/img/photos/proyecto-02.jpg" alt="" />
-          </div>
-          <div class="svc-media__svc" data-i="3">
-            <img class="a" src="assets/img/photos/servicio-consultoria.jpg" alt="Consultoría" />
-            <img class="b" src="assets/img/photos/proyecto-08.jpg" alt="" />
-          </div>
-        </div>
-
-        <!-- CENTRO — tarjeta fija con logo + marca + servicio activo -->
-        <div class="svc-card">
-          <span class="svc-card__logo" aria-hidden="true">
-            <svg viewBox="0 0 803 311" fill="none"><path fill="currentColor" fill-rule="evenodd" d="M216.937,283.265C210.099,274.044 161.416,209.01 108.752,138.745C56.088,68.48 13,10.753 13,10.462C13,10.172 18.063,10.062 24.25,10.217L35.5,10.5L115,116.435C158.725,174.699 194.95,222.498 195.5,222.654C196.05,222.81 232.384,175.027 276.242,116.469L355.984,10L401.099,10C436.794,10 446.109,10.261 445.709,11.25C445.29,12.287 232.191,296.893 230.058,299.265C229.679,299.686 223.775,292.486 216.937,283.265ZM267.645,297.169C268.665,295.601 317.42,230.342 375.989,152.149L482.479,9.98L527.963,10.24L573.448,10.5L579.111,18C596.349,40.829 788.709,297.702 789.352,298.75C789.947,299.722 787.592,300 778.78,300L767.442,300L664.571,162.783C569.534,36.017 561.596,25.717 560.333,27.533C559.581,28.615 513.407,90.25 457.724,164.5L356.482,299.5L311.136,299.76L265.791,300.021L267.645,297.169Z"/></svg>
+        <!-- Tarjeta central (las diapositivas se inyectan antes que ella) -->
+        <div class="svc-cardx" id="svc-cardx" aria-hidden="true">
+          <span class="svc-cardx__wipe" id="svc-cardx-wipe"></span>
+          <span class="svc-cardx__logo" id="svc-cardx-logo">
+            <svg class="mark mark--split" viewBox="0 0 803 311" fill="none">
+              <path class="va-v" fill="currentColor" fill-rule="evenodd" d="M216.94,283.27C210.1,274.04 161.42,209.01 108.75,138.75C56.09,68.48 13,10.75 13,10.46C13,10.17 18.06,10.06 24.25,10.22L35.5,10.5L115,116.44C158.73,174.7 194.95,222.5 195.5,222.65C196.05,222.81 232.38,175.03 276.24,116.47L355.98,10L401.1,10C436.79,10 446.11,10.26 445.71,11.25C445.29,12.29 232.19,296.89 230.06,299.27C229.68,299.69 223.78,292.49 216.94,283.27Z"/>
+              <path class="va-a" fill="currentColor" fill-rule="evenodd" d="M267.65,297.17C268.67,295.6 317.42,230.34 375.99,152.15L482.48,9.98L527.96,10.24L573.45,10.5L579.11,18C596.35,40.83 788.71,297.7 789.35,298.75C789.95,299.72 787.59,300 778.78,300L767.44,300L664.57,162.78C569.53,36.02 561.6,25.72 560.33,27.53C559.58,28.62 513.41,90.25 457.72,164.5L356.48,299.5L311.14,299.76L265.79,300.02L267.65,297.17Z"/>
+            </svg>
           </span>
-          <span class="svc-card__brand">VISIONARQ</span>
-          <span class="svc-card__tag">Constructora y Consultora</span>
-          <span class="svc-card__rule"></span>
-          <span class="svc-card__active"><b id="svc-num">01</b><span id="svc-name">Arquitectura</span></span>
         </div>
 
-        <!-- DERECHA — texto que cambia -->
-        <div class="svc-copy">
-          <div class="svc-copy__svc is-active" data-i="0">
-            <span class="svc-copy__num">01</span>
-            <h2 class="svc-copy__title">Arquitectura</h2>
-            <p class="svc-copy__desc">Diseño arquitectónico a la medida. Estudiamos el terreno, la luz y la forma de vivir de cada cliente para crear espacios atemporales y bien resueltos.</p>
-            <ul class="svc-copy__list"><li>Levantamientos arquitectónicos</li><li>Anteproyectos y diseño conceptual</li><li>Planos constructivos y detalles</li><li>Modelado 3D y visualización</li></ul>
-            <a class="svc-copy__link" href="servicio.html?s=arquitectura">Ver servicio<svg width="13" height="13" viewBox="0 0 9 9" fill="none"><path d="M7 1H1M7 1V7M7 1L1 7" stroke="currentColor" stroke-width="1"/></svg></a>
-          </div>
-          <div class="svc-copy__svc" data-i="1">
-            <span class="svc-copy__num">02</span>
-            <h2 class="svc-copy__title">Construcción</h2>
-            <p class="svc-copy__desc">Ejecutamos y dirigimos la obra con control absoluto de calidad, tiempos y presupuesto. Un solo equipo responsable, del diseño a la realidad.</p>
-            <ul class="svc-copy__list"><li>Construcción llave en mano</li><li>Remodelaciones y ampliaciones</li><li>Dirección y supervisión de obra</li><li>Control de calidad y acabados</li></ul>
-            <a class="svc-copy__link" href="servicio.html?s=construccion">Ver servicio<svg width="13" height="13" viewBox="0 0 9 9" fill="none"><path d="M7 1H1M7 1V7M7 1L1 7" stroke="currentColor" stroke-width="1"/></svg></a>
-          </div>
-          <div class="svc-copy__svc" data-i="2">
-            <span class="svc-copy__num">03</span>
-            <h2 class="svc-copy__title">Diseño de interiores</h2>
-            <p class="svc-copy__desc">Ambientes cálidos, funcionales y con carácter. Seleccionamos materiales, mobiliario e iluminación para que cada espacio cuente una historia.</p>
-            <ul class="svc-copy__list"><li>Concepto y paleta de materiales</li><li>Selección de mobiliario y luminarias</li><li>Diseño a medida (carpintería)</li><li>Styling y entrega final</li></ul>
-            <a class="svc-copy__link" href="servicio.html?s=interiores">Ver servicio<svg width="13" height="13" viewBox="0 0 9 9" fill="none"><path d="M7 1H1M7 1V7M7 1L1 7" stroke="currentColor" stroke-width="1"/></svg></a>
-          </div>
-          <div class="svc-copy__svc" data-i="3">
-            <span class="svc-copy__num">04</span>
-            <h2 class="svc-copy__title">Consultoría</h2>
-            <p class="svc-copy__desc">¿No sabes por dónde empezar? Te asesoramos con criterio técnico para tomar las mejores decisiones antes y durante tu proyecto.</p>
-            <ul class="svc-copy__list"><li>Planes maestros</li><li>Estudios de factibilidad</li><li>Permisos y trámites municipales</li><li>Peritajes y segundas opiniones</li></ul>
-            <a class="svc-copy__link" href="servicio.html?s=consultoria">Ver servicio<svg width="13" height="13" viewBox="0 0 9 9" fill="none"><path d="M7 1H1M7 1V7M7 1L1 7" stroke="currentColor" stroke-width="1"/></svg></a>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- PROCESO — pasos con imagen fija (estilo Mersi) -->
-    <section class="proceso">
-      <div class="proceso__head">
-        <p class="eyebrow reveal">Nuestro proceso</p>
-        <h2 class="display line-reveal" style="font-size:clamp(2rem,5vw,4rem);margin-top:1rem;">El socle<br>común.</h2>
-        <p class="lead reveal" style="margin-top:1.5rem;max-width:44ch;color:var(--muted);">Sea cual sea el proyecto, nuestro método parte de un marco claro y probado que adaptamos a cada contexto.</p>
-      </div>
-
-      <div class="proceso__steps">
-
-        <div class="paso">
-          <div class="paso__media reveal-clip"><img src="assets/img/photos/servicio-arquitectura.jpg" alt="Encuadre e intención" /></div>
-          <div class="paso__body">
-            <span class="paso__num">01</span>
-            <h3 class="paso__title">Encuadre<br>e intención</h3>
-            <p class="paso__desc">Empezamos por escuchar. Entender los usos, las restricciones, las ambiciones y el presupuesto. Una base sólida y compartida, indispensable para la coherencia del proyecto.</p>
-          </div>
-        </div>
-
-        <div class="paso">
-          <div class="paso__media reveal-clip"><img src="assets/img/photos/servicio-interiores.jpg" alt="Concepto y dirección" /></div>
-          <div class="paso__body">
-            <span class="paso__num">02</span>
-            <h3 class="paso__title">Concepto<br>y dirección</h3>
-            <p class="paso__desc">Traducimos el brief en intenciones arquitectónicas claras: volúmenes, líneas, atmósfera. Un concepto legible, pensado para durar, que guía todas las decisiones siguientes.</p>
-          </div>
-        </div>
-
-        <div class="paso">
-          <div class="paso__media reveal-clip"><img src="assets/img/photos/proyecto-03.jpg" alt="Organización de los espacios" /></div>
-          <div class="paso__body">
-            <span class="paso__num">03</span>
-            <h3 class="paso__title">Organización<br>de los espacios</h3>
-            <p class="paso__desc">Los planos toman forma. Las circulaciones se afinan. Los usos se optimizan. Cada metro cuadrado se piensa para ser fluido, evidente y funcional.</p>
-          </div>
-        </div>
-
-        <div class="paso">
-          <div class="paso__media reveal-clip"><img src="assets/img/photos/proyecto-05.jpg" alt="Materiales y detalles" /></div>
-          <div class="paso__body">
-            <span class="paso__num">04</span>
-            <h3 class="paso__title">Materiales<br>y detalles</h3>
-            <p class="paso__desc">Trabajamos las materias, las texturas, la luz y los detalles. Son ellos los que dan al lugar su profundidad, su carácter y su elegancia silenciosa.</p>
-          </div>
-        </div>
-
-        <div class="paso">
-          <div class="paso__media reveal-clip"><img src="assets/img/photos/servicio-consultoria.jpg" alt="Presupuesto y permisos" /></div>
-          <div class="paso__body">
-            <span class="paso__num">05</span>
-            <h3 class="paso__title">Presupuesto<br>y permisos</h3>
-            <p class="paso__desc">El proyecto se confronta con la realidad presupuestaria y normativa. Anticipamos los trámites municipales para asegurar la conformidad y proteger el calendario.</p>
-          </div>
-        </div>
-
-        <div class="paso">
-          <div class="paso__media reveal-clip"><img src="assets/img/photos/servicio-construccion.jpg" alt="Obra y entrega" /></div>
-          <div class="paso__body">
-            <span class="paso__num">06</span>
-            <h3 class="paso__title">Obra<br>y entrega</h3>
-            <p class="paso__desc">Preparamos el proyecto para su ejecución, coordinamos a los intervinientes y acompañamos la obra. El sitio se vuelve una secuencia lógica, controlada y fiel al proyecto inicial.</p>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <section class="section reveal" style="text-align:center;">
-      <p class="display" style="font-size:clamp(2rem,6vw,4.5rem);">Construyamos algo<br>juntos.</p>
-      <div style="margin-top:2.5rem;">
-        <a class="btn" href="contacto.html">Agendar una cita
-          <svg width="14" height="14" viewBox="0 0 9 9" fill="none"><path d="M7 1H1M7 1V7M7 1L1 7" stroke="currentColor" stroke-width="1"/></svg>
-        </a>
       </div>
     </section>
   </main>
+
   <script src="assets/js/vendor/gsap.min.js"></script>
   <script src="assets/js/vendor/ScrollTrigger.min.js"></script>
   <script src="assets/js/vendor/Flip.min.js"></script>
   <script src="assets/js/vendor/SplitText.min.js"></script>
   <script src="assets/js/vendor/lenis.min.js"></script>
   <script src="assets/js/main.js"></script>
+
+  <script>
+  /* ── SERVICIOS — slider con cortina (clon del mecanismo del Inicio) ──
+     Izquierda: foto del servicio. Derecha: texto (H1 + bullets + ver servicio).
+     Centro: tarjeta cuadrada con borde + logo VA estampado que se DIBUJA en
+     cada cambio. El tono gris cambia por servicio (escala de grises). */
+  (function () {
+    var SERVICES = [
+      { eyebrow: "Servicio 01", title: "Arquitectura", color: "#1E1E1E",
+        img: "assets/img/photos/servicio-arquitectura.jpg", link: "servicio.html?s=arquitectura",
+        bullets: ["Diseño arquitectónico y anteproyectos a la medida",
+                  "Planos constructivos, detalles y especificaciones técnicas",
+                  "Modelado 3D, renders y visualización fotorrealista",
+                  "Estudio de terreno, asoleamiento y normativa"] },
+      { eyebrow: "Servicio 02", title: "Construcción", color: "#333333",
+        img: "assets/img/photos/servicio-construccion.jpg", link: "servicio.html?s=construccion",
+        bullets: ["Construcción llave en mano con un solo responsable",
+                  "Remodelaciones, ampliaciones y obra nueva",
+                  "Dirección y supervisión de obra, control de tiempos",
+                  "Control de calidad, presupuesto y acabados"] },
+      { eyebrow: "Servicio 03", title: "Diseño de interiores", color: "#262626",
+        img: "assets/img/photos/servicio-interiores.jpg", link: "servicio.html?s=interiores",
+        bullets: ["Concepto, paleta de materiales y atmósfera",
+                  "Selección de mobiliario, luminarias y textiles",
+                  "Carpintería y piezas a medida",
+                  "Styling, ambientación y entrega final"] },
+      { eyebrow: "Servicio 04", title: "Consultoría", color: "#444444",
+        img: "assets/img/photos/servicio-consultoria.jpg", link: "servicio.html?s=consultoria",
+        bullets: ["Planes maestros y estudios de factibilidad",
+                  "Permisos, trámites municipales y conformidad",
+                  "Optimización de presupuesto y valor del proyecto",
+                  "Peritajes, avalúos y segundas opiniones"] },
+    ];
+
+    var slider = document.getElementById("svc-slider");
+    var stage  = document.getElementById("svc-stage");
+    var card   = document.getElementById("svc-cardx");
+    var wipe   = document.getElementById("svc-cardx-wipe");
+    var logo   = document.getElementById("svc-cardx-logo");
+    if (!slider || !stage || !card) return;
+
+    var N = SERVICES.length;
+    function isMobile() { return window.innerWidth <= 860; }
+
+    /* Construir diapositivas e insertarlas antes de la tarjeta */
+    var slides = SERVICES.map(function (s, i) {
+      var el = document.createElement("div");
+      el.className = "svc-slide";
+      el.style.zIndex = i + 1;
+      el.innerHTML =
+        '<div class="svc-panel svc-panel--media"><img src="' + s.img + '" alt="' + s.title + '" loading="' + (i === 0 ? "eager" : "lazy") + '"></div>' +
+        '<div class="svc-panel svc-panel--copy" style="background:' + s.color + ';">' +
+          '<p class="eyebrow">' + s.eyebrow + '</p>' +
+          '<h1 class="svc-slide__title">' + s.title + '</h1>' +
+          '<ul class="svc-slide__list">' + s.bullets.map(function (b) { return "<li>" + b + "</li>"; }).join("") + '</ul>' +
+          '<a class="svc-slide__link" href="' + s.link + '">Ver servicio ' +
+            '<svg width="13" height="13" viewBox="0 0 9 9" fill="none"><path d="M7 1H1M7 1V7M7 1L1 7" stroke="currentColor" stroke-width="1"/></svg></a>' +
+        '</div>';
+      stage.insertBefore(el, card);
+      return el;
+    });
+    card.style.zIndex = N + 5;
+
+    function drawCardLogo() { if (window.drawLogoIn) window.drawLogoIn(logo, 1.0, 0); }
+
+    /* Móvil: apilado estático, sin slider fijo */
+    if (isMobile()) {
+      slider.style.height = "auto";
+      card.style.display = "none";
+      return;
+    }
+
+    slider.style.height = (N * 100) + "vh";
+
+    slides.forEach(function (el, i) {
+      if (i === 0) return;
+      el.querySelector(".svc-panel--media").style.clipPath = "inset(100% 0 0 0)";
+      el.querySelector(".svc-panel--copy").style.clipPath  = "inset(0 0 100% 0)";
+    });
+    card.style.backgroundColor = SERVICES[0].color;
+    wipe.style.clipPath = "inset(100% 0 0 0)";
+    var active = 0;
+    drawCardLogo();
+
+    function ease(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+
+    function update() {
+      if (isMobile()) return;
+      var rect = slider.getBoundingClientRect();
+      var scrolled = -rect.top;
+
+      if (scrolled <= 0) {
+        slides.forEach(function (el, i) {
+          el.querySelector(".svc-panel--media").style.clipPath = i === 0 ? "" : "inset(100% 0 0 0)";
+          el.querySelector(".svc-panel--copy").style.clipPath  = i === 0 ? "" : "inset(0 0 100% 0)";
+        });
+        wipe.style.clipPath = "inset(100% 0 0 0)";
+        card.style.backgroundColor = SERVICES[0].color;
+        if (active !== 0) { active = 0; drawCardLogo(); }
+        return;
+      }
+
+      var maxScroll = (N - 1) * window.innerHeight;
+      var clamped = Math.min(scrolled, maxScroll);
+      var raw = clamped / window.innerHeight;
+      var fl = Math.floor(raw);
+      var fromIdx, progress;
+      if (fl >= N - 1) { fromIdx = N - 2; progress = 1; }
+      else { fromIdx = fl; progress = ease(raw - fl); }
+
+      slides.forEach(function (el, i) {
+        var m = el.querySelector(".svc-panel--media");
+        var c = el.querySelector(".svc-panel--copy");
+        if (i <= fromIdx) { m.style.clipPath = ""; c.style.clipPath = ""; }
+        else if (i === fromIdx + 1) {
+          var pct = ((1 - progress) * 100).toFixed(2);
+          m.style.clipPath = "inset(" + pct + "% 0 0 0)";
+          c.style.clipPath = "inset(0 0 " + pct + "% 0)";
+        } else { m.style.clipPath = "inset(100% 0 0 0)"; c.style.clipPath = "inset(0 0 100% 0)"; }
+      });
+
+      var nextIdx = Math.min(fromIdx + 1, N - 1);
+      card.style.backgroundColor = SERVICES[fromIdx].color;
+      if (nextIdx !== fromIdx && progress > 0) {
+        wipe.style.backgroundColor = SERVICES[nextIdx].color;
+        wipe.style.clipPath = "inset(" + ((1 - progress) * 100).toFixed(2) + "% 0 0 0)";
+      } else {
+        wipe.style.clipPath = "inset(100% 0 0 0)";
+      }
+
+      var target = progress > 0.5 ? nextIdx : fromIdx;
+      if (target !== active) { active = target; drawCardLogo(); }
+    }
+
+    var raf = false;
+    function onScroll() {
+      if (!slider.isConnected) return;
+      if (raf) return;
+      raf = true;
+      requestAnimationFrame(function () { raf = false; update(); });
+    }
+    if (window.__svcOnScroll) window.removeEventListener("scroll", window.__svcOnScroll);
+    window.__svcOnScroll = onScroll;
+    window.addEventListener("scroll", onScroll, { passive: true });
+    update();
+  })();
+  </script>
 </body>
 </html>

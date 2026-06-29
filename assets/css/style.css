@@ -1401,73 +1401,58 @@ main { min-height: 100vh; }
 /* =========================================================
    SERVICIOS — recorrido con tarjeta central fija
    ========================================================= */
-.svc-scroll { position: relative; height: 440vh; }
-.svc-stage {
-  position: sticky; top: 0;
-  height: 100vh;
-  display: grid;
-  grid-template-columns: 1.05fr 0.9fr 1.05fr;
-  align-items: center;
-  gap: clamp(1rem, 3vw, 3rem);
-  padding: calc(var(--nav-h) + 1rem) var(--gutter) 2rem;
-}
-/* Izquierda — imagen que cambia (dos en bucle) */
-.svc-media { position: relative; height: min(72vh, 620px); }
-.svc-media__svc {
-  position: absolute; inset: 0; overflow: hidden; border-radius: 4px;
-  opacity: 0; visibility: hidden; transition: opacity 0.7s var(--ease), visibility 0.7s var(--ease);
-  clip-path: inset(0 0 0 0);
-}
-.svc-media__svc.is-active { opacity: 1; visibility: visible; }
-.svc-media__svc img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.svc-media__svc img.b { opacity: 0; }
-.svc-media__svc.is-active img.a { animation: svcZoom 9s var(--ease) infinite alternate; }
-.svc-media__svc.is-active img.b { animation: svcLoop 9s ease-in-out infinite; }
-@keyframes svcLoop { 0%,42% { opacity: 0; } 58%,92% { opacity: 1; } 100% { opacity: 0; } }
-@keyframes svcZoom { from { transform: scale(1); } to { transform: scale(1.06); } }
+/* Slider tipo Inicio: imagen (izq) + texto del servicio (der) con cortina-wipe;
+   tarjeta cuadrada con borde y logo VA estampado/animado al centro. El tono
+   gris cambia en cada servicio (escala de grises), igual que en el Inicio. */
+.svc-slider { position: relative; }
+.svc-stage { position: sticky; top: 0; height: 100vh; overflow: hidden; }
 
-/* Centro — tarjeta fija */
-.svc-card {
-  display: flex; flex-direction: column; align-items: center; text-align: center;
-  gap: 0.7rem; padding: clamp(1.5rem, 3vw, 2.5rem);
-  background: #E7E6E2; border-radius: 4px;
-  box-shadow: 0 30px 70px -34px rgba(0,0,0,0.5);
+.svc-slide { position: absolute; inset: 0; display: grid; grid-template-columns: 1fr 1fr; }
+.svc-panel { position: relative; overflow: hidden; will-change: clip-path; }
+.svc-panel--media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.svc-panel--copy {
+  background: var(--off-black);
+  color: var(--cream);
+  display: flex; flex-direction: column; justify-content: center;
+  padding: clamp(2rem, 5vw, 4.5rem) clamp(1.5rem, 4vw, 4rem) clamp(2rem, 5vw, 4.5rem) clamp(3.5rem, 14vw, 12rem);
 }
-.svc-card__logo .mark, .svc-card__logo svg { height: auto; width: clamp(54px, 7vw, 84px); color: var(--off-black); display: block; }
-.svc-card__brand { font-family: var(--serif); font-weight: 700; letter-spacing: 0.16em; font-size: clamp(1.1rem, 2vw, 1.5rem); margin-top: 0.3rem; }
-.svc-card__tag { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
-.svc-card__rule { width: 40px; height: 1px; background: var(--line); margin: 0.5rem 0; }
-.svc-card__active { display: flex; flex-direction: column; gap: 0.2rem; }
-.svc-card__active b { font-family: var(--serif); font-weight: 700; font-size: 0.8rem; color: var(--muted); }
-.svc-card__active span { font-family: var(--serif); font-weight: 700; font-size: clamp(1.2rem, 2.3vw, 1.7rem); }
+.svc-panel--copy .eyebrow { color: rgba(236,236,234,0.55); }
+.svc-slide__title { font-family: var(--serif); font-weight: 700; font-size: clamp(2rem, 4.6vw, 4rem); line-height: 0.98; letter-spacing: -0.015em; margin: 0.6rem 0 1.5rem; }
+.svc-slide__list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; max-width: 36ch; }
+.svc-slide__list li { position: relative; padding-left: 1.3rem; color: rgba(236,236,234,0.82); line-height: 1.5; }
+.svc-slide__list li::before { content: "—"; position: absolute; left: 0; color: rgba(236,236,234,0.5); }
+.svc-slide__link { margin-top: clamp(1.5rem, 3vw, 2.4rem); display: inline-flex; align-items: center; gap: 0.55rem; font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cream); border-bottom: 1px solid currentColor; padding-bottom: 4px; width: max-content; transition: opacity 0.3s var(--ease); }
+.svc-slide__link:hover { opacity: 0.6; }
 
-/* Derecha — texto que cambia */
-.svc-copy { position: relative; min-height: 60vh; }
-.svc-copy__svc {
-  position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center;
-  opacity: 0; visibility: hidden; transform: translateY(24px);
-  transition: opacity 0.6s var(--ease), transform 0.6s var(--ease), visibility 0.6s var(--ease);
+/* Tarjeta central cuadrada con borde + logo VA estampado y animado */
+.svc-cardx {
+  position: absolute; left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 50;
+  width: clamp(160px, 19vw, 224px);
+  aspect-ratio: 1 / 1;
+  border: 1px solid rgba(236,236,234,0.45);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+  color: var(--cream);
+  box-shadow: 0 30px 70px -30px rgba(0,0,0,0.65);
 }
-.svc-copy__svc.is-active { opacity: 1; visibility: visible; transform: none; }
-.svc-copy__num { font-family: var(--serif); font-weight: 700; color: var(--muted); font-size: 0.85rem; }
-.svc-copy__title { font-family: var(--serif); font-weight: 700; font-size: clamp(1.8rem, 3.4vw, 2.8rem); margin: 0.4rem 0 1rem; }
-.svc-copy__desc { color: var(--muted); max-width: 40ch; line-height: 1.7; }
-.svc-copy__list { list-style: none; margin: 1.4rem 0; display: flex; flex-direction: column; gap: 0.55rem; }
-.svc-copy__list li { position: relative; padding-left: 1.2rem; }
-.svc-copy__list li::before { content: "—"; position: absolute; left: 0; color: var(--muted); }
-.svc-copy__link { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; border-bottom: 1px solid currentColor; padding-bottom: 3px; width: max-content; transition: opacity 0.3s var(--ease); }
-.svc-copy__link:hover { opacity: 0.6; }
+.svc-cardx__wipe { position: absolute; inset: 0; z-index: 0; }
+.svc-cardx__logo { position: relative; z-index: 1; width: 50%; line-height: 0; }
+.svc-cardx__logo .mark--split {
+  width: 100%; height: auto; display: block;
+  color: rgba(8,8,8,0.5);
+  filter: drop-shadow(0 1.6px 1px rgba(255,255,255,0.22)) drop-shadow(0 -1.3px 1px rgba(0,0,0,0.66));
+}
 
-/* Progreso (puntos) opcional al lado de la tarjeta */
 @media (max-width: 860px) {
-  .svc-scroll { height: auto; }
-  .svc-stage { position: static; height: auto; display: block; padding: 1rem var(--gutter) 2rem; }
-  .svc-media, .svc-card { display: none; }
-  .svc-copy { min-height: 0; }
-  .svc-copy__svc {
-    position: relative; opacity: 1; visibility: visible; transform: none;
-    padding: 2rem 0; border-top: 1px solid var(--line);
-  }
+  /* Móvil: servicios apilados (sin slider fijo) */
+  .svc-stage { position: static; height: auto; overflow: visible; }
+  .svc-slide { position: relative; inset: auto; grid-template-columns: 1fr; }
+  .svc-panel { clip-path: none !important; }
+  .svc-panel--media { height: 56vw; }
+  .svc-panel--copy { padding: clamp(2rem,7vw,3rem) var(--gutter); }
+  .svc-cardx { display: none; }
 }
 
 /* =========================================================
@@ -1490,6 +1475,19 @@ main { min-height: 100vh; }
   .svc-gal { grid-template-columns: 1fr 1fr; }
   .svc-gal__item { grid-column: auto !important; margin-top: 0 !important; aspect-ratio: 3/4 !important; }
   .svc-gal__item--0, .svc-gal__item--4 { grid-column: 1 / -1 !important; aspect-ratio: 16/10 !important; }
+}
+
+/* Filas alternas foto/texto (foto izq, foto der, foto izq) en la página de servicio */
+.svc-rows { display: flex; flex-direction: column; gap: clamp(2.5rem, 6vw, 5.5rem); padding: clamp(3rem, 8vw, 7rem) var(--gutter); }
+.svc-row { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1.5rem, 5vw, 5rem); align-items: center; }
+.svc-row--rev .svc-row__media { order: 2; }
+.svc-row__media { overflow: hidden; }
+.svc-row__media img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; }
+.svc-row__title { font-family: var(--serif); font-weight: 700; font-size: clamp(1.6rem, 3vw, 2.6rem); line-height: 1.04; margin-bottom: 1rem; }
+.svc-row__desc { color: var(--muted); line-height: 1.7; max-width: 46ch; }
+@media (max-width: 760px) {
+  .svc-row { grid-template-columns: 1fr; gap: 1.2rem; }
+  .svc-row--rev .svc-row__media { order: 0; }
 }
 
 .svc-seo__grid { display: grid; grid-template-columns: 1.55fr 0.85fr; gap: clamp(2rem, 6vw, 5rem); align-items: start; }
