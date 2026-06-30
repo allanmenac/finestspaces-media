@@ -1480,17 +1480,41 @@ main { min-height: 100vh; }
   .svc-gal__item--0, .svc-gal__item--4 { grid-column: 1 / -1 !important; aspect-ratio: 16/10 !important; }
 }
 
-/* Filas alternas foto/texto (foto izq, foto der, foto izq) en la página de servicio */
-.svc-rows { display: flex; flex-direction: column; gap: clamp(2.5rem, 6vw, 5.5rem); padding: clamp(3rem, 8vw, 7rem) var(--gutter); }
-.svc-row { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1.5rem, 5vw, 5rem); align-items: center; }
-.svc-row--rev .svc-row__media { order: 2; }
-.svc-row__media { overflow: hidden; }
-.svc-row__media img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; }
+/* Filas alternas foto/texto con bordes tipo plano (foto izq, foto der, foto izq).
+   La imagen se expande desde el centro (estilo AutoCAD) con cruz, esquinas y
+   números X/Y al hacer scroll. */
+.svc-rows { margin: clamp(2.5rem, 6vw, 5rem) 0; border-top: 1px solid var(--line); }
+.svc-row { display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; border-bottom: 1px solid var(--line); }
+.svc-row__media { position: relative; padding: clamp(1.8rem, 3.2vw, 3rem) clamp(1.8rem, 3.2vw, 3rem) clamp(2.4rem, 4vw, 3.4rem); }
+.svc-row__text { padding: clamp(2.2rem, 5vw, 4rem) clamp(1.8rem, 5vw, 5rem); display: flex; flex-direction: column; justify-content: center; border-left: 1px solid var(--line); }
+.svc-row--rev .svc-row__media { order: 2; border-left: 1px solid var(--line); }
+.svc-row--rev .svc-row__text { border-left: none; }
 .svc-row__title { font-family: var(--serif); font-weight: 700; font-size: clamp(1.6rem, 3vw, 2.6rem); line-height: 1.04; margin-bottom: 1rem; }
 .svc-row__desc { color: var(--muted); line-height: 1.7; max-width: 46ch; }
+
+/* Marco AutoCAD */
+.cad { position: relative; width: 100%; }
+.cad__img { overflow: hidden; }
+.cad__img img { display: block; width: 100%; aspect-ratio: 3/2; object-fit: cover; }
+.cad__corner { position: absolute; width: 13px; height: 13px; border: 1.5px solid var(--off-black); pointer-events: none; }
+.cad__corner--tl { left: 0; top: 0; border-right: 0; border-bottom: 0; }
+.cad__corner--tr { right: 0; top: 0; border-left: 0; border-bottom: 0; }
+.cad__corner--bl { left: 0; bottom: 0; border-right: 0; border-top: 0; }
+.cad__corner--br { right: 0; bottom: 0; border-left: 0; border-top: 0; }
+.cad__cross { position: absolute; background: rgba(20,20,20,0.22); pointer-events: none; }
+.cad__cross--v { top: 0; bottom: 0; left: 50%; width: 1px; }
+.cad__cross--h { left: 0; right: 0; top: 50%; height: 1px; }
+.cad__dot { position: absolute; left: 50%; top: 50%; width: 5px; height: 5px; margin: -2.5px 0 0 -2.5px; border: 1px solid var(--off-black); background: var(--cream); border-radius: 50%; pointer-events: none; }
+.cad__num { position: absolute; font-family: var(--sans); font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); white-space: nowrap; pointer-events: none; }
+.cad__num b { font-weight: 600; color: var(--off-black); margin: 0 0.25em; font-variant-numeric: tabular-nums; }
+.cad__num--x { bottom: -1.5rem; left: 50%; transform: translateX(-50%); }
+.cad__num--y { right: -0.4rem; top: 50%; transform: translateY(-50%) rotate(90deg); transform-origin: right center; }
+
 @media (max-width: 760px) {
-  .svc-row { grid-template-columns: 1fr; gap: 1.2rem; }
-  .svc-row--rev .svc-row__media { order: 0; }
+  .svc-row { grid-template-columns: 1fr; }
+  .svc-row--rev .svc-row__media { order: 0; border-left: none; }
+  .svc-row__text { border-left: none; border-top: 1px solid var(--line); }
+  .cad__num--y { display: none; }
 }
 
 .svc-seo__grid { display: grid; grid-template-columns: 1.55fr 0.85fr; gap: clamp(2rem, 6vw, 5rem); align-items: start; }
