@@ -178,47 +178,58 @@
         '<div class="svc-row__media">'+
           '<div class="cad" data-w="1920" data-h="1280">'+
             '<div class="cad__img"><img src="'+img+'" alt="'+p.name+' — '+r[0]+'" loading="lazy"/></div>'+
+            '<span class="cad__fx cad__fx--v"></span><span class="cad__fx cad__fx--h"></span>'+
+            '<span class="cad__mv cad__mv--v"></span><span class="cad__mv cad__mv--h"></span>'+
+            '<span class="cad__pt"></span>'+
             '<span class="cad__corner cad__corner--tl"></span><span class="cad__corner cad__corner--tr"></span>'+
             '<span class="cad__corner cad__corner--bl"></span><span class="cad__corner cad__corner--br"></span>'+
-            '<span class="cad__cross cad__cross--v"></span><span class="cad__cross cad__cross--h"></span>'+
-            '<span class="cad__dot"></span>'+
-            '<span class="cad__num cad__num--x">X<b class="cad__val">0000</b> px</span>'+
-            '<span class="cad__num cad__num--y">Y<b class="cad__val">0000</b> px</span>'+
+            '<span class="cad__num cad__num--x">W<b class="cad__vx">0000</b></span>'+
+            '<span class="cad__num cad__num--y">H<b class="cad__vy">0000</b></span>'+
           '</div>'+
         '</div>';
       var text = '<div class="svc-row__text"><h2 class="svc-row__title">'+r[0]+'</h2><p class="svc-row__desc">'+r[1]+'</p></div>';
       return '<div class="svc-row'+(i % 2 ? ' svc-row--rev' : '')+'">'+ media + text +'</div>';
     }).join("");
 
-    /* Animación tipo AutoCAD: cada imagen se expande desde el centro hasta
-       llenar el marco (esquinas/cruz) al hacer scroll, y los números X/Y
-       cuentan los "píxeles". Se rearma en cada carga (incl. AJAX). */
+    /* Regla tipo AutoCAD (estilo Enerblock cross-image): el cursor/cruz agarra
+       la esquina sup-izq y, al hacer scroll, arrastra una regla (líneas guía)
+       que revela la foto hasta llenar todo el marco; los números W/H cuentan
+       los "píxeles". Se rearma en cada carga (incl. AJAX). */
     function initCad() {
-      if (window.__cadTweens) {
-        window.__cadTweens.forEach(function (t) { try { if (t.scrollTrigger) t.scrollTrigger.kill(); t.kill(); } catch (e) {} });
-      }
-      window.__cadTweens = [];
+      if (window.__cadST) { window.__cadST.forEach(function (t) { try { t.kill(); } catch (e) {} }); }
+      window.__cadST = [];
       if (!window.gsap || !window.ScrollTrigger) return;
-      if (window.matchMedia && window.matchMedia("(max-width: 760px)").matches) return;
+      var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var mobile = window.matchMedia && window.matchMedia("(max-width: 760px)").matches;
       document.querySelectorAll(".cad").forEach(function (cad) {
-        var im = cad.querySelector(".cad__img");
-        var vx = cad.querySelector(".cad__num--x .cad__val");
-        var vy = cad.querySelector(".cad__num--y .cad__val");
+        var im  = cad.querySelector(".cad__img");
+        var mvv = cad.querySelector(".cad__mv--v"), mvh = cad.querySelector(".cad__mv--h");
+        var pt  = cad.querySelector(".cad__pt");
+        var nx  = cad.querySelector(".cad__num--x"), ny = cad.querySelector(".cad__num--y");
+        var vx  = cad.querySelector(".cad__vx"), vy = cad.querySelector(".cad__vy");
         var W = parseInt(cad.getAttribute("data-w"), 10) || 1920;
         var H = parseInt(cad.getAttribute("data-h"), 10) || 1280;
         var pad = function (n) { n = String(Math.round(n)); while (n.length < 4) n = "0" + n; return n; };
-        var tw = gsap.fromTo(im, { clipPath: "inset(16% 16% 16% 16%)" }, {
-          clipPath: "inset(0% 0% 0% 0%)", ease: "none",
-          scrollTrigger: {
-            trigger: cad, start: "top 82%", end: "center 56%", scrub: 0.4,
-            onUpdate: function (self) {
-              var pr = self.progress;
-              if (vx) vx.textContent = pad(pr * W);
-              if (vy) vy.textContent = pad(pr * H);
-            }
-          }
+        function setP(p) {
+          var inv = ((1 - p) * 100).toFixed(2);
+          im.style.clipPath = "inset(0% " + inv + "% " + inv + "% 0%)";  // anclado arriba-izquierda
+          var pos = (p * 100).toFixed(3) + "%";
+          mvv.style.left = pos; mvh.style.top = pos;
+          pt.style.left = pos; pt.style.top = pos;
+          nx.style.left = pos; nx.style.top = pos;
+          ny.style.left = pos; ny.style.top = pos;
+          if (vx) vx.textContent = pad(p * W);
+          if (vy) vy.textContent = pad(p * H);
+        }
+        if (reduce || mobile) { setP(1); return; }
+        setP(0);
+        var st = ScrollTrigger.create({
+          trigger: cad, start: "top 80%", end: "center 52%",
+          onUpdate: function (self) { setP(self.progress); },
+          onLeave: function () { setP(1); },
+          onLeaveBack: function () { setP(0); }
         });
-        window.__cadTweens.push(tw);
+        window.__cadST.push(st);
       });
     }
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(initCad); else initCad();
