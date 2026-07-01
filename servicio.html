@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Servicio · VISIONARQ</title>
-  <meta name="description" content="Servicio de VISIONARQ — arquitectura y construcción en San José, Costa Rica." />
+  <meta name="description" content="Servicio de VISIONARQ — constructora, construcción, arquitectura y diseño en Costa Rica." />
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="assets/css/style.css" />
 </head>
@@ -75,7 +75,7 @@
     var IMG = "assets/img/photos/";
     var S = {
       "arquitectura": {
-        kicker: "Servicio 01", name: "Arquitectura", sub: "Diseño arquitectónico a la medida · Costa Rica",
+        kicker: "Servicio 02", name: "Arquitectura", sub: "Diseño arquitectónico a la medida · Costa Rica",
         hero: IMG+"servicio-arquitectura.jpg", color:"#1E1E1E",
         lead: "Diseñamos arquitectura atemporal y bien resuelta: estudiamos el terreno, la luz y la forma de vivir de cada cliente para crear espacios que perduran.",
         facts: [["Entregables","Planos, 3D, detalles"],["Plazo típico","6–10 semanas"],["Ideal para","Casas, comercios, oficinas"],["Cobertura","Todo Costa Rica"]],
@@ -90,7 +90,7 @@
         ]
       },
       "construccion": {
-        kicker: "Servicio 02", name: "Construcción", sub: "Construcción llave en mano · Costa Rica",
+        kicker: "Servicio 01", name: "Construcción", sub: "Construcción llave en mano · Costa Rica",
         hero: IMG+"servicio-construccion.jpg", color:"#2C2C2C",
         lead: "Ejecutamos y dirigimos la obra con control absoluto de calidad, tiempos y presupuesto. Un solo equipo responsable, del diseño a la entrega de llaves.",
         facts: [["Modalidad","Llave en mano"],["Control","Calidad · tiempo · costo"],["Ideal para","Obra nueva y remodelación"],["Cobertura","Todo Costa Rica"]],
@@ -158,7 +158,7 @@
         ["Peritajes y segundas opiniones","Revisamos proyectos, planos y presupuestos en curso y te damos una opinión técnica independiente para reducir riesgos."]
       ]
     };
-    var ORDER = ["arquitectura","construccion","interiores","consultoria"];
+    var ORDER = ["construccion","arquitectura","interiores","consultoria"];
     function slug(){ var m=location.search.match(/[?&]s=([^&]+)/); return m?decodeURIComponent(m[1]):ORDER[0]; }
     function el(id){ return document.getElementById(id); }
 

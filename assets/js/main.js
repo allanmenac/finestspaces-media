@@ -353,8 +353,8 @@ async function navigate(href, push = true, accent = "") {
 
   await closed;          // esperar a que la cortina cubra del todo
   clearPageAnims();      // matar ScrollTriggers/SplitText de la página saliente
-  swapContent(html);     // la nueva página YA está lista detrás
-  if (push) history.pushState({ href }, "", href);
+  if (push) history.pushState({ href }, "", href);   // URL correcta ANTES de ejecutar scripts inline (?s=, ?p=)
+  swapContent(html);     // la nueva página YA está lista detrás (lee location.search correcto)
   if (lenis) resetLenisForPage(); else window.scrollTo(0, 0);
   initPage();            // reactivar animaciones de la nueva página
   openCurtain();         // descubrir → la página nueva ya está ahí
@@ -478,27 +478,82 @@ const NAV_CREAM = "#EDE7DE";
 const NAV_DARK = "#1A1A1A";
 let navColorTrigger = null;
 
+/* Contraste dinámico del menú: muestrea la LUMINANCIA real detrás del logo y
+   de los enlaces (píxel de la foto vía canvas, o color de fondo sólido) y los
+   pinta claros sobre fondo oscuro y oscuros sobre fondo claro. */
+let navScrollHandler = null;
+function sampleImgLum(img, x, y) {
+  const r = img.getBoundingClientRect();
+  const nw = img.naturalWidth, nh = img.naturalHeight;
+  if (!nw || !nh || r.width === 0) return null;
+  const scale = Math.max(r.width / nw, r.height / nh);       // object-fit: cover
+  const offX = (r.width - nw * scale) / 2, offY = (r.height - nh * scale) / 2;
+  let sx = (x - r.left - offX) / scale, sy = (y - r.top - offY) / scale;
+  sx = Math.max(0, Math.min(nw - 1, sx)); sy = Math.max(0, Math.min(nh - 1, sy));
+  try {
+    const c = document.createElement("canvas"); c.width = 6; c.height = 6;
+    const ctx = c.getContext("2d");
+    ctx.drawImage(img, Math.max(0, sx - 3), Math.max(0, sy - 3), 6, 6, 0, 0, 6, 6);
+    const d = ctx.getImageData(0, 0, 6, 6).data;
+    let lum = 0, n = 0;
+    for (let i = 0; i < d.length; i += 4) { lum += 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2]; n++; }
+    return lum / n;
+  } catch (e) { return null; }
+}
 function initNavScroll() {
   const navbar = document.querySelector(".navbar");
   if (!navbar) return;
   if (navColorTrigger) { try { navColorTrigger.kill(); } catch (e) {} navColorTrigger = null; }
+  if (navScrollHandler) { window.removeEventListener("scroll", navScrollHandler); window.removeEventListener("resize", navScrollHandler); navScrollHandler = null; }
 
-  if (!hasGSAP() || prefersReduced()) { navbar.style.color = ""; return; }
+  const logo = navbar.querySelector(".nav-logo");
+  const items = navbar.querySelectorAll(".nav-links a, .nav-toggle");
+  if (prefersReduced()) { navbar.style.color = ""; return; }
 
-  // Servicios: fondo oscuro de principio a fin (slider + pie) → nav SIEMPRE crema
-  if (document.querySelector(".svc-slider")) { gsap.set(navbar, { color: NAV_CREAM }); return; }
-
-  // Hero oscuro a tope de página: slider del Inicio o hero del proyecto
-  const hero = document.querySelector(".home-slider, .pd-hero");
-  if (!hero) { gsap.set(navbar, { clearProps: "color" }); return; }
-
-  gsap.set(navbar, { color: NAV_CREAM });
-  navColorTrigger = ScrollTrigger.create({
-    trigger: hero,
-    start: "bottom top+=72",     // el hero termina → empieza el contenido claro
-    onEnter: () => gsap.to(navbar, { color: NAV_DARK, duration: 0.4, ease: "power2.out" }),
-    onLeaveBack: () => gsap.to(navbar, { color: NAV_CREAM, duration: 0.4, ease: "power2.out" }),
-  });
+  function darkAt(x, y) {
+    navbar.style.pointerEvents = "none";
+    const el = document.elementFromPoint(x, y);
+    navbar.style.pointerEvents = "";
+    if (!el) return false;
+    let img = el.tagName === "IMG" ? el
+      : (el.closest && el.closest(".cad__img, .slide__panel, .ct-hero__media, .pd-hero__media, picture, figure"));
+    if (img && img.tagName !== "IMG") img = img.querySelector("img");
+    if (img) { const l = sampleImgLum(img, x, y); if (l != null) return l < 128; }
+    // Zona oscura con contenedor transparente (slider de servicios sobre panel
+    // oscuro): tiene prioridad sobre el color de fondo de la página (crema).
+    if (el.closest && el.closest(".svc-slider")) return true;
+    let node = el, bg = "";
+    while (node && node !== document.documentElement) {
+      const c = getComputedStyle(node).backgroundColor;
+      if (c && c !== "rgba(0, 0, 0, 0)" && c !== "transparent") { bg = c; break; }
+      node = node.parentElement;
+    }
+    if (bg) {
+      const m = bg.match(/[\d.]+/g);
+      if (m && (m.length < 4 || parseFloat(m[3]) > 0.35)) {
+        return (0.299 * +m[0] + 0.587 * +m[1] + 0.114 * +m[2]) < 128;
+      }
+    }
+    // Zonas oscuras conocidas donde el contenedor es transparente (slider de
+    // servicios sobre panel oscuro, pie): tratar como fondo oscuro.
+    if (el.closest && el.closest(".svc-slider, .footer, .home-slider")) return true;
+    return false;
+  }
+  function paint(el, dark) { if (el) el.style.color = dark ? NAV_CREAM : NAV_DARK; }
+  function update() {
+    const r = navbar.getBoundingClientRect();
+    const y = r.bottom + 8;
+    let lx = r.left + 40;
+    if (logo) { const lr = logo.getBoundingClientRect(); lx = lr.left + lr.width / 2; }
+    paint(logo, darkAt(lx, y));
+    const dk = darkAt(r.right - 90, y);
+    items.forEach((a) => paint(a, dk));
+  }
+  let raf = false;
+  navScrollHandler = function () { if (!raf) { raf = true; requestAnimationFrame(function () { raf = false; update(); }); } };
+  window.addEventListener("scroll", navScrollHandler, { passive: true });
+  window.addEventListener("resize", navScrollHandler);
+  update(); setTimeout(update, 80); setTimeout(update, 450);
 }
 
 /* Reinicia el scroll suave y la duración según la página (Inicio = 2.5) */
