@@ -1560,52 +1560,53 @@ main { min-height: 100vh; }
 /* =========================================================
    CONTACTO — hero con imágenes cambiantes + tarjeta central
    ========================================================= */
-.ct-hero { position: relative; display: grid; grid-template-columns: 1fr 1fr; min-height: 92vh; background: var(--cream); }
+.ct-hero { position: relative; display: grid; grid-template-columns: 1fr 1fr; min-height: 100svh; background: var(--cream); }
 .ct-hero__media { position: relative; overflow: hidden; background: var(--off-black); }
-.ct-hero__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; animation: ctFade 16s linear infinite; }
+/* Imágenes a sangre que cambian cada 2 s (4 imágenes · ciclo 8 s) */
+.ct-hero__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; animation: ctFade 8s linear infinite; }
 .ct-hero__img:nth-child(1) { animation-delay: 0s; }
-.ct-hero__img:nth-child(2) { animation-delay: 4s; }
-.ct-hero__img:nth-child(3) { animation-delay: 8s; }
-.ct-hero__img:nth-child(4) { animation-delay: 12s; }
-@keyframes ctFade { 0% { opacity: 0; } 3% { opacity: 1; } 22% { opacity: 1; } 26% { opacity: 0; } 100% { opacity: 0; } }
-.ct-hero__media::before { content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(to bottom, rgba(15,15,15,0.35), rgba(15,15,15,0) 24%); }
+.ct-hero__img:nth-child(2) { animation-delay: 2s; }
+.ct-hero__img:nth-child(3) { animation-delay: 4s; }
+.ct-hero__img:nth-child(4) { animation-delay: 6s; }
+@keyframes ctFade { 0% { opacity: 0; } 4% { opacity: 1; } 25% { opacity: 1; } 29% { opacity: 0; } 100% { opacity: 0; } }
 
-/* Lado derecho (crema): "Hablemos" + correo + teléfono + ubicación */
-.ct-hero__right { display: flex; align-items: center; justify-content: flex-end; padding: calc(var(--nav-h) + 2rem) clamp(1.5rem, 5vw, 5.5rem) 3rem; }
-.ct-right { text-align: center; }
-.ct-right__title { font-family: var(--serif); font-weight: 700; font-size: clamp(1.6rem, 3vw, 2.4rem); margin-bottom: 1.6rem; }
-.ct-right__lines { display: flex; flex-direction: column; gap: 0.7rem; }
-.ct-right__lines a, .ct-right__lines p { font-size: clamp(0.95rem, 1.4vw, 1.15rem); color: var(--off-black); }
-.ct-right__lines a:hover { color: var(--muted); }
+/* Lado derecho (crema): tarjeta "Hablemos" con datos de contacto (centrada,
+   a la derecha del marco central para no solaparse). */
+.ct-hero__right { display: flex; align-items: center; justify-content: flex-end; padding: calc(var(--nav-h) + 2rem) clamp(1.5rem, 6vw, 6rem) 3rem; }
+.ct-touch { text-align: center; display: flex; flex-direction: column; gap: 0.7rem; }
+.ct-touch__title { font-family: var(--serif); font-weight: 700; font-size: clamp(1.7rem, 3vw, 2.4rem); margin-bottom: 0.8rem; letter-spacing: -0.01em; }
+.ct-touch a, .ct-touch p { font-size: clamp(0.98rem, 1.4vw, 1.15rem); color: var(--off-black); }
+.ct-touch a:hover { color: var(--muted); }
 
-/* Marco central con borde, a caballo sobre la división: boletín + logo + dirección */
+/* Marco central con borde: boletín (izq) | logo VA estampado + dirección (der) */
 .ct-frame {
   position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
   z-index: 4;
-  display: grid; grid-template-columns: 1fr 0.92fr;
-  width: min(520px, 60vw);
+  display: grid; grid-template-columns: 1.05fr 0.95fr;
+  width: min(540px, 62vw);
   border: 1px solid var(--line);
-  box-shadow: 0 40px 90px -48px rgba(0,0,0,0.5);
+  background: var(--cream);
+  box-shadow: 0 44px 100px -50px rgba(0,0,0,0.55);
 }
 .ct-frame__news {
   background: var(--cream-soft);
-  padding: clamp(1.4rem, 2.6vw, 2.3rem);
-  display: flex; flex-direction: column; justify-content: flex-end; min-height: clamp(190px, 24vw, 260px);
+  padding: clamp(1.5rem, 2.6vw, 2.4rem);
+  display: flex; flex-direction: column; justify-content: space-between; gap: 2.5rem;
+  min-height: clamp(210px, 26vw, 280px);
 }
 .ct-frame__brand {
-  background: rgba(236,236,234,0.55);
   border-left: 1px solid var(--line);
-  padding: clamp(1.4rem, 2.6vw, 2.3rem);
-  display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 0.9rem;
+  padding: clamp(1.5rem, 2.6vw, 2.4rem);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 1rem;
 }
-.ct-frame__logo svg { width: clamp(52px, 7vw, 82px); height: auto; display: block; color: rgba(20,20,20,0.16);
-  filter: drop-shadow(0 1px 0 rgba(255,255,255,0.75)) drop-shadow(0 -1px 0 rgba(0,0,0,0.14)); }
+.ct-frame__logo svg { width: clamp(54px, 7vw, 84px); height: auto; display: block; color: rgba(20,20,20,0.16);
+  filter: drop-shadow(0 1px 0 rgba(255,255,255,0.8)) drop-shadow(0 -1px 0 rgba(0,0,0,0.14)); }
 .ct-frame__rule { width: 1px; height: 26px; background: var(--line); }
 .ct-frame__addr { font-size: 0.66rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); line-height: 1.7; }
 
-.ct-news__label { display: block; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.6rem; }
+.ct-news__label { display: block; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
 .ct-news__field { display: flex; align-items: center; border-bottom: 1px solid var(--off-black); padding-bottom: 0.5rem; }
-.ct-news__field input { flex: 1; background: none; border: none; font-family: var(--sans); font-size: 0.95rem; color: var(--off-black); padding: 0.2rem 0; }
+.ct-news__field input { flex: 1; min-width: 0; background: none; border: none; font-family: var(--sans); font-size: 0.9rem; color: var(--off-black); padding: 0.2rem 0; }
 .ct-news__field input:focus { outline: none; }
 .ct-news__field button { color: var(--off-black); display: inline-flex; transition: transform 0.3s var(--ease); }
 .ct-news__field button:hover { transform: translate(2px, -2px); }
@@ -1613,6 +1614,6 @@ main { min-height: 100vh; }
 @media (max-width: 860px) {
   .ct-hero { grid-template-columns: 1fr; min-height: 0; }
   .ct-hero__media { height: 52vh; }
-  .ct-hero__right { padding: 3rem var(--gutter) 1.5rem; order: 3; }
-  .ct-frame { position: static; transform: none; width: auto; margin: -3rem var(--gutter) 0; order: 2; background: var(--cream); }
+  .ct-hero__right { justify-content: center; padding: 2.5rem var(--gutter) 1.5rem; order: 3; }
+  .ct-frame { position: static; transform: none; width: auto; margin: -2.5rem var(--gutter) 0; order: 2; }
 }
